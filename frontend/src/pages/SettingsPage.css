@@ -1,0 +1,166 @@
+:root {
+    --accent: #d86a3a;
+}
+
+.stPage {
+    height: 100vh;
+    background: #ffffff;
+    color: #111;
+}
+
+.stTopbar {
+    height: 86px;
+    display: grid;
+    grid-template-columns: 70px 1fr 140px;
+    align-items: center;
+    gap: 14px;
+    padding: 0 22px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.stLeft, .stRight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.stCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.stTitle {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.stSaved {
+    font-size: 12px;
+    color: rgba(0,0,0,0.6);
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.10);
+}
+
+.stIconBtn {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.12);
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.stIconBtn:hover {
+    background: rgba(0,0,0,0.03);
+}
+
+.stIcon {
+    width: 22px;
+    height: 22px;
+    fill: #111;
+}
+
+.stBody {
+    height: calc(100vh - 86px);
+    padding: 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    justify-items: center;
+    overflow: auto;
+}
+
+.stCard {
+    width: min(920px, 94vw);
+    border-radius: 18px;
+    border: 1px solid rgba(0,0,0,0.10);
+    background: #fff;
+    padding: 16px 16px 14px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.06);
+}
+
+.stCardTitle {
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.stRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.stHint {
+    margin-top: 10px;
+    font-size: 12px;
+    color: rgba(0,0,0,0.55);
+}
+
+.stSwatch {
+    border: 1px solid rgba(0,0,0,0.12);
+    background: #fff;
+    padding: 10px 12px;
+    border-radius: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stSwatch:hover { background: rgba(0,0,0,0.03); }
+
+.stSwatch.isActive {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(216,106,58,0.18);
+}
+
+.stDot {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+}
+
+.stLabel {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.stPill {
+    border: 1px solid rgba(0,0,0,0.12);
+    background: #fff;
+    padding: 10px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.stPill:hover { background: rgba(0,0,0,0.03); }
+
+.stPill.isActive {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(216,106,58,0.18);
+}
+
+.stDanger {
+    border: 1px solid rgba(176,0,32,0.35);
+    background: rgba(176,0,32,0.06);
+    color: #b00020;
+    padding: 10px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.stDanger:hover {
+    background: rgba(176,0,32,0.10);
+}

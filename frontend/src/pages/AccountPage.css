@@ -1,0 +1,164 @@
+.acPage {
+    height: 100vh;
+    background: #ffffff;
+    color: #111;
+}
+
+.acTopbar {
+    height: 86px;
+    display: grid;
+    grid-template-columns: 70px 1fr 140px;
+    align-items: center;
+    gap: 14px;
+    padding: 0 22px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.acLeft, .acRight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.acCenter {
+    display: flex;
+    justify-content: center;
+}
+
+.acTitle {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.acIconBtn {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.12);
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.acIconBtn:hover {
+    background: rgba(0,0,0,0.03);
+}
+
+.acIcon {
+    width: 22px;
+    height: 22px;
+    fill: #111;
+}
+
+.acBody {
+    height: calc(100vh - 86px);
+    display: grid;
+    place-items: center;
+    padding: 20px;
+}
+
+.acCard {
+    width: min(520px, 92vw);
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.10);
+    background: #fff;
+    padding: 18px 18px 16px;
+    box-shadow: 0 18px 44px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.acAvatar {
+    width: 86px;
+    height: 86px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.10);
+    display: grid;
+    place-items: center;
+    margin: 6px auto 10px;
+    background: rgba(0,0,0,0.02);
+}
+
+.acAvatarIcon {
+    width: 44px;
+    height: 44px;
+    fill: rgba(0,0,0,0.85);
+}
+
+.acName {
+    font-size: 18px;
+    font-weight: 900;
+    margin-top: 4px;
+}
+
+.acMeta {
+    font-size: 13px;
+    color: rgba(0,0,0,0.60);
+    margin-top: 6px;
+}
+
+.acGrid {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.acInfo {
+    border: 1px solid rgba(0,0,0,0.10);
+    border-radius: 14px;
+    padding: 10px 10px;
+    text-align: left;
+}
+
+.acInfoLabel {
+    font-size: 12px;
+    color: rgba(0,0,0,0.55);
+}
+
+.acInfoValue {
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.acRow {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.acBtn {
+    border: 1px solid rgba(0,0,0,0.14);
+    background: #111;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.acBtn:hover {
+    opacity: 0.92;
+}
+
+.acBtn.ghost {
+    background: #fff;
+    color: #111;
+}
+
+.acBtn.ghost:hover {
+    background: rgba(0,0,0,0.03);
+}
+
+.acHint {
+    margin-top: 14px;
+    font-size: 12px;
+    color: rgba(0,0,0,0.55);
+    line-height: 1.45;
+}
