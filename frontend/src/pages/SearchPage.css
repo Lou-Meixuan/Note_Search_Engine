@@ -94,14 +94,14 @@
     cursor: pointer;
 }
 
-.spScopeBtn .spIcon { fill: #fff; }
+.spScopeBtn .spIcon { fill: #000000; }
 
 .spScopeMenu {
     position: absolute;
     right: 0;
     top: 46px;
     width: 190px;
-    background: #fff;
+    background: rgb(23, 21, 21);
     border: 1px solid rgba(0,0,0,0.10);
     border-radius: 14px;
     padding: 6px;

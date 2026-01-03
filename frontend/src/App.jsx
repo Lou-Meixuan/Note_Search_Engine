@@ -5,12 +5,9 @@ import DocumentPage from "./pages/DocumentPage.jsx";
 import SettingsPage from "./pages/SettingsPage";
 import AccountPage from "./pages/AccountPage";
 
-import NavBar from "./components/NavBar.jsx";
-
 export default function App() {
     return (
         <BrowserRouter>
-            <NavBar />
             <div style={{ padding: 16 }}>
                 <Routes>
 
