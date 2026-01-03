@@ -1,0 +1,347 @@
+/* page */
+.spPage {
+    height: 100vh;
+    background: #ffffff;
+    color: #111;
+}
+
+/* topbar */
+.spTopbar {
+    height: 86px;
+    display: grid;
+    grid-template-columns: 70px 1fr 180px;
+    align-items: center;
+    gap: 14px;
+    padding: 0 22px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.spLeft, .spRight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.spCenter {
+    display: flex;
+    justify-content: center;
+}
+
+.spIconBtn {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.12);
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.spIconBtn:hover {
+    background: rgba(0,0,0,0.03);
+}
+
+.spIcon {
+    width: 22px;
+    height: 22px;
+    fill: #111;
+}
+
+/* search bar */
+.spSearchWrap {
+    width: min(920px, 70vw);
+    height: 44px;
+    border-radius: 999px;
+    background: #7a7a7a;
+    display: flex;
+    align-items: center;
+    padding-left: 18px;
+    padding-right: 10px;
+    gap: 10px;
+}
+
+.spSearchInput {
+    flex: 1;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #fff;
+    font-size: 14px;
+}
+
+.spSearchInput::placeholder {
+    color: rgba(255,255,255,0.75);
+}
+
+/* scope dropdown */
+.spScope {
+    position: relative;
+}
+
+.spScopeBtn {
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.spScopeBtn .spIcon { fill: #fff; }
+
+.spScopeMenu {
+    position: absolute;
+    right: 0;
+    top: 46px;
+    width: 190px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.10);
+    border-radius: 14px;
+    padding: 6px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.12);
+    z-index: 20;
+}
+
+.spScopeItem {
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: transparent;
+    padding: 10px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.spScopeItem:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.spScopeItem.isActive {
+    background: rgba(0,0,0,0.06);
+    font-weight: 600;
+}
+
+.spCheck {
+    opacity: 0.85;
+}
+
+/* error */
+.spError {
+    padding: 10px 22px;
+    color: #b00020;
+    font-size: 13px;
+}
+
+/* body split */
+.spBody {
+    height: calc(100vh - 86px);
+    display: flex;
+    align-items: stretch;
+    position: relative;
+}
+
+.spPanel {
+    min-width: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.spHidden { display: none; }
+
+.spPanelHeader {
+    height: 56px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 0 18px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.spPanelTitle {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.spPanelHint {
+    font-size: 12px;
+    color: rgba(0,0,0,0.55);
+}
+
+/* divider (draggable) */
+.spDivider {
+    width: 10px;
+    cursor: col-resize;
+    position: relative;
+    background: transparent;
+}
+
+.spDividerHandle {
+    width: 4px;
+    height: 62px;
+    border-radius: 99px;
+    background: rgba(0,0,0,0.85);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* remote results list */
+.spResults {
+    padding: 18px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.spResultCard {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: #1a1a1a;
+    border-radius: 16px;
+    padding: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.spResultCard:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+}
+
+.spResultTop {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.spFavicon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.12);
+}
+
+.spResultMeta { min-width: 0; }
+
+.spResultTitle {
+    font-weight: 700;
+    font-size: 14px;
+    color: #eaeaea;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.spResultUrl {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.spResultSnippet {
+    font-size: 13px;
+    color: rgba(255,255,255,0.78);
+    line-height: 1.45;
+}
+
+/* local grid */
+.spGrid {
+    padding: 18px;
+    overflow: auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.spTile {
+    border-radius: 16px;
+    padding: 14px 12px;
+    border: 1px solid rgba(0,0,0,0.10);
+    background: #111;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.spTile:hover {
+    box-shadow: 0 18px 48px rgba(0,0,0,0.14);
+    transform: translateY(-1px);
+}
+
+.spTileIcon {
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spTileIcon.isFolder { background: rgba(80, 190, 230, 0.22); }
+.spTileIcon.isFile { background: rgba(255, 255, 255, 0.10); }
+
+.spTileIcon .spIcon {
+    width: 28px;
+    height: 28px;
+    fill: rgba(255,255,255,0.95);
+}
+
+.spTileName {
+    font-size: 12px;
+    opacity: 0.92;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* util */
+.noSelect {
+    user-select: none;
+}
+
+/* responsive */
+@media (max-width: 980px) {
+    .spTopbar {
+        grid-template-columns: 60px 1fr 150px;
+    }
+    .spSearchWrap {
+        width: min(740px, 64vw);
+    }
+    .spGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .spTopbar {
+        grid-template-columns: 54px 1fr 130px;
+        padding: 0 14px;
+    }
+    .spSearchWrap {
+        width: min(520px, 62vw);
+    }
+    .spDivider { display: none; }
+    .spBody { flex-direction: column; }
+    .spPanel { width: 100% !important; height: 50%; }
+}
