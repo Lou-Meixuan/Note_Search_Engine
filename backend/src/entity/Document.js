@@ -1,5 +1,5 @@
 class Document {
-    constructor({ id, title, content, fileType, fileName, source, tags, createdAt, updatedAt }) {
+    constructor({ id, title, content, fileType, fileName, source, tags, createdAt, updatedAt, fileBuffer, mimeType }) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -9,6 +9,8 @@ class Document {
         this.tags = tags || [];
         this.createdAt = createdAt || new Date();
         this.updatedAt = updatedAt || new Date();
+        this.fileBuffer = fileBuffer; // 原始文件的二进制数据
+        this.mimeType = mimeType; // MIME类型，如 'application/pdf'
     }
 
     isValid() {
