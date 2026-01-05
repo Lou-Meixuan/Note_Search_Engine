@@ -1,0 +1,354 @@
+/* Page container */
+.documentPage {
+    min-height: 100vh;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Top toolbar */
+.documentToolbar {
+    height: 60px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.btnIcon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.backButton {
+    background-color: transparent !important;
+    background: transparent !important;
+    color: #333333;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    cursor: pointer;
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    margin: 0;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.backButton:hover {
+    color: #000000 !important;
+    background-color: transparent !important;
+    background: transparent !important;
+    border-color: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.backButton:focus,
+.backButton:focus-visible {
+    color: #333333;
+    background-color: transparent !important;
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.backButton:active {
+    color: #000000;
+    background-color: transparent !important;
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.deleteButton {
+    background-color: transparent !important;
+    background: transparent !important;
+    color: #333333;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    cursor: pointer;
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    margin: 0;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.deleteButton:hover:not(:disabled) {
+    color: #666666;
+    background-color: transparent !important;
+    background: transparent !important;
+    border-color: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.deleteButton:focus:not(:disabled),
+.deleteButton:focus-visible:not(:disabled) {
+    color: #333333;
+    background-color: transparent !important;
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.deleteButton:active:not(:disabled) {
+    color: #000000;
+    background-color: transparent !important;
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.deleteButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Delete Modal */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.deleteModal {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.deleteModalTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 1rem 0;
+}
+
+.deleteModalText {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+    margin: 0 0 2rem 0;
+}
+
+.deleteModalActions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+.modalCancelBtn {
+    background: white;
+    color: #333;
+    padding: 0 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    height: 36px;
+    min-width: 90px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+}
+
+.modalCancelBtn:hover {
+    background: #f5f5f5;
+    border-color: #999;
+}
+
+.modalCancelBtn:focus {
+    outline: none;
+}
+
+.modalDeleteBtn {
+    background: #333;
+    color: white;
+    padding: 0 1rem;
+    border: 2px solid #333;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    height: 36px;
+    min-width: 90px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+}
+
+.modalDeleteBtn:hover {
+    background: #000;
+    border-color: #000;
+}
+
+.modalDeleteBtn:focus {
+    outline: none;
+}
+
+.modalDeleteBtn:active {
+    background: #000;
+    border-color: #000;
+}
+
+/* Error message */
+.errorMessage {
+    background: #fef2f2;
+    color: #dc2626;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #fca5a5;
+    font-size: 0.9rem;
+}
+
+.errorBox {
+    background: #fef2f2;
+    color: #dc2626;
+    padding: 2rem;
+    text-align: center;
+    margin: 2rem;
+    border-radius: 8px;
+    border: 1px solid #fca5a5;
+}
+
+.loadingSpinner {
+    text-align: center;
+    padding: 4rem 2rem;
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Document content area */
+.documentContentArea {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem 2rem;
+    flex: 1;
+}
+
+/* Document title */
+.documentTitle {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+/* Metadata - subtle inline */
+.documentMeta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.metaItem {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.metaSeparator {
+    color: #ccc;
+    font-size: 0.85rem;
+}
+
+.tag {
+    background: #f3f4f6;
+    color: #374151;
+    padding: 0.25rem 0.65rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Document body */
+.documentBody {
+    margin-top: 2rem;
+}
+
+/* Text content */
+.textContent {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: #1f2937;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* PDF viewer */
+.pdfViewer {
+    width: 100%;
+    height: 800px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .documentToolbar {
+        padding: 0 1rem;
+    }
+
+    .documentContentArea {
+        padding: 2rem 1.5rem 4rem 1.5rem;
+    }
+
+    .documentTitle {
+        font-size: 2rem;
+    }
+
+    .pdfViewer {
+        height: 600px;
+    }
+}
