@@ -1,6 +1,6 @@
 /**
  * FileParser
- * 
+
  * 作用：从不同格式的文件中提取文本内容
  * 支持的格式：
  * - TXT (纯文本)
@@ -9,7 +9,7 @@
  * - DOCX (需要 mammoth 库)
  */
 
-const pdf = require('pdf-parse');
+const pdfParse = require('pdf-parse');
 const mammoth = require('mammoth');
 
 class FileParser {
@@ -55,15 +55,14 @@ class FileParser {
             throw new Error(`Failed to parse text file: ${error.message}`);
         }
     }
-    
+
     async parsePDF(file) {
         try {
             if (!file.buffer) {
                 throw new Error('File buffer not found');
             }
 
-            // 使用 pdf-parse 库解析 PDF
-            const data = await pdf(file.buffer);
+            const data = await pdfParse(file.buffer);
 
             console.log(`Extracted ${data.text.length} characters from PDF (${data.numpages} pages)`);
 
@@ -74,6 +73,7 @@ class FileParser {
             return this.cleanText(data.text);
 
         } catch (error) {
+            console.error('PDF parsing error:', error);
             throw new Error(`Failed to parse PDF: ${error.message}`);
         }
     }
