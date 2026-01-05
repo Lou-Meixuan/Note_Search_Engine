@@ -9,7 +9,7 @@
  * - DOCX (需要 mammoth 库)
  */
 
-const pdfParse = require('pdf-parse');
+const { PDFParse } = require('pdf-parse');
 const mammoth = require('mammoth');
 
 class FileParser {
@@ -62,13 +62,13 @@ class FileParser {
                 throw new Error('File buffer not found');
             }
 
-            const data = await pdfParse(file.buffer);
+            const parser = new PDFParse({ data: file.buffer });
+            const data = await parser.getText();
 
-            console.log(`Extracted ${data.text.length} characters from PDF (${data.numpages} pages)`);
+            console.log(`Extracted ${data.text.length} characters from PDF (${data.total} pages)`);
 
             // data.text - PDF 中提取的文本
-            // data.numpages - PDF 的页数
-            // data.info - PDF 的元信息（标题、作者等）
+            // data.total - PDF 的页数
 
             return this.cleanText(data.text);
 
