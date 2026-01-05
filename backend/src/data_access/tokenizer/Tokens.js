@@ -47,13 +47,91 @@ function cosineSimilarity(tf1, tf2) {
 /**
  * tokenizeFinal：最终出口（Model -> Post -> Final）
  *
- * options:
- * - 继承 Model.tokenize 的所有 options（mode/queryBigramWeight 等）
- * - 新增 postOptions：传给 postProcessTokens
+ * =========================
+ * Input（参数说明）
+ * =========================
  *
- * output:
- * - "tokens"（默认）
- * - "stats"（TF term frequency + tokens）
+ * @param {string} text
+ *   原始输入文本（支持中英混合 / 标点 / 数字）
+ *
+ * @param {Object} [options]
+ *   Tokenizer 选项对象
+ *
+ * @param {"tokens"|"stats"} [options.output="tokens"]
+ *   输出模式：
+ *   - "tokens"
+ *     返回最终 token 数组（string[]）
+ *
+ *   - "stats"
+ *     返回统计信息，用于索引 / 相似度计算
+ *
+ * @param {"document"|"query"} [options.mode="document"]
+ *   分词模式：
+ *   - "document"
+ *     用于文档索引，偏重完整召回与稳定 TF
+ *
+ *   - "query"
+ *     用于查询，允许更激进的召回策略（如 CJK single + bigram 融合）
+ *
+ * @param {number} [options.queryBigramWeight=1]
+ *   仅在 query 模式下生效
+ *   - 控制 CJK bigram 在 TF 中的权重
+ *
+ * @param {Object} [options.postOptions]
+ *   后处理（Post Process）选项
+ *
+ * @param {number} [options.postOptions.maxTokens]
+ *   最大 token 数量（超出部分直接截断）
+ *
+ * @param {number} [options.postOptions.maxTokenLength]
+ *   单个 token 允许的最大长度（超出将被丢弃）
+ *
+ * @param {boolean} [options.postOptions.dropNoiseTokens=false]
+ *   是否丢弃明显噪声 token
+ *   - 例如：超长无意义串、base64-like、重复符号等
+ *
+ * @param {boolean} [options.postOptions.removeStopwords=false]
+ *   是否在 Post 层移除英文停用词
+ *   默认关闭，避免与 Model 层策略重复
+ *
+ * @param {boolean} [options.postOptions.removeZhStopwords=false]
+ *   是否在 Post 层移除中文停用词
+ *   默认关闭，避免“双删”
+ *
+ *
+ * =========================
+ * Output（返回值）
+ * =========================
+ *
+ * @returns {string[] | {
+ *   tf: Object<string, number>,
+ *   length: number,
+ *   uniqueTerms: number,
+ *   tokens: string[]
+ * }}
+ *
+ * 当 output === "tokens"：
+ *   - 返回最终 token 数组（string[]）
+ *
+ * 当 output === "stats"：
+ *   - tf:
+ *       Term Frequency（词频映射）
+ *       key: token
+ *       value: 出现次数（number）
+ *
+ *   - length:
+ *       token 总数
+ *
+ *   - uniqueTerms:
+ *       去重后的 token 数量
+ *
+ *   - tokens:
+ *       最终 token 数组（便于 debug / 分析）
+ *
+ *
+ * 设计说明：
+ * - tokenizeFinal 是唯一推荐的对外调用入口
+ * - 作为 Search / Index / Similarity 的基础组件
  */
 function tokenizeFinal(text, options = {}) {
     const { output = "tokens", postOptions = {} } = options;

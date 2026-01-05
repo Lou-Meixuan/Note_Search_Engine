@@ -20,12 +20,10 @@ const model0 = tokenize(text0, { output: "stats" });
 const final0 = tokenizeFinal(text0, {
     output: "stats",
     postOptions: {
-        // Post 层：工程清洗（建议保留）
         maxTokens: 5000,
         maxTokenLength: 64,
         dropNoiseTokens: true,
 
-        // ✅ stopwords 建议只在 Model 层做，避免“双删”
         removeStopwords: false,
         removeZhStopwords: false,
     },
@@ -149,7 +147,7 @@ docs.forEach((doc, i) => {
 
 
 /* =========================================================
- * Test X: FORCE POST EFFECT（强制触发 Post 规则）
+ * Test X: FORCE POST EFFECT
  * ========================================================= */
 console.log("\n================ TEST X: FORCE POST EFFECT ======================\n");
 

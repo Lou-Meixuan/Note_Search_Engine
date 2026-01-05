@@ -1,6 +1,5 @@
 // backend/src/data_access/tokenizer/Model.js
-// 中文注释：Tokenizer 统一出口（Model / Policy 层）
-// 流水线（pipeline）：
+// pipeline：
 //   1) core tokenize（mixedTokenizeCore）
 //   2) policy（停用词 Stopwords / 数字 Numbers / CJK bigram 噪声）
 //   3) post（后处理 Post-tokenization：限流/长度/噪声）
@@ -8,7 +7,7 @@
 //   - tokenize：只跑 core + policy（适合你想单独调试 core/policy）
 //   - tokenizeFinal：跑完整 pipeline（Model -> Post -> Final answer）
 //
-// ✅ query 模式：CJK single + bigram 融合，提高召回（recall）
+// query 模式：CJK single + bigram 融合，提高召回（recall）
 
 "use strict";
 

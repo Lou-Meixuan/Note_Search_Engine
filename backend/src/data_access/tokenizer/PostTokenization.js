@@ -122,7 +122,6 @@ function postProcessTokens(tokens, options = {}) {
     return out;
 }
 
-// （可选）如果你后面要直接在后处理阶段生成 TF（term frequency）map，可以保留这个函数
 function postProcessToTfMap(tokens, options = {}) {
     const cleaned = postProcessTokens(tokens, options);
     const tf = Object.create(null);
