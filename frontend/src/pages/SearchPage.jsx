@@ -108,16 +108,15 @@ export default function SearchPage() {
             // 兼容不同后端返回：你可以改成你自己的字段
             // 期望：{ remote: [...], local: [...] }
             const remote = Array.isArray(json.remote) ? json.remote : Array.isArray(json.results) ? json.results : [];
-            const local = Array.isArray(json.local) ? json.local : [];
 
-            setData({
+            // Keep local documents unchanged
+            setData((prev) => ({
                 remote: remote.length ? remote : mockRemote,
-                local: local.length ? local : mockLocal,
-            });
+                local: prev.local,
+            }));
         } catch (e) {
             setError(String(e?.message || e));
-            // fallback
-            setData({ remote: mockRemote, local: mockLocal });
+            setData((prev) => ({ remote: mockRemote, local: prev.local }));
         }
     }
 
