@@ -1,10 +1,12 @@
-// tokenizer/Post_Tokenization.js
+// backend/src/data_access/tokenizer/Post_Tokenization.js
 // 中文注释：搜索引擎版 Post-tokenization（后处理）
-// 位置：一定在 Model（核心分词）之后
+// 位置：一定在 Model（核心分词 core + policy）之后
 // 作用：对“已经生成的 tokens”做清洗、过滤、限流（保护性能）
 // 支持输入：
 //   1) string[]                              -> 输出 string[]
 //   2) { term: string, position: number }[]  -> 输出同结构（保留 position）
+
+"use strict";
 
 const DEFAULT_EN_STOPWORDS = new Set([
     "the","a","an","and","or","to","of","in","on","for","with","is","are","was","were",
@@ -131,4 +133,3 @@ function postProcessToTfMap(tokens, options = {}) {
 }
 
 module.exports = { postProcessTokens, postProcessToTfMap };
-

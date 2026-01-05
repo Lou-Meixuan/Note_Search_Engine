@@ -1,14 +1,20 @@
 // backend/src/data_access/tokenizer/Model.js
 // 中文注释：Tokenizer 统一出口（Model / Policy 层）
-// - stopwords（停用词 Stopwords）
-// - CJK bigram 去噪（CJK bigram noise filtering）
-// - stats（TF term frequency）
-// - ✅ query 模式：CJK single + bigram 融合，提高召回（recall）
+// 流水线（pipeline）：
+//   1) core tokenize（mixedTokenizeCore）
+//   2) policy（停用词 Stopwords / 数字 Numbers / CJK bigram 噪声）
+//   3) post（后处理 Post-tokenization：限流/长度/噪声）
+// 对外导出：
+//   - tokenize：只跑 core + policy（适合你想单独调试 core/policy）
+//   - tokenizeFinal：跑完整 pipeline（Model -> Post -> Final answer）
+//
+// ✅ query 模式：CJK single + bigram 融合，提高召回（recall）
 
 "use strict";
 
 const { tokenizeMixed } = require("./mixedTokenizeCore");
 const { STOPWORDS_EN, STOPWORDS_ZH, CJK_NOISE_CHARS } = require("./StopWords");
+const { postProcessTokens } = require("./PostTokenization");
 
 function looksLikeCJK(t) {
     return /[\u3400-\u4DBF\u4E00-\u9FFF]/.test(t[0] || "");
@@ -37,11 +43,12 @@ function makeTF(tokens) {
     return tf;
 }
 
-// 合并 tokens（去重）与 TF（可加权）
+// 合并 tokens（去重）
 function mergeTokensUnique(a, b) {
     return [...new Set([...(a || []), ...(b || [])])];
 }
 
+// 合并 TF（可加权）
 function mergeTF(tfA, tfB, weightB = 1) {
     const out = Object.create(null);
     if (tfA) {
@@ -82,7 +89,7 @@ function coreTokenize(text, coreOptions) {
 }
 
 /** =========================
- * Public API
+ * Public API 1: tokenize（core + policy）
  * =========================
  *
  * mode:
@@ -169,4 +176,4 @@ function tokenize(text, options = {}) {
     return tokens;
 }
 
-module.exports = { tokenize };
+module.exports = { tokenize};
