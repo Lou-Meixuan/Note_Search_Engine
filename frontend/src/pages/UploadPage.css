@@ -1,0 +1,152 @@
+.uploadPage {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.uploadContainer {
+    background: white;
+    border-radius: 12px;
+    padding: 2.5rem;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.uploadContainer h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 1.8rem;
+}
+
+.uploadHint {
+    color: #666;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+.uploadForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formGroup label {
+    font-weight: 600;
+    color: #444;
+    font-size: 0.95rem;
+}
+
+.formGroup input[type="file"] {
+    padding: 0.75rem;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.formGroup input[type="file"]:hover {
+    border-color: #667eea;
+}
+
+.formGroup input[type="text"] {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.formGroup input[type="text"]:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.formGroup small {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.fileInfo {
+    background: #f5f5f5;
+    padding: 1rem;
+    border-radius: 6px;
+    border-left: 4px solid #667eea;
+}
+
+.fileInfo p {
+    margin: 0.25rem 0;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.errorMessage {
+    background: #fee;
+    color: #c33;
+    padding: 0.75rem;
+    border-radius: 6px;
+    border-left: 4px solid #c33;
+}
+
+.successMessage {
+    background: #efe;
+    color: #3c3;
+    padding: 0.75rem;
+    border-radius: 6px;
+    border-left: 4px solid #3c3;
+}
+
+.uploadButton {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.9rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.uploadButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.uploadButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.backButton {
+    background: transparent;
+    color: #667eea;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #667eea;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.3s, color 0.3s;
+}
+
+.backButton:hover:not(:disabled) {
+    background: #667eea;
+    color: white;
+}
+
+.backButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

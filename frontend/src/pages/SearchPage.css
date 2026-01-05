@@ -163,10 +163,17 @@
 .spPanelHeader {
     height: 56px;
     display: flex;
-    align-items: baseline;
+    align-items: center;
+    justify-content: space-between;
     gap: 10px;
     padding: 0 18px;
     border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.spPanelHeaderLeft {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
 }
 
 .spPanelTitle {
@@ -177,6 +184,30 @@
 .spPanelHint {
     font-size: 12px;
     color: rgba(0,0,0,0.55);
+}
+
+.spAddBtn {
+    height: 32px;
+    padding: 0 16px;
+    border-radius: 6px;
+    border: 2px solid #333;
+    background: #333;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    color: #fff;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.spAddBtn:hover {
+    background: #000;
+    border-color: #000;
+    transform: translateY(-1px);
 }
 
 /* divider (draggable) */
@@ -280,6 +311,17 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    transition: all 0.2s;
+}
+
+.spTile.spClickable {
+    cursor: pointer;
+}
+
+.spTile.spClickable:hover {
+    box-shadow: 0 18px 48px rgba(0,0,0,0.14);
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,0.2);
 }
 
 .spTile:hover {
@@ -317,6 +359,7 @@
 
 /* util */
 .noSelect {
+    -webkit-user-select: none;
     user-select: none;
 }
 

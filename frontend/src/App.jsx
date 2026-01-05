@@ -16,6 +16,7 @@ export default function App() {
                     <Route path="/" element={<SearchPage />} />
                     <Route path="/upload" element={<UploadPage />} />
                     <Route path="/doc/:id" element={<DocumentPage />} />
+                    <Route path="/document/:id" element={<DocumentPage />} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </div>

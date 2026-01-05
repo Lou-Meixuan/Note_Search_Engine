@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import UploadModal from "../components/UploadModal";
 import "./SearchPage.css";
 
 /**
@@ -13,6 +14,7 @@ export default function SearchPage() {
     const [scope, setScope] = useState("all"); // "remote" | "local" | "all"
     const [data, setData] = useState({ remote: [], local: [] });
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     // split view ratio: left panel width percentage
     const [leftPct, setLeftPct] = useState(52);
@@ -20,6 +22,7 @@ export default function SearchPage() {
     const containerRef = useRef(null);
 
     const [scopeOpen, setScopeOpen] = useState(false);
+    const [uploadModalOpen, setUploadModalOpen] = useState(false);
 
     // ---- mock data (UI first) ----
     const mockRemote = useMemo(
@@ -46,25 +49,39 @@ export default function SearchPage() {
         []
     );
 
-    const mockLocal = useMemo(
-        () => [
-            { name: "A. Maps", type: "folder" },
-            { name: "B. Inter/...", type: "folder" },
-            { name: "C. Derivatives", type: "folder" },
-            { name: "LectureNotes23", type: "file" },
-            { name: "mat237-syllabus", type: "file" },
-            { name: "Problem Set", type: "file" },
-            { name: "Text Book", type: "file" },
-            { name: "TT1", type: "folder" },
-            { name: "Tutorial", type: "folder" },
-        ],
-        []
-    );
-
     useEffect(() => {
-        // default: show mock first
-        setData({ remote: mockRemote, local: mockLocal });
-    }, [mockRemote, mockLocal]);
+        // 加载本地文档
+        fetchLocalDocuments();
+        // default: show mock for remote
+        setData((prev) => ({ ...prev, remote: mockRemote }));
+    }, [mockRemote]);
+
+    async function fetchLocalDocuments() {
+        try {
+            const res = await fetch('http://localhost:3001/documents');
+            if (res.ok) {
+                const documents = await res.json();
+                // 转换成 local tile 格式
+                const localDocs = documents
+                    .filter(doc => doc.source === 'local')
+                    .map(doc => ({
+                        id: doc.id,
+                        name: doc.title,
+                        type: 'file',
+                        fileType: doc.fileType,
+                        createdAt: doc.createdAt
+                    }));
+
+                setData((prev) => ({
+                    ...prev,
+                    local: localDocs
+                }));
+            }
+        } catch (e) {
+            console.error('Failed to fetch local documents:', e);
+            setData((prev) => ({ ...prev, local: [] }));
+        }
+    }
 
     // ---- fetch search ----
     async function doSearch(nextScope = scope) {
@@ -150,8 +167,19 @@ export default function SearchPage() {
     const showRemote = scope === "remote" || scope === "all";
     const showLocal = scope === "local" || scope === "all";
 
+    const handleUploadSuccess = (uploadResult) => {
+        console.log("Upload successful:", uploadResult);
+        fetchLocalDocuments();
+        navigate(`/document/${uploadResult.documentId}`);
+    };
+
     return (
         <div className="spPage">
+            <UploadModal
+                isOpen={uploadModalOpen}
+                onClose={() => setUploadModalOpen(false)}
+                onUploadSuccess={handleUploadSuccess}
+            />
             {/* Top Bar */}
             <header className="spTopbar">
                 <div className="spLeft">
@@ -247,8 +275,10 @@ export default function SearchPage() {
                     style={{ width: showRemote && showLocal ? `${leftPct}%` : "100%" }}
                 >
                     <div className="spPanelHeader">
-                        <span className="spPanelTitle">Remote</span>
-                        <span className="spPanelHint">搜索引擎 (search engine) 结果</span>
+                        <div className="spPanelHeaderLeft">
+                            <span className="spPanelTitle">Remote</span>
+                            <span className="spPanelHint">搜索引擎 (search engine) 结果</span>
+                        </div>
                     </div>
 
                     <div className="spResults">
@@ -271,8 +301,18 @@ export default function SearchPage() {
                     style={{ width: showRemote && showLocal ? `${100 - leftPct}%` : "100%" }}
                 >
                     <div className="spPanelHeader">
-                        <span className="spPanelTitle">Local</span>
-                        <span className="spPanelHint">本地文档 (local documents)</span>
+                        <div className="spPanelHeaderLeft">
+                            <span className="spPanelTitle">Local</span>
+                            <span className="spPanelHint">本地文档 (local documents)</span>
+                        </div>
+                        <button
+                            className="spAddBtn"
+                            onClick={() => setUploadModalOpen(true)}
+                            aria-label="Upload document"
+                            title="Upload document"
+                        >
+                            + New
+                        </button>
                     </div>
 
                     <div className="spGrid">
@@ -312,8 +352,20 @@ function RemoteResultCard({ item }) {
 
 function LocalTile({ item }) {
     const isFolder = item.type === "folder";
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        if (!isFolder && item.id) {
+            navigate(`/document/${item.id}`);
+        }
+    };
+
     return (
-        <div className="spTile" title={item.name}>
+        <div
+            className={`spTile ${!isFolder && item.id ? "spClickable" : ""}`}
+            title={item.name}
+            onClick={handleClick}
+        >
             <div className={`spTileIcon ${isFolder ? "isFolder" : "isFile"}`}>
                 {isFolder ? (
                     <svg viewBox="0 0 24 24" className="spIcon">
