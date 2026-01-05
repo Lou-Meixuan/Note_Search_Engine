@@ -15,7 +15,9 @@ class MongoDocumentRepository extends DocumentRepository {
             source: document.source,
             tags: document.tags,
             createdAt: document.createdAt,
-            updatedAt: document.updatedAt
+            updatedAt: document.updatedAt,
+            fileBuffer: document.fileBuffer,
+            mimeType: document.mimeType
         };
 
         const documentModel = new DocumentModel(docData);
@@ -44,12 +46,14 @@ class MongoDocumentRepository extends DocumentRepository {
             source: doc.source,
             tags: doc.tags,
             createdAt: doc.createdAt,
-            updatedAt: doc.updatedAt
+            updatedAt: doc.updatedAt,
+            fileBuffer: doc.fileBuffer,
+            mimeType: doc.mimeType
         });
     }
 
     async findAll() {
- 
+
         const docs = await DocumentModel.find({}).sort({ createdAt: -1 });
 
         console.log(`Found ${docs.length} documents in MongoDB`);
@@ -102,7 +106,7 @@ class MongoDocumentRepository extends DocumentRepository {
         const doc = await DocumentModel.findOneAndUpdate(
             { id },
             { ...updates, updatedAt: new Date() },
-            { new: true }  
+            { new: true }
         );
 
         if (!doc) {
