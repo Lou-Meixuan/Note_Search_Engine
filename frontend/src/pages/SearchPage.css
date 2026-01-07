@@ -67,17 +67,22 @@
 
 /* Theme Toggle Button */
 .spThemeBtn {
-    width: 44px;
-    height: 44px;
+    outline: none;
 }
 
-.spThemeBtn .spIcon {
-    width: 24px;
-    height: 24px;
+.spThemeBtn:focus {
+    outline: none;
+}
+
+.spThemeIcon {
+    font-size: 24px;
+    line-height: 1;
+    color: var(--icon-fill);
     transition: transform 0.3s ease;
+    display: inline-block;
 }
 
-.spThemeBtn:hover .spIcon {
+.spThemeBtn:hover .spThemeIcon {
     transform: scale(1.1) rotate(15deg);
 }
 

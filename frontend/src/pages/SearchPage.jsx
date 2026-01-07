@@ -313,17 +313,9 @@ export default function SearchPage() {
                         aria-label={isDark ? t("switchToLight") : t("switchToDark")}
                         title={isDark ? t("lightMode") : t("darkMode")}
                     >
-                        {isDark ? (
-                            // Sun icon (solid, centered)
-                            <svg viewBox="0 0 24 24" className="spIcon" aria-hidden="true">
-                                <path d="M12 18a6 6 0 116-6 6 6 0 01-6 6zm0-10a4 4 0 104 4 4 4 0 00-4-4zM11 2h2v3h-2zm0 17h2v3h-2zM2 11h3v2H2zm17 0h3v2h-3zM4.22 5.64l1.42-1.42 2.12 2.12-1.42 1.42zM16.24 17.66l1.42-1.42 2.12 2.12-1.42 1.42zM18.36 4.22l1.42 1.42-2.12 2.12-1.42-1.42zM6.34 16.24l1.42 1.42-2.12 2.12-1.42-1.42z" />
-                            </svg>
-                        ) : (
-                            // Moon icon (clean crescent, centered)
-                            <svg viewBox="0 0 24 24" className="spIcon" aria-hidden="true">
-                                <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
-                            </svg>
-                        )}
+                        <span className="spThemeIcon">
+                            {isDark ? '✹' : '⏾'}
+                        </span>
                     </button>
 
                     <Link className="spIconBtn" to="/settings" aria-label={t("settings")}>
