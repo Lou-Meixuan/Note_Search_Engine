@@ -91,9 +91,6 @@ module.exports = {
     DocumentModel
 };
 
-// Document Model
-const DocumentModel = mongoose.model('Document', documentSchema);
-
 // ============================================================
 // Index Schema - 用于存储倒排索引和文档统计
 // ============================================================
@@ -132,5 +129,5 @@ const IndexModel = mongoose.model('Index', indexSchema);
 module.exports = {
     connectToMongoDB,
     DocumentModel,
-    IndexModel  // 导出IndexModel
+    IndexModel
 };

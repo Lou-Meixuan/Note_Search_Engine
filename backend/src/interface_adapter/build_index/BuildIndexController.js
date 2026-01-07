@@ -1,7 +1,6 @@
 const BuildIndex = require('../../use_case/build_index/BuildIndex');
 const MongoDocumentRepository = require('../MongoDocumentRepository');
-// 注意：需要先创建MongoIndexRepository
-// const MongoIndexRepository = require('../MongoIndexRepository');
+const MongoIndexRepository = require('../MongoIndexRepository');
 
 /**
  * BuildIndexController
@@ -20,13 +19,7 @@ class BuildIndexController {
         try {
             // 创建具体的Repository实现
             const documentRepository = new MongoDocumentRepository();
-
-            // TODO: 需要先创建MongoIndexRepository
-            // 如果还没有实现，可以先创建一个简单的内存实现用于测试
-            // const indexRepository = new MongoIndexRepository();
-
-            // 临时方案：如果MongoIndexRepository还没实现，可以先用内存实现
-            // 或者先创建MongoIndexRepository（见下面的说明）
+            const indexRepository = new MongoIndexRepository();
 
             // 创建Use Case实例（依赖注入）
             const buildIndexUseCase = new BuildIndex(documentRepository, indexRepository);

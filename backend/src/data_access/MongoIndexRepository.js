@@ -1,42 +1,132 @@
-const BuildIndex = require('../../use_case/build_index/BuildIndex');
-const MongoDocumentRepository = require('../MongoDocumentRepository');
-const MongoIndexRepository = require('../MongoIndexRepository');
+const { IIndexRepository } = require('../data_access/IIndexRepository');
+const { InvertedIndex, DocStats } = require('../entity/IndexTypes');
+const { IndexModel } = require('../data_access/mongodb');
 
 /**
- * BuildIndexController
+ * MongoIndexRepository
  *
- * 职责：处理HTTP请求，调用Use Case构建索引
+ * 实现 IIndexRepository 接口，使用 MongoDB 存储索引数据
  *
- * 流程：
- * 1. 接收HTTP请求（POST /index/build）
- * 2. 创建具体的Repository实现
- * 3. 创建Use Case实例
- * 4. 调用Use Case执行索引构建
- * 5. 返回结果
+ * 存储策略：
+ * - 倒排索引（InvertedIndex）存储为 type: "inverted"
+ * - 文档统计（DocStats）存储为 type: "docstats"
+ * - 使用 upsert 确保每种类型只有一份数据
  */
-class BuildIndexController {
-    async handle(req, res) {
-        try {
-            // 创建具体的Repository实现
-            const documentRepository = new MongoDocumentRepository();
-            const indexRepository = new MongoIndexRepository();
+class MongoIndexRepository extends IIndexRepository {
+    /**
+     * 保存整个倒排索引
+     *
+     * @param {InvertedIndex} index - 倒排索引对象
+     * @returns {Promise<void>}
+     */
+    async saveIndex(index) {
+        const indexData = index.toJSON();
 
-            // 创建Use Case实例（依赖注入）
-            const buildIndexUseCase = new BuildIndex(documentRepository, indexRepository);
+        await IndexModel.findOneAndUpdate(
+            { type: 'inverted' },
+            {
+                type: 'inverted',
+                data: indexData,
+                updatedAt: new Date()
+            },
+            {
+                upsert: true,  // 如果不存在则创建，存在则更新
+                new: true
+            }
+        );
 
-            // 执行索引构建
-            const result = await buildIndexUseCase.execute();
+        console.log('Saved inverted index to MongoDB');
+    }
 
-            return res.status(200).json(result);
+    /**
+     * 获取整个倒排索引
+     *
+     * @returns {Promise<InvertedIndex>} 倒排索引对象
+     */
+    async getIndex() {
+        const doc = await IndexModel.findOne({ type: 'inverted' });
 
-        } catch (error) {
-            console.error('Error in BuildIndexController:', error);
-            return res.status(500).json({
-                success: false,
-                error: error.message
-            });
+        if (!doc) {
+            // 如果索引不存在，返回空索引
+            console.log('No inverted index found in MongoDB, returning empty index');
+            return new InvertedIndex();
         }
+
+        // 从JSON数据恢复InvertedIndex对象
+        return InvertedIndex.fromJSON(doc.data);
+    }
+
+    /**
+     * 获取某个词条的倒排列表 (Posting List)
+     *
+     * @param {string} term - 分词后的词条
+     * @returns {Promise<PostingItem[]|null>} 倒排列表，词不存在则返回空数组
+     */
+    async getPostingList(term) {
+        const index = await this.getIndex();
+        const postings = index.getPostingList(term);
+
+        // 根据接口定义，词不存在应返回null，但InvertedIndex返回空数组
+        // 为了保持一致性，空数组也返回空数组（不是null）
+        return postings.length > 0 ? postings : [];
+    }
+
+    /**
+     * 保存文档统计信息（用于 TF-IDF / BM25 计算）
+     *
+     * @param {DocStats} stats - 文档统计信息
+     * @returns {Promise<void>}
+     */
+    async saveDocStats(stats) {
+        const statsData = stats.toJSON();
+
+        await IndexModel.findOneAndUpdate(
+            { type: 'docstats' },
+            {
+                type: 'docstats',
+                data: statsData,
+                updatedAt: new Date()
+            },
+            {
+                upsert: true,
+                new: true
+            }
+        );
+
+        console.log('Saved doc stats to MongoDB');
+    }
+
+    /**
+     * 获取文档统计信息
+     *
+     * @returns {Promise<DocStats>} 文档统计信息
+     */
+    async getDocStats() {
+        const doc = await IndexModel.findOne({ type: 'docstats' });
+
+        if (!doc) {
+            // 如果统计信息不存在，返回空统计
+            console.log('No doc stats found in MongoDB, returning empty stats');
+            return new DocStats();
+        }
+
+        // 从JSON数据恢复DocStats对象
+        return DocStats.fromJSON(doc.data);
+    }
+
+    /**
+     * 清空索引（重建索引时使用）
+     *
+     * @returns {Promise<void>}
+     */
+    async clearIndex() {
+        const result = await IndexModel.deleteMany({
+            type: { $in: ['inverted', 'docstats'] }
+        });
+
+        console.log(`Cleared ${result.deletedCount} index documents from MongoDB`);
     }
 }
 
-module.exports = BuildIndexController;
+// 注意：使用 module.exports = 直接导出类（与MongoDocumentRepository一致）
+module.exports = MongoIndexRepository;
