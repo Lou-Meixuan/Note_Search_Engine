@@ -1,20 +1,22 @@
 /**
  * UploadModal.jsx - 文件上传模态框组件
  * 
- * Created by: C
+ * Created by: C (Cheng)
  * Date: 2026-01-07
  * 
  * 功能:
  * - 支持拖拽上传文件
  * - 支持点击 "Browse Files" 按钮选择文件
  * - 支持 txt, md, pdf, docx 格式
+ * - 支持多语言
  * 
  * 修改记录:
  * - C: 修复 Browse Files 按钮无法触发文件选择器的问题
- *      解决方案: 使用 <label> 包裹 <input type="file">，利用原生 HTML 行为
+ * - C: 添加多语言支持
  */
 
 import { useState } from "react";
+import { useLanguage } from "../context/LanguageContext";
 import "./UploadModal.css";
 
 export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
@@ -24,6 +26,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState("");
     const [dragActive, setDragActive] = useState(false);
+    const { t } = useLanguage();
 
     if (!isOpen) return null;
 
@@ -61,7 +64,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
         e.preventDefault();
 
         if (!file) {
-            setError("Please select a file");
+            setError(t("uploadError"));
             return;
         }
 
@@ -123,18 +126,16 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
         }
     };
 
-    const supportedTypes = "txt, md, pdf, docx";
-
     return (
         <div className="modalOverlay" onClick={handleClose}>
             <div className="modalContent" onClick={(e) => e.stopPropagation()}>
                 <div className="modalHeader">
-                    <h2>Upload Document</h2>
+                    <h2>{t("uploadTitle")}</h2>
                     <button
                         className="modalCloseBtn"
                         onClick={handleClose}
                         disabled={uploading}
-                        aria-label="Close"
+                        aria-label={t("close")}
                     >
                         ×
                     </button>
@@ -153,10 +154,10 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
                                 <svg className="uploadIcon" viewBox="0 0 24 24">
                                     <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" />
                                 </svg>
-                                <p className="dropText">Drag & drop your file here</p>
-                                <p className="dropHint">or</p>
+                                <p className="dropText">{t("dragDrop")}</p>
+                                <p className="dropHint">{t("or")}</p>
                                 <label className="fileSelectBtn">
-                                    Browse Files
+                                    {t("browseFiles")}
                                     <input
                                         type="file"
                                         onChange={(e) => handleFileChange(e.target.files[0])}
@@ -165,7 +166,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
                                         className="hiddenFileInput"
                                     />
                                 </label>
-                                <small className="supportedTypes">Supported: {supportedTypes}</small>
+                                <small className="supportedTypes">{t("supportedTypes")}</small>
                             </>
                         ) : (
                             <div className="fileSelected">
@@ -189,28 +190,27 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
                     </div>
 
                     <div className="formField">
-                        <label htmlFor="titleInput">Title (optional)</label>
+                        <label htmlFor="titleInput">{t("documentTitle")}</label>
                         <input
                             id="titleInput"
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Auto-generated from filename"
+                            placeholder={t("titlePlaceholder")}
                             disabled={uploading}
                         />
                     </div>
 
                     <div className="formField">
-                        <label htmlFor="tagsInput">Tags (optional)</label>
+                        <label htmlFor="tagsInput">{t("tags")}</label>
                         <input
                             id="tagsInput"
                             type="text"
                             value={tags}
                             onChange={(e) => setTags(e.target.value)}
-                            placeholder="e.g. notes, math, lecture"
+                            placeholder={t("tagsPlaceholder")}
                             disabled={uploading}
                         />
-                        <small>Separate with commas</small>
                     </div>
 
                     {error && <div className="modalError">{error}</div>}
@@ -222,14 +222,14 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
                             onClick={handleClose}
                             disabled={uploading}
                         >
-                            Cancel
+                            {t("cancel")}
                         </button>
                         <button
                             type="submit"
                             className="modalSubmitBtn"
                             disabled={!file || uploading}
                         >
-                            {uploading ? "Uploading..." : "Upload"}
+                            {uploading ? t("uploading") : t("upload")}
                         </button>
                     </div>
                 </form>

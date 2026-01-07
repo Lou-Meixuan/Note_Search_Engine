@@ -1,22 +1,33 @@
+/**
+ * SearchPage.css - 搜索页面样式
+ * 
+ * Modified by: C
+ * Date: 2026-01-07
+ * 
+ * 修改记录:
+ * - C: 使用 CSS 变量支持 Light/Dark 主题切换
+ */
+
 /* page */
 .spPage {
     height: 100vh;
-    background: #ffffff;
-    color: #111;
+    background: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 /* topbar */
 .spTopbar {
     height: 86px;
     display: grid;
-    grid-template-columns: 70px 1fr 180px;
+    grid-template-columns: 70px 1fr 220px;
     align-items: center;
     gap: 14px;
     padding: 0 22px;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    border-bottom: 1px solid var(--border-color);
 }
 
-.spLeft, .spRight {
+.spLeft,
+.spRight {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -31,23 +42,43 @@
     width: 44px;
     height: 44px;
     border-radius: 999px;
-    border: 1px solid rgba(0,0,0,0.12);
-    background: #fff;
+    border: 1px solid var(--btn-border);
+    background: var(--btn-bg);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     text-decoration: none;
+    transition: all 0.2s ease;
 }
 
 .spIconBtn:hover {
-    background: rgba(0,0,0,0.03);
+    background: var(--btn-hover);
+    transform: scale(1.05);
 }
 
 .spIcon {
     width: 22px;
     height: 22px;
-    fill: #111;
+    fill: var(--icon-fill);
+    color: var(--icon-fill);
+    stroke: var(--icon-fill);
+}
+
+/* Theme Toggle Button */
+.spThemeBtn {
+    width: 44px;
+    height: 44px;
+}
+
+.spThemeBtn .spIcon {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.spThemeBtn:hover .spIcon {
+    transform: scale(1.1) rotate(15deg);
 }
 
 /* search bar */
@@ -55,7 +86,7 @@
     width: min(920px, 70vw);
     height: 44px;
     border-radius: 999px;
-    background: #7a7a7a;
+    background: var(--search-bg);
     display: flex;
     align-items: center;
     padding-left: 18px;
@@ -69,12 +100,12 @@
     border: none;
     outline: none;
     background: transparent;
-    color: #fff;
+    color: var(--search-text);
     font-size: 14px;
 }
 
 .spSearchInput::placeholder {
-    color: rgba(255,255,255,0.75);
+    color: var(--search-placeholder);
 }
 
 /* scope dropdown */
@@ -83,29 +114,48 @@
 }
 
 .spScopeBtn {
-    width: 38px;
+    min-width: 44px;
     height: 38px;
+    padding: 0 10px;
     border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.55);
-    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.12);
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 4px;
     cursor: pointer;
 }
 
-.spScopeBtn .spIcon { fill: #000000; }
+.spScopeBtn .spIcon {
+    fill: var(--text-inverse);
+}
+
+.spScopeIcon {
+    width: 18px;
+    height: 18px;
+    fill: #ffffff;
+    /* Always white on dark search bar */
+}
+
+.spScopeArrow {
+    width: 16px;
+    height: 16px;
+    fill: #ffffff;
+    /* Always white on dark search bar */
+    opacity: 0.7;
+}
 
 .spScopeMenu {
     position: absolute;
     right: 0;
     top: 46px;
     width: 190px;
-    background: rgb(23, 21, 21);
-    border: 1px solid rgba(0,0,0,0.10);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
     border-radius: 14px;
     padding: 6px;
-    box-shadow: 0 18px 50px rgba(0,0,0,0.12);
+    box-shadow: var(--shadow-lg);
     z-index: 20;
 }
 
@@ -121,14 +171,15 @@
     justify-content: space-between;
     gap: 10px;
     font-size: 13px;
+    color: var(--text-primary);
 }
 
 .spScopeItem:hover {
-    background: rgba(0,0,0,0.05);
+    background: var(--bg-hover);
 }
 
 .spScopeItem.isActive {
-    background: rgba(0,0,0,0.06);
+    background: var(--bg-hover);
     font-weight: 600;
 }
 
@@ -139,7 +190,7 @@
 /* error */
 .spError {
     padding: 10px 22px;
-    color: #b00020;
+    color: #ff453a;
     font-size: 13px;
 }
 
@@ -158,7 +209,9 @@
     flex-direction: column;
 }
 
-.spHidden { display: none; }
+.spHidden {
+    display: none;
+}
 
 .spPanelHeader {
     height: 56px;
@@ -167,7 +220,7 @@
     justify-content: space-between;
     gap: 10px;
     padding: 0 18px;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .spPanelHeaderLeft {
@@ -183,15 +236,15 @@
 
 .spPanelHint {
     font-size: 12px;
-    color: rgba(0,0,0,0.55);
+    color: var(--text-secondary);
 }
 
 .spAddBtn {
     height: 32px;
     padding: 0 16px;
     border-radius: 6px;
-    border: 2px solid #333;
-    background: #333;
+    border: 2px solid var(--text-primary);
+    background: var(--text-primary);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -199,14 +252,13 @@
     font-size: 14px;
     font-weight: 600;
     line-height: 1;
-    color: #fff;
+    color: var(--bg-primary);
     transition: all 0.2s;
     flex-shrink: 0;
 }
 
 .spAddBtn:hover {
-    background: #000;
-    border-color: #000;
+    opacity: 0.85;
     transform: translateY(-1px);
 }
 
@@ -222,7 +274,7 @@
     width: 4px;
     height: 62px;
     border-radius: 99px;
-    background: rgba(0,0,0,0.85);
+    background: var(--divider);
     position: absolute;
     left: 50%;
     top: 50%;
@@ -242,15 +294,16 @@
     display: block;
     text-decoration: none;
     color: inherit;
-    background: #1a1a1a;
+    background: var(--card-bg);
     border-radius: 16px;
     padding: 14px;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
 }
 
 .spResultCard:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
 .spResultTop {
@@ -264,15 +317,17 @@
     width: 34px;
     height: 34px;
     border-radius: 10px;
-    background: rgba(255,255,255,0.12);
+    background: rgba(255, 255, 255, 0.12);
 }
 
-.spResultMeta { min-width: 0; }
+.spResultMeta {
+    min-width: 0;
+}
 
 .spResultTitle {
     font-weight: 700;
     font-size: 14px;
-    color: #eaeaea;
+    color: var(--card-text);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -280,7 +335,7 @@
 
 .spResultUrl {
     font-size: 12px;
-    color: rgba(255,255,255,0.6);
+    color: var(--card-secondary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -288,7 +343,7 @@
 
 .spResultSnippet {
     font-size: 13px;
-    color: rgba(255,255,255,0.78);
+    color: var(--card-secondary);
     line-height: 1.45;
 }
 
@@ -304,9 +359,9 @@
 .spTile {
     border-radius: 16px;
     padding: 14px 12px;
-    border: 1px solid rgba(0,0,0,0.10);
-    background: #111;
-    color: #fff;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--card-text);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -319,13 +374,12 @@
 }
 
 .spTile.spClickable:hover {
-    box-shadow: 0 18px 48px rgba(0,0,0,0.14);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
-    border-color: rgba(255,255,255,0.2);
 }
 
 .spTile:hover {
-    box-shadow: 0 18px 48px rgba(0,0,0,0.14);
+    box-shadow: var(--shadow-md);
     transform: translateY(-1px);
 }
 
@@ -338,13 +392,18 @@
     justify-content: center;
 }
 
-.spTileIcon.isFolder { background: rgba(80, 190, 230, 0.22); }
-.spTileIcon.isFile { background: rgba(255, 255, 255, 0.10); }
+.spTileIcon.isFolder {
+    background: rgba(80, 190, 230, 0.22);
+}
+
+.spTileIcon.isFile {
+    background: rgba(255, 255, 255, 0.10);
+}
 
 .spTileIcon .spIcon {
     width: 28px;
     height: 28px;
-    fill: rgba(255,255,255,0.95);
+    fill: var(--card-text);
 }
 
 .spTileName {
@@ -366,11 +425,13 @@
 /* responsive */
 @media (max-width: 980px) {
     .spTopbar {
-        grid-template-columns: 60px 1fr 150px;
+        grid-template-columns: 60px 1fr 180px;
     }
+
     .spSearchWrap {
         width: min(740px, 64vw);
     }
+
     .spGrid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -378,13 +439,24 @@
 
 @media (max-width: 720px) {
     .spTopbar {
-        grid-template-columns: 54px 1fr 130px;
+        grid-template-columns: 54px 1fr 150px;
         padding: 0 14px;
     }
+
     .spSearchWrap {
         width: min(520px, 62vw);
     }
-    .spDivider { display: none; }
-    .spBody { flex-direction: column; }
-    .spPanel { width: 100% !important; height: 50%; }
+
+    .spDivider {
+        display: none;
+    }
+
+    .spBody {
+        flex-direction: column;
+    }
+
+    .spPanel {
+        width: 100% !important;
+        height: 50%;
+    }
 }

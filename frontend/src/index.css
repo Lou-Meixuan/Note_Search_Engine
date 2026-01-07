@@ -1,71 +1,481 @@
+/**
+ * index.css - 全局样式和主题变量
+ * 
+ * Modified by: C (Cheng)
+ * Date: 2026-01-07
+ * 
+ * 修改记录:
+ * - C: 添加完整的 Light/Dark 主题系统
+ * - C: 每个主题都有 Light 和 Dark 两个版本
+ */
+
+/* =====================================================
+   DEFAULT THEME
+   ===================================================== */
+
+/* Default Light */
+:root,
+[data-color-theme="default-light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f7;
+  --bg-tertiary: #e8e8ed;
+  --bg-card: #ffffff;
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --search-bg: #1d1d1f;
+  --search-text: #ffffff;
+  --search-placeholder: rgba(255, 255, 255, 0.6);
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-tertiary: #86868b;
+  --text-inverse: #ffffff;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --border-light: rgba(0, 0, 0, 0.06);
+  --btn-bg: #ffffff;
+  --btn-border: rgba(0, 0, 0, 0.15);
+  --btn-hover: rgba(0, 0, 0, 0.05);
+  --card-bg: #f5f5f7;
+  --card-text: #1d1d1f;
+  --card-secondary: #6e6e73;
+  --accent: #0071e3;
+  --accent-hover: #0077ed;
+  --divider: #d2d2d7;
+  --icon-fill: #1d1d1f;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Default Dark */
+[data-color-theme="default-dark"] {
+  --bg-primary: #000000;
+  --bg-secondary: #1c1c1e;
+  --bg-tertiary: #2c2c2e;
+  --bg-card: #1c1c1e;
+  --bg-hover: rgba(255, 255, 255, 0.08);
+  --search-bg: #3a3a3c;
+  --search-text: #ffffff;
+  --search-placeholder: rgba(255, 255, 255, 0.6);
+  --text-primary: #f5f5f7;
+  --text-secondary: #a1a1a6;
+  --text-tertiary: #6e6e73;
+  --text-inverse: #000000;
+  --border-color: rgba(255, 255, 255, 0.12);
+  --border-light: rgba(255, 255, 255, 0.06);
+  --btn-bg: #2c2c2e;
+  --btn-border: rgba(255, 255, 255, 0.15);
+  --btn-hover: rgba(255, 255, 255, 0.1);
+  --card-bg: #2c2c2e;
+  --card-text: #f5f5f7;
+  --card-secondary: rgba(255, 255, 255, 0.6);
+  --accent: #0a84ff;
+  --accent-hover: #409cff;
+  --divider: #3a3a3c;
+  --icon-fill: #f5f5f7;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* =====================================================
+   DRACULA THEME
+   ===================================================== */
+
+/* Dracula Light (Alucard) */
+[data-color-theme="dracula-light"] {
+  --bg-primary: #f8f8f2;
+  --bg-secondary: #e8e8e2;
+  --bg-tertiary: #d8d8d2;
+  --bg-card: #f0f0ea;
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --search-bg: #44475a;
+  --search-text: #f8f8f2;
+  --search-placeholder: rgba(248, 248, 242, 0.6);
+  --text-primary: #282a36;
+  --text-secondary: #44475a;
+  --text-tertiary: #6272a4;
+  --text-inverse: #f8f8f2;
+  --border-color: #d0d0ca;
+  --border-light: #e0e0da;
+  --btn-bg: #f0f0ea;
+  --btn-border: #d0d0ca;
+  --btn-hover: #e8e8e2;
+  --card-bg: #f0f0ea;
+  --card-text: #282a36;
+  --card-secondary: #44475a;
+  --accent: #bd93f9;
+  --accent-hover: #ff79c6;
+  --divider: #d0d0ca;
+  --icon-fill: #282a36;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Dracula Dark */
+[data-color-theme="dracula-dark"] {
+  --bg-primary: #282a36;
+  --bg-secondary: #343746;
+  --bg-tertiary: #44475a;
+  --bg-card: #343746;
+  --bg-hover: rgba(255, 255, 255, 0.08);
+  --search-bg: #44475a;
+  --search-text: #f8f8f2;
+  --search-placeholder: rgba(248, 248, 242, 0.6);
+  --text-primary: #f8f8f2;
+  --text-secondary: #bfbfbf;
+  --text-tertiary: #6272a4;
+  --text-inverse: #282a36;
+  --border-color: #44475a;
+  --border-light: #3a3d4a;
+  --btn-bg: #44475a;
+  --btn-border: #6272a4;
+  --btn-hover: rgba(255, 255, 255, 0.1);
+  --card-bg: #44475a;
+  --card-text: #f8f8f2;
+  --card-secondary: #bfbfbf;
+  --accent: #bd93f9;
+  --accent-hover: #ff79c6;
+  --divider: #6272a4;
+  --icon-fill: #f8f8f2;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* =====================================================
+   NORD THEME
+   ===================================================== */
+
+/* Nord Light (Snow Storm) */
+[data-color-theme="nord-light"] {
+  --bg-primary: #eceff4;
+  --bg-secondary: #e5e9f0;
+  --bg-tertiary: #d8dee9;
+  --bg-card: #e5e9f0;
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --search-bg: #3b4252;
+  --search-text: #eceff4;
+  --search-placeholder: rgba(236, 239, 244, 0.6);
+  --text-primary: #2e3440;
+  --text-secondary: #4c566a;
+  --text-tertiary: #5e6779;
+  --text-inverse: #eceff4;
+  --border-color: #d8dee9;
+  --border-light: #e5e9f0;
+  --btn-bg: #e5e9f0;
+  --btn-border: #d8dee9;
+  --btn-hover: #d8dee9;
+  --card-bg: #e5e9f0;
+  --card-text: #2e3440;
+  --card-secondary: #4c566a;
+  --accent: #5e81ac;
+  --accent-hover: #81a1c1;
+  --divider: #d8dee9;
+  --icon-fill: #2e3440;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Nord Dark (Polar Night) */
+[data-color-theme="nord-dark"] {
+  --bg-primary: #2e3440;
+  --bg-secondary: #3b4252;
+  --bg-tertiary: #434c5e;
+  --bg-card: #3b4252;
+  --bg-hover: rgba(255, 255, 255, 0.06);
+  --search-bg: #434c5e;
+  --search-text: #eceff4;
+  --search-placeholder: rgba(236, 239, 244, 0.6);
+  --text-primary: #eceff4;
+  --text-secondary: #d8dee9;
+  --text-tertiary: #4c566a;
+  --text-inverse: #2e3440;
+  --border-color: #4c566a;
+  --border-light: #434c5e;
+  --btn-bg: #434c5e;
+  --btn-border: #4c566a;
+  --btn-hover: rgba(255, 255, 255, 0.08);
+  --card-bg: #3b4252;
+  --card-text: #eceff4;
+  --card-secondary: #d8dee9;
+  --accent: #88c0d0;
+  --accent-hover: #8fbcbb;
+  --divider: #4c566a;
+  --icon-fill: #eceff4;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* =====================================================
+   CATPPUCCIN THEME
+   ===================================================== */
+
+/* Catppuccin Latte (Light) */
+[data-color-theme="catppuccin-light"] {
+  --bg-primary: #eff1f5;
+  --bg-secondary: #e6e9ef;
+  --bg-tertiary: #dce0e8;
+  --bg-card: #e6e9ef;
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --search-bg: #4c4f69;
+  --search-text: #eff1f5;
+  --search-placeholder: rgba(239, 241, 245, 0.6);
+  --text-primary: #4c4f69;
+  --text-secondary: #6c6f85;
+  --text-tertiary: #8c8fa1;
+  --text-inverse: #eff1f5;
+  --border-color: #ccd0da;
+  --border-light: #dce0e8;
+  --btn-bg: #e6e9ef;
+  --btn-border: #ccd0da;
+  --btn-hover: #dce0e8;
+  --card-bg: #e6e9ef;
+  --card-text: #4c4f69;
+  --card-secondary: #6c6f85;
+  --accent: #8839ef;
+  --accent-hover: #7287fd;
+  --divider: #ccd0da;
+  --icon-fill: #4c4f69;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Catppuccin Mocha (Dark) */
+[data-color-theme="catppuccin-dark"] {
+  --bg-primary: #1e1e2e;
+  --bg-secondary: #262637;
+  --bg-tertiary: #313244;
+  --bg-card: #262637;
+  --bg-hover: rgba(255, 255, 255, 0.06);
+  --search-bg: #313244;
+  --search-text: #cdd6f4;
+  --search-placeholder: rgba(205, 214, 244, 0.6);
+  --text-primary: #cdd6f4;
+  --text-secondary: #bac2de;
+  --text-tertiary: #6c7086;
+  --text-inverse: #1e1e2e;
+  --border-color: #45475a;
+  --border-light: #313244;
+  --btn-bg: #313244;
+  --btn-border: #45475a;
+  --btn-hover: rgba(255, 255, 255, 0.08);
+  --card-bg: #313244;
+  --card-text: #cdd6f4;
+  --card-secondary: #bac2de;
+  --accent: #cba6f7;
+  --accent-hover: #f5c2e7;
+  --divider: #45475a;
+  --icon-fill: #cdd6f4;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* =====================================================
+   SOLARIZED THEME
+   ===================================================== */
+
+/* Solarized Light */
+[data-color-theme="solarized-light"] {
+  --bg-primary: #fdf6e3;
+  --bg-secondary: #eee8d5;
+  --bg-tertiary: #e4ddc8;
+  --bg-card: #eee8d5;
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --search-bg: #073642;
+  --search-text: #fdf6e3;
+  --search-placeholder: rgba(253, 246, 227, 0.6);
+  --text-primary: #657b83;
+  --text-secondary: #839496;
+  --text-tertiary: #93a1a1;
+  --text-inverse: #fdf6e3;
+  --border-color: #d3cbb5;
+  --border-light: #eee8d5;
+  --btn-bg: #eee8d5;
+  --btn-border: #d3cbb5;
+  --btn-hover: #e4ddc8;
+  --card-bg: #eee8d5;
+  --card-text: #657b83;
+  --card-secondary: #839496;
+  --accent: #268bd2;
+  --accent-hover: #2aa198;
+  --divider: #d3cbb5;
+  --icon-fill: #657b83;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Solarized Dark */
+[data-color-theme="solarized-dark"] {
+  --bg-primary: #002b36;
+  --bg-secondary: #073642;
+  --bg-tertiary: #094150;
+  --bg-card: #073642;
+  --bg-hover: rgba(255, 255, 255, 0.06);
+  --search-bg: #094150;
+  --search-text: #fdf6e3;
+  --search-placeholder: rgba(253, 246, 227, 0.6);
+  --text-primary: #839496;
+  --text-secondary: #93a1a1;
+  --text-tertiary: #586e75;
+  --text-inverse: #002b36;
+  --border-color: #094150;
+  --border-light: #073642;
+  --btn-bg: #094150;
+  --btn-border: #586e75;
+  --btn-hover: rgba(255, 255, 255, 0.08);
+  --card-bg: #073642;
+  --card-text: #839496;
+  --card-secondary: #93a1a1;
+  --accent: #268bd2;
+  --accent-hover: #2aa198;
+  --divider: #094150;
+  --icon-fill: #839496;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* =====================================================
+   MONOKAI THEME
+   ===================================================== */
+
+/* Monokai Light */
+[data-color-theme="monokai-light"] {
+  --bg-primary: #fafafa;
+  --bg-secondary: #f0f0f0;
+  --bg-tertiary: #e5e5e5;
+  --bg-card: #f0f0f0;
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --search-bg: #3e3d32;
+  --search-text: #f8f8f2;
+  --search-placeholder: rgba(248, 248, 242, 0.6);
+  --text-primary: #272822;
+  --text-secondary: #49483e;
+  --text-tertiary: #75715e;
+  --text-inverse: #f8f8f2;
+  --border-color: #d5d5d5;
+  --border-light: #e5e5e5;
+  --btn-bg: #f0f0f0;
+  --btn-border: #d5d5d5;
+  --btn-hover: #e5e5e5;
+  --card-bg: #f0f0f0;
+  --card-text: #272822;
+  --card-secondary: #49483e;
+  --accent: #a6e22e;
+  --accent-hover: #e6db74;
+  --divider: #d5d5d5;
+  --icon-fill: #272822;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Monokai Dark */
+[data-color-theme="monokai-dark"] {
+  --bg-primary: #272822;
+  --bg-secondary: #2d2e27;
+  --bg-tertiary: #3e3d32;
+  --bg-card: #2d2e27;
+  --bg-hover: rgba(255, 255, 255, 0.06);
+  --search-bg: #3e3d32;
+  --search-text: #f8f8f2;
+  --search-placeholder: rgba(248, 248, 242, 0.6);
+  --text-primary: #f8f8f2;
+  --text-secondary: #cfcfc2;
+  --text-tertiary: #75715e;
+  --text-inverse: #272822;
+  --border-color: #3e3d32;
+  --border-light: #2d2e27;
+  --btn-bg: #3e3d32;
+  --btn-border: #75715e;
+  --btn-hover: rgba(255, 255, 255, 0.08);
+  --card-bg: #3e3d32;
+  --card-text: #f8f8f2;
+  --card-secondary: #cfcfc2;
+  --accent: #a6e22e;
+  --accent-hover: #e6db74;
+  --divider: #49483e;
+  --icon-fill: #f8f8f2;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* =====================================================
+   GLOBAL STYLES
+   ===================================================== */
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: white;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+a {
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-hover);
 }
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid var(--btn-border);
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--btn-bg);
+  color: var(--text-primary);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.2s ease;
 }
 
 button:hover {
-  border-color: #646cff;
+  background-color: var(--btn-hover);
 }
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-
-  a:hover {
-    color: #747bff;
-  }
-
-  button {
-    background-color: #f9f9f9;
-  }
+/* 平滑过渡 */
+.spPage,
+.stPage,
+.acPage,
+.spTopbar,
+.spIconBtn,
+.spSearchWrap,
+.leftPane,
+.rightPane,
+.remoteItem,
+.localItem {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }

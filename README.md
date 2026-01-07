@@ -164,7 +164,7 @@ npm install
 
 ### 2. 安装 MongoDB
 
-**macOS (Homebrew):**
+**macOS (Homebrew):没有homebrew**
 ```bash
 brew tap mongodb/brew
 brew install mongodb-community

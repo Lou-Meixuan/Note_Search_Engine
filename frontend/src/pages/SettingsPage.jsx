@@ -1,18 +1,31 @@
+/**
+ * SettingsPage.jsx - 设置页面
+ * 
+ * Modified by: C (Cheng)
+ * Date: 2026-01-07
+ * 
+ * 修改记录:
+ * - C: 添加多语言支持，可选择 7 种语言
+ * - C: 分离 Light/Dark 模式和颜色主题选择
+ */
+
 import { Link } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import { useLanguage } from "../context/LanguageContext";
+import { useColorTheme } from "../context/ColorThemeContext";
 import "./SettingsPage.css";
 
 const LS_KEY = "nse_settings_v1";
 
 const DEFAULT_SETTINGS = {
-    accent: "orange", // orange | blue | green | purple | mono
-    language: "en",   // en | zh
     layout: "split",  // split | focusRemote | focusLocal
 };
 
 export default function SettingsPage() {
     const [settings, setSettings] = useState(DEFAULT_SETTINGS);
     const [savedMsg, setSavedMsg] = useState("");
+    const { language, setLanguage, t, languages } = useLanguage();
+    const { mode, setMode, theme, setTheme, themes, isDark } = useColorTheme();
 
     // load
     useEffect(() => {
@@ -26,30 +39,13 @@ export default function SettingsPage() {
         }
     }, []);
 
-    // save + apply theme variables
+    // save
     useEffect(() => {
         localStorage.setItem(LS_KEY, JSON.stringify(settings));
-        applyTheme(settings.accent);
     }, [settings]);
 
-    const palette = useMemo(
-        () => ({
-            orange: { name: "Orange", value: "#d86a3a" },
-            blue: { name: "Blue", value: "#2e6ee6" },
-            green: { name: "Green", value: "#2e9b77" },
-            purple: { name: "Purple", value: "#7c4dff" },
-            mono: { name: "Mono", value: "#111111" },
-        }),
-        []
-    );
-
-    function applyTheme(accent) {
-        const color = palette[accent]?.value || palette.orange.value;
-        document.documentElement.style.setProperty("--accent", color);
-    }
-
     function saveToast() {
-        setSavedMsg("Saved ✔");
+        setSavedMsg(t("saved"));
         window.clearTimeout(saveToast._t);
         saveToast._t = window.setTimeout(() => setSavedMsg(""), 1200);
     }
@@ -59,11 +55,26 @@ export default function SettingsPage() {
         saveToast();
     }
 
+    function handleLanguageChange(langCode) {
+        setLanguage(langCode);
+        saveToast();
+    }
+
+    function handleModeChange(newMode) {
+        setMode(newMode);
+        saveToast();
+    }
+
+    function handleThemeChange(themeId) {
+        setTheme(themeId);
+        saveToast();
+    }
+
     return (
         <div className="stPage">
             <header className="stTopbar">
                 <div className="stLeft">
-                    <Link className="stIconBtn" to="/" aria-label="Home">
+                    <Link className="stIconBtn" to="/" aria-label={t("home")}>
                         <svg viewBox="0 0 24 24" className="stIcon">
                             <path d="M12 3l9 8h-3v10h-5v-6H11v6H6V11H3l9-8z" />
                         </svg>
@@ -71,17 +82,17 @@ export default function SettingsPage() {
                 </div>
 
                 <div className="stCenter">
-                    <div className="stTitle">Settings</div>
+                    <div className="stTitle">{t("settingsTitle")}</div>
                     {savedMsg ? <div className="stSaved">{savedMsg}</div> : null}
                 </div>
 
                 <div className="stRight">
-                    <Link className="stIconBtn" to="/search" aria-label="Search">
+                    <Link className="stIconBtn" to="/" aria-label={t("search")}>
                         <svg viewBox="0 0 24 24" className="stIcon">
                             <path d="M10 4a6 6 0 104.472 10.03l4.249 4.248 1.414-1.414-4.248-4.249A6 6 0 0010 4zm0 2a4 4 0 110 8 4 4 0 010-8z" />
                         </svg>
                     </Link>
-                    <Link className="stIconBtn" to="/account" aria-label="Account">
+                    <Link className="stIconBtn" to="/account" aria-label={t("account")}>
                         <svg viewBox="0 0 24 24" className="stIcon">
                             <path d="M12 12a4 4 0 10-4-4 4 4 0 004 4zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z" />
                         </svg>
@@ -90,71 +101,111 @@ export default function SettingsPage() {
             </header>
 
             <main className="stBody">
+                {/* Light/Dark Mode */}
                 <div className="stCard">
-                    <div className="stCardTitle">Theme Color (accent)</div>
+                    <div className="stCardTitle">🌓 {t("appearance") || "Appearance"}</div>
                     <div className="stRow">
-                        {Object.entries(palette).map(([key, info]) => (
+                        <button
+                            className={`stPill ${mode === "light" ? "isActive" : ""}`}
+                            onClick={() => handleModeChange("light")}
+                        >
+                            ☀️ {t("lightMode")}
+                        </button>
+                        <button
+                            className={`stPill ${mode === "dark" ? "isActive" : ""}`}
+                            onClick={() => handleModeChange("dark")}
+                        >
+                            🌙 {t("darkMode")}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Color Theme Presets */}
+                <div className="stCard">
+                    <div className="stCardTitle">🎨 {t("colorTheme") || "Color Theme"}</div>
+                    <div className="stHint">
+                        {isDark 
+                            ? (t("darkThemesHint") || "Dark themes") 
+                            : (t("lightThemesHint") || "Light themes")}
+                    </div>
+                    
+                    <div className="stThemeGrid">
+                        {themes.map((themeGroup) => {
+                            const preview = isDark ? themeGroup.darkPreview : themeGroup.lightPreview;
+                            return (
+                                <button
+                                    key={themeGroup.id}
+                                    className={`stThemeCard ${theme === themeGroup.id ? "isActive" : ""}`}
+                                    onClick={() => handleThemeChange(themeGroup.id)}
+                                >
+                                    <div className="stThemePreview">
+                                        <div 
+                                            className="stThemePreviewBg" 
+                                            style={{ background: preview.bg }}
+                                        >
+                                            <div 
+                                                className="stThemePreviewCard"
+                                                style={{ background: preview.card }}
+                                            />
+                                            <div 
+                                                className="stThemePreviewAccent"
+                                                style={{ background: preview.accent }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="stThemeName">{themeGroup.name}</div>
+                                    <div className="stThemeNameZh">{themeGroup.nameZh}</div>
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Language */}
+                <div className="stCard">
+                    <div className="stCardTitle">🌐 {t("language")}</div>
+                    <div className="stLanguageGrid">
+                        {languages.map((lang) => (
                             <button
-                                key={key}
-                                className={`stSwatch ${settings.accent === key ? "isActive" : ""}`}
-                                onClick={() => update({ accent: key })}
-                                title={info.name}
+                                key={lang.code}
+                                className={`stLanguageBtn ${language === lang.code ? "isActive" : ""}`}
+                                onClick={() => handleLanguageChange(lang.code)}
                             >
-                                <span className="stDot" style={{ background: info.value }} />
-                                <span className="stLabel">{info.name}</span>
+                                <span className="stLangNative">{lang.nativeName}</span>
+                                <span className="stLangName">{lang.name}</span>
                             </button>
                         ))}
                     </div>
                 </div>
 
+                {/* Layout Preference */}
                 <div className="stCard">
-                    <div className="stCardTitle">Language (语言)</div>
-                    <div className="stRow">
-                        <button
-                            className={`stPill ${settings.language === "en" ? "isActive" : ""}`}
-                            onClick={() => update({ language: "en" })}
-                        >
-                            English (EN)
-                        </button>
-                        <button
-                            className={`stPill ${settings.language === "zh" ? "isActive" : ""}`}
-                            onClick={() => update({ language: "zh" })}
-                        >
-                            中文 (ZH)
-                        </button>
-                    </div>
-                    <div className="stHint">目前只是保存偏好；后面你可以接 i18n（internationalization）</div>
-                </div>
-
-                <div className="stCard">
-                    <div className="stCardTitle">Layout Preference (布局)</div>
+                    <div className="stCardTitle">📐 {t("layoutPreference")}</div>
                     <div className="stRow">
                         <button
                             className={`stPill ${settings.layout === "split" ? "isActive" : ""}`}
                             onClick={() => update({ layout: "split" })}
                         >
-                            Split View
+                            {t("splitView")}
                         </button>
                         <button
                             className={`stPill ${settings.layout === "focusRemote" ? "isActive" : ""}`}
                             onClick={() => update({ layout: "focusRemote" })}
                         >
-                            Focus Remote
+                            {t("focusRemote")}
                         </button>
                         <button
                             className={`stPill ${settings.layout === "focusLocal" ? "isActive" : ""}`}
                             onClick={() => update({ layout: "focusLocal" })}
                         >
-                            Focus Local
+                            {t("focusLocal")}
                         </button>
-                    </div>
-                    <div className="stHint">
-                        你之后可以在 SearchPage 读取这个值，控制默认 scope / 默认分屏比例。
                     </div>
                 </div>
 
+                {/* Danger Zone */}
                 <div className="stCard">
-                    <div className="stCardTitle">Danger Zone</div>
+                    <div className="stCardTitle">⚠️ {t("dangerZone")}</div>
                     <div className="stRow">
                         <button
                             className="stDanger"
@@ -164,10 +215,10 @@ export default function SettingsPage() {
                                 saveToast();
                             }}
                         >
-                            Reset to Default
+                            {t("resetDefault")}
                         </button>
                     </div>
-                    <div className="stHint">清空本地配置（localStorage）并恢复默认设置</div>
+                    <div className="stHint">{t("resetHint")}</div>
                 </div>
             </main>
         </div>
