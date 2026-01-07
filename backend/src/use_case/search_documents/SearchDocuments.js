@@ -1,7 +1,8 @@
 /**
  * SearchDocuments Use Case - Hybrid Search (BM25 + Embedding)
  * 
- * 负责人: C
+ * Created by: C
+ * Date: 2026-01-06
  * 
  * 【Hybrid Search 原理】
  * 最终分数 = α × BM25_score + (1-α) × Embedding_similarity

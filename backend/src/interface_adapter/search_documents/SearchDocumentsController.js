@@ -1,6 +1,9 @@
 /**
  * SearchDocumentsController
  * 
+ * Created by: C
+ * Date: 2026-01-06
+ * 
  * 【Clean Architecture - Interface Adapters Layer】
  * Controller 的职责:
  * 1. 接收 HTTP 请求参数
