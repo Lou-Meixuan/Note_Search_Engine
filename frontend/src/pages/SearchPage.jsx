@@ -313,17 +313,16 @@ export default function SearchPage() {
                         aria-label={isDark ? t("switchToLight") : t("switchToDark")}
                         title={isDark ? t("lightMode") : t("darkMode")}
                     >
-                        <svg viewBox="0 0 24 24" className="spIcon">
-                            {isDark ? (
-                                /* Sun icon - simple filled */
-                                <>
-                                    <path d="M12 18.5a6.5 6.5 0 116.5-6.5 6.51 6.51 0 01-6.5 6.5zm0-11A4.5 4.5 0 1016.5 12 4.51 4.51 0 0012 7.5zM11 1h2v3h-2zm0 19h2v3h-2zM1 11h3v2H1zm19 0h3v2h-3zM4.22 5.64l1.42-1.42 2.12 2.12-1.42 1.42zM16.24 17.66l1.42-1.42 2.12 2.12-1.42 1.42zM18.36 4.22l1.42 1.42-2.12 2.12-1.42-1.42zM6.34 16.24l1.42 1.42-2.12 2.12-1.42-1.42z" />
-                                </>
-                            ) : (
-                                /* Moon icon - simple filled crescent */
-                                <path d="M21 14.61A8.5 8.5 0 019.39 3a.9.9 0 00-1.05 1.05A6.7 6.7 0 0019 14.66.9.9 0 0019.95 13.6a8.38 8.38 0 01.05 1.01zM12 20.5A7.5 7.5 0 018.06 6.3 8.7 8.7 0 0017.7 15.94 7.48 7.48 0 0112 20.5z" />
-                            )}
-                        </svg>
+                        {isDark ? (
+                            // Sun icon (solid, centered)
+                            <svg viewBox="0 0 24 24" className="spIcon" aria-hidden="true">
+                                <path d="M12 18a6 6 0 116-6 6 6 0 01-6 6zm0-10a4 4 0 104 4 4 4 0 00-4-4zM11 2h2v3h-2zm0 17h2v3h-2zM2 11h3v2H2zm17 0h3v2h-3zM4.22 5.64l1.42-1.42 2.12 2.12-1.42 1.42zM16.24 17.66l1.42-1.42 2.12 2.12-1.42 1.42zM18.36 4.22l1.42 1.42-2.12 2.12-1.42-1.42zM6.34 16.24l1.42 1.42-2.12 2.12-1.42-1.42z" />
+                            </svg>
+                        ) : (
+                            // Moon icon (clean crescent, centered)
+                            <svg viewBox="0 0 24 24" className="spIcon" aria-hidden="true">
+                                <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />                            </svg>
+                        )}
                     </button>
 
                     <Link className="spIconBtn" to="/settings" aria-label={t("settings")}>
