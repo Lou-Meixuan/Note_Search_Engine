@@ -1,3 +1,19 @@
+/**
+ * UploadModal.jsx - 文件上传模态框组件
+ * 
+ * Created by: C
+ * Date: 2026-01-07
+ * 
+ * 功能:
+ * - 支持拖拽上传文件
+ * - 支持点击 "Browse Files" 按钮选择文件
+ * - 支持 txt, md, pdf, docx 格式
+ * 
+ * 修改记录:
+ * - C: 修复 Browse Files 按钮无法触发文件选择器的问题
+ *      解决方案: 使用 <label> 包裹 <input type="file">，利用原生 HTML 行为
+ */
+
 import { useState } from "react";
 import "./UploadModal.css";
 
@@ -146,7 +162,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
                                         onChange={(e) => handleFileChange(e.target.files[0])}
                                         accept=".txt,.md,.pdf,.docx"
                                         disabled={uploading}
-                                        hidden
+                                        className="hiddenFileInput"
                                     />
                                 </label>
                                 <small className="supportedTypes">Supported: {supportedTypes}</small>
