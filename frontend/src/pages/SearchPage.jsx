@@ -15,6 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useColorTheme } from "../context/ColorThemeContext";
 import { useLanguage } from "../context/LanguageContext";
 import UploadModal from "../components/UploadModal";
+import CreateDocumentModal from "../components/CreateDocumentModal";
 import "./SearchPage.css";
 
 /**
@@ -39,6 +40,19 @@ export default function SearchPage() {
 
     const [scopeOpen, setScopeOpen] = useState(false);
     const [uploadModalOpen, setUploadModalOpen] = useState(false);
+    const [createModalOpen, setCreateModalOpen] = useState(false);
+    const [newMenuOpen, setNewMenuOpen] = useState(false);
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (newMenuOpen && !e.target.closest('.spNewBtnContainer')) {
+                setNewMenuOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [newMenuOpen]);
 
     // ---- mock data (UI first) ----
     const mockRemote = useMemo(
@@ -213,12 +227,23 @@ export default function SearchPage() {
         navigate(`/document/${uploadResult.documentId}`);
     };
 
+    const handleCreateSuccess = (createResult) => {
+        console.log("Create successful:", createResult);
+        fetchLocalDocuments();
+        navigate(`/document/${createResult.documentId}`);
+    };
+
     return (
         <div className="spPage">
             <UploadModal
                 isOpen={uploadModalOpen}
                 onClose={() => setUploadModalOpen(false)}
                 onUploadSuccess={handleUploadSuccess}
+            />
+            <CreateDocumentModal
+                isOpen={createModalOpen}
+                onClose={() => setCreateModalOpen(false)}
+                onCreateSuccess={handleCreateSuccess}
             />
             {/* Top Bar */}
             <header className="spTopbar">
@@ -374,14 +399,45 @@ export default function SearchPage() {
                             <span className="spPanelTitle">{t("local")}</span>
                             <span className="spPanelHint">{t("localHint")}</span>
                         </div>
-                        <button
-                            className="spAddBtn"
-                            onClick={() => setUploadModalOpen(true)}
-                            aria-label={t("upload")}
-                            title={t("upload")}
-                        >
-                            {t("newDocument")}
-                        </button>
+                        <div className="spNewBtnContainer">
+                            <button
+                                className="spAddBtn"
+                                onClick={() => setNewMenuOpen(!newMenuOpen)}
+                                aria-label="New Document"
+                                title="New Document"
+                            >
+                                + New
+                            </button>
+                            {newMenuOpen && (
+                                <div className="spNewMenu">
+                                    <button
+                                        className="spNewMenuItem"
+                                        onClick={() => {
+                                            setNewMenuOpen(false);
+                                            setCreateModalOpen(true);
+                                        }}
+                                    >
+                                        <svg viewBox="0 0 24 24" className="spNewMenuIcon">
+                                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm4 18H6V4h7v5h5v11z" fill="currentColor"/>
+                                            <path d="M13 13h-2v-2H9v2H7v2h2v2h2v-2h2v-2z" fill="currentColor"/>
+                                        </svg>
+                                        Create New
+                                    </button>
+                                    <button
+                                        className="spNewMenuItem"
+                                        onClick={() => {
+                                            setNewMenuOpen(false);
+                                            setUploadModalOpen(true);
+                                        }}
+                                    >
+                                        <svg viewBox="0 0 24 24" className="spNewMenuIcon">
+                                            <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" fill="currentColor"/>
+                                        </svg>
+                                        Upload File
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     <div className="spGrid">

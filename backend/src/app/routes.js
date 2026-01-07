@@ -11,6 +11,7 @@
 const { SearchDocumentsController } = require("../interface_adapter/search_documents/SearchDocumentsController");
 const IngestLocalDocumentController = require("../interface_adapter/ingest_local_document/IngestLocalDocumentController");
 const DeleteDocumentController = require("../interface_adapter/delete_document/DeleteDocumentController");
+const UpdateDocumentController = require("../interface_adapter/update_document/UpdateDocumentController");
 const { searchGoogle, isConfigured: isGoogleConfigured } = require("../data_access/GoogleSearchService");
 const multer = require("multer");
 
@@ -94,6 +95,11 @@ function registerRoutes(app) {
 
     app.delete("/documents/:id", async (req, res) => {
         const controller = new DeleteDocumentController();
+        await controller.handle(req, res);
+    });
+
+    app.put("/documents/:id", async (req, res) => {
+        const controller = new UpdateDocumentController();
         await controller.handle(req, res);
     });
 
