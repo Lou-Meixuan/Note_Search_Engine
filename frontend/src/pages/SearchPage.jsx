@@ -1,3 +1,15 @@
+/**
+ * SearchPage.jsx - 搜索页面主组件
+ * 
+ * Modified by: C
+ * Date: 2026-01-07
+ * 
+ * 修改记录:
+ * - C: 修改 doSearch 函数，正确处理后端返回的搜索结果格式
+ *      - 后端返回: { results: [...], totalResults, query, scope }
+ *      - 将 local 搜索结果按分数排序并显示百分比
+ */
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UploadModal from "../components/UploadModal";
@@ -88,8 +100,12 @@ export default function SearchPage() {
         setError("");
         const trimmed = q.trim();
 
-        // 空 query 也允许：你可以选择直接 return
-        // if (!trimmed) return;
+        // 空 query: 重置为默认状态
+        if (!trimmed) {
+            fetchLocalDocuments();
+            setData((prev) => ({ ...prev, remote: mockRemote }));
+            return;
+        }
 
         try {
             const res = await fetch(
@@ -104,17 +120,38 @@ export default function SearchPage() {
             }
 
             const json = await res.json();
+            console.log("[Search] Results:", json);
 
-            // 兼容不同后端返回：你可以改成你自己的字段
-            // 期望：{ remote: [...], local: [...] }
-            const remote = Array.isArray(json.remote) ? json.remote : Array.isArray(json.results) ? json.results : [];
+            // 后端返回格式: { results: [...], totalResults, query, scope }
+            const searchResults = Array.isArray(json.results) ? json.results : [];
 
-            // Keep local documents unchanged
-            setData((prev) => ({
-                remote: remote.length ? remote : mockRemote,
-                local: prev.local,
-            }));
+            // 转换搜索结果为 Local tile 格式，并按分数排序
+            const localResults = searchResults
+                .filter(r => r.source === 'local')
+                .map(r => ({
+                    id: r.docId,
+                    name: `${r.title} (${(r.score * 100).toFixed(0)}%)`,
+                    type: 'file',
+                    fileType: r.fileType,
+                    score: r.score,
+                    snippet: r.snippet,
+                }));
+
+            // Remote 搜索结果
+            const remoteResults = searchResults
+                .filter(r => r.source === 'remote')
+                .map(r => ({
+                    title: r.title,
+                    url: r.url || '#',
+                    snippet: r.snippet,
+                }));
+
+            setData({
+                remote: remoteResults.length ? remoteResults : mockRemote,
+                local: localResults.length ? localResults : [],
+            });
         } catch (e) {
+            console.error("[Search] Error:", e);
             setError(String(e?.message || e));
             setData((prev) => ({ remote: mockRemote, local: prev.local }));
         }

@@ -1,3 +1,13 @@
+/**
+ * UploadModal.css - 文件上传模态框样式
+ * 
+ * Created by: C
+ * Date: 2026-01-07
+ * 
+ * 修改记录:
+ * - C: 添加 .hiddenFileInput 样式，用于隐藏文件输入框但保持可访问性
+ */
+
 /* Modal Overlay */
 .modalOverlay {
     position: fixed;
@@ -104,7 +114,6 @@
     text-align: center;
     background: #fafafa;
     transition: all 0.3s;
-    cursor: pointer;
 }
 
 .dropZone.dragActive {
@@ -147,10 +156,28 @@
     font-weight: 600;
     transition: background 0.3s;
     margin: 0.75rem 0;
+    border: none;
+    font-size: 0.95rem;
 }
 
 .fileSelectBtn:hover {
     background: #000;
+}
+
+/* 隐藏文件输入框 - 使用 label 包裹方式 */
+.fileSelectBtn input[type="file"],
+.hiddenFileInput {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .supportedTypes {
