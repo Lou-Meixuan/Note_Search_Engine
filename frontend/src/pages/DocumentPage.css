@@ -77,6 +77,113 @@
     box-shadow: none !important;
 }
 
+/* Toolbar actions group */
+.toolbarActions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.editButton {
+    background-color: transparent !important;
+    background: transparent !important;
+    color: #333333;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    cursor: pointer;
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    margin: 0;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.editButton:hover {
+    color: #666666;
+    background-color: transparent !important;
+    background: transparent !important;
+    border-color: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.editButton:focus,
+.editButton:focus-visible {
+    color: #333333;
+    background-color: transparent !important;
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.editButton:active {
+    color: #000000;
+    background-color: transparent !important;
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.previewButton {
+    background-color: transparent !important;
+    background: transparent !important;
+    color: #333333;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    cursor: pointer;
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    margin: 0;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.previewButton:hover {
+    color: #666666;
+    background-color: transparent !important;
+    background: transparent !important;
+    border-color: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.previewButton:focus,
+.previewButton:focus-visible {
+    color: #333333;
+    background-color: transparent !important;
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.previewButton:active {
+    color: #000000;
+    background-color: transparent !important;
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 .deleteButton {
     background-color: transparent !important;
     background: transparent !important;
@@ -332,6 +439,123 @@
     border: 1px solid #e5e5e5;
     border-radius: 8px;
     background: #fafafa;
+}
+
+/* Markdown preview */
+.markdownPreview {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: #1f2937;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.markdownPreview h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 2rem 0 1rem 0;
+    line-height: 1.2;
+    color: #111;
+}
+
+.markdownPreview h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 1.75rem 0 0.75rem 0;
+    line-height: 1.3;
+    color: #111;
+}
+
+.markdownPreview h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.5rem 0;
+    line-height: 1.4;
+    color: #111;
+}
+
+.markdownPreview p {
+    margin: 1rem 0;
+}
+
+.markdownPreview ul,
+.markdownPreview ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.markdownPreview li {
+    margin: 0.5rem 0;
+}
+
+.markdownPreview code {
+    background: #f3f4f6;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.9rem;
+    color: #d63384;
+}
+
+.markdownPreview pre {
+    background: #f3f4f6;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+.markdownPreview pre code {
+    background: transparent;
+    padding: 0;
+    color: #1f2937;
+}
+
+.markdownPreview blockquote {
+    border-left: 4px solid #e5e5e5;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    color: #666;
+    font-style: italic;
+}
+
+.markdownPreview a {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.markdownPreview a:hover {
+    color: #1d4ed8;
+}
+
+.markdownPreview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.markdownPreview table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+}
+
+.markdownPreview table th,
+.markdownPreview table td {
+    border: 1px solid #e5e5e5;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.markdownPreview table th {
+    background: #f3f4f6;
+    font-weight: 600;
+}
+
+.markdownPreview hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 2rem 0;
 }
 
 /* Responsive */
