@@ -1,17 +1,19 @@
 /**
  * SearchPage.jsx - 搜索页面主组件
  * 
- * Modified by: C
+ * Modified by: C (Cheng)
  * Date: 2026-01-07
  * 
  * 修改记录:
  * - C: 修改 doSearch 函数，正确处理后端返回的搜索结果格式
- *      - 后端返回: { results: [...], totalResults, query, scope }
- *      - 将 local 搜索结果按分数排序并显示百分比
+ * - C: 添加 Dark Mode 切换按钮
+ * - C: 添加多语言支持
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useColorTheme } from "../context/ColorThemeContext";
+import { useLanguage } from "../context/LanguageContext";
 import UploadModal from "../components/UploadModal";
 import "./SearchPage.css";
 
@@ -27,6 +29,8 @@ export default function SearchPage() {
     const [data, setData] = useState({ remote: [], local: [] });
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const { isDark, toggleMode } = useColorTheme();
+    const { t } = useLanguage();
 
     // split view ratio: left panel width percentage
     const [leftPct, setLeftPct] = useState(52);
@@ -234,7 +238,7 @@ export default function SearchPage() {
                             value={q}
                             onChange={(e) => setQ(e.target.value)}
                             onKeyDown={onKeyDown}
-                            placeholder="Search your notes..."
+                            placeholder={t("searchPlaceholder")}
                         />
 
                         {/* scope dropdown */}
@@ -244,7 +248,24 @@ export default function SearchPage() {
                                 onClick={() => setScopeOpen((v) => !v)}
                                 aria-label="Scope"
                             >
-                                <svg viewBox="0 0 24 24" className="spIcon">
+                                {/* Scope icon based on current selection */}
+                                {scope === "remote" && (
+                                    <svg viewBox="0 0 24 24" className="spScopeIcon">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                                    </svg>
+                                )}
+                                {scope === "local" && (
+                                    <svg viewBox="0 0 24 24" className="spScopeIcon">
+                                        <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
+                                    </svg>
+                                )}
+                                {scope === "all" && (
+                                    <svg viewBox="0 0 24 24" className="spScopeIcon">
+                                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                                    </svg>
+                                )}
+                                {/* Dropdown arrow */}
+                                <svg viewBox="0 0 24 24" className="spScopeArrow">
                                     <path d="M7 10l5 5 5-5H7z" />
                                 </svg>
                             </button>
@@ -253,7 +274,7 @@ export default function SearchPage() {
                                 <div className="spScopeMenu" role="menu">
                                     <ScopeItem
                                         active={scope === "remote"}
-                                        label="找全网 (remote)"
+                                        label={t("scopeRemote")}
                                         onClick={() => {
                                             setScope("remote");
                                             setScopeOpen(false);
@@ -262,7 +283,7 @@ export default function SearchPage() {
                                     />
                                     <ScopeItem
                                         active={scope === "local"}
-                                        label="找本地 (local)"
+                                        label={t("scopeLocal")}
                                         onClick={() => {
                                             setScope("local");
                                             setScopeOpen(false);
@@ -271,7 +292,7 @@ export default function SearchPage() {
                                     />
                                     <ScopeItem
                                         active={scope === "all"}
-                                        label="找全部 (all)"
+                                        label={t("scopeAll")}
                                         onClick={() => {
                                             setScope("all");
                                             setScopeOpen(false);
@@ -285,14 +306,34 @@ export default function SearchPage() {
                 </div>
 
                 <div className="spRight">
-                    <Link className="spIconBtn" to="/settings" aria-label="Settings">
+                    {/* Theme Toggle Button */}
+                    <button
+                        className="spIconBtn spThemeBtn"
+                        onClick={toggleMode}
+                        aria-label={isDark ? t("switchToLight") : t("switchToDark")}
+                        title={isDark ? t("lightMode") : t("darkMode")}
+                    >
+                        <svg viewBox="0 0 24 24" className="spIcon">
+                            {isDark ? (
+                                /* Sun icon - simple filled */
+                                <>
+                                    <path d="M12 18.5a6.5 6.5 0 116.5-6.5 6.51 6.51 0 01-6.5 6.5zm0-11A4.5 4.5 0 1016.5 12 4.51 4.51 0 0012 7.5zM11 1h2v3h-2zm0 19h2v3h-2zM1 11h3v2H1zm19 0h3v2h-3zM4.22 5.64l1.42-1.42 2.12 2.12-1.42 1.42zM16.24 17.66l1.42-1.42 2.12 2.12-1.42 1.42zM18.36 4.22l1.42 1.42-2.12 2.12-1.42-1.42zM6.34 16.24l1.42 1.42-2.12 2.12-1.42-1.42z" />
+                                </>
+                            ) : (
+                                /* Moon icon - simple filled crescent */
+                                <path d="M21 14.61A8.5 8.5 0 019.39 3a.9.9 0 00-1.05 1.05A6.7 6.7 0 0019 14.66.9.9 0 0019.95 13.6a8.38 8.38 0 01.05 1.01zM12 20.5A7.5 7.5 0 018.06 6.3 8.7 8.7 0 0017.7 15.94 7.48 7.48 0 0112 20.5z" />
+                            )}
+                        </svg>
+                    </button>
+
+                    <Link className="spIconBtn" to="/settings" aria-label={t("settings")}>
                         {/* gear */}
                         <svg viewBox="0 0 24 24" className="spIcon">
                             <path d="M19.14 12.94a7.43 7.43 0 000-1.88l2.03-1.58-1.92-3.32-2.39.96a7.27 7.27 0 00-1.63-.95l-.36-2.54H9.13l-.36 2.54c-.57.22-1.12.54-1.63.95l-2.39-.96-1.92 3.32 2.03 1.58a7.43 7.43 0 000 1.88L2.83 14.52l1.92 3.32 2.39-.96c.51.41 1.06.73 1.63.95l.36 2.54h5.74l.36-2.54c.57-.22 1.12-.54 1.63-.95l2.39.96 1.92-3.32-2.03-1.58zM12 15.5A3.5 3.5 0 1112 8a3.5 3.5 0 010 7.5z" />
                         </svg>
                     </Link>
 
-                    <Link className="spIconBtn" to="/account" aria-label="Account">
+                    <Link className="spIconBtn" to="/account" aria-label={t("account")}>
                         {/* user */}
                         <svg viewBox="0 0 24 24" className="spIcon">
                             <path d="M12 12a4 4 0 10-4-4 4 4 0 004 4zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z" />
@@ -312,8 +353,8 @@ export default function SearchPage() {
                 >
                     <div className="spPanelHeader">
                         <div className="spPanelHeaderLeft">
-                            <span className="spPanelTitle">Remote</span>
-                            <span className="spPanelHint">搜索引擎 (search engine) 结果</span>
+                            <span className="spPanelTitle">{t("remote")}</span>
+                            <span className="spPanelHint">{t("remoteHint")}</span>
                         </div>
                     </div>
 
@@ -338,16 +379,16 @@ export default function SearchPage() {
                 >
                     <div className="spPanelHeader">
                         <div className="spPanelHeaderLeft">
-                            <span className="spPanelTitle">Local</span>
-                            <span className="spPanelHint">本地文档 (local documents)</span>
+                            <span className="spPanelTitle">{t("local")}</span>
+                            <span className="spPanelHint">{t("localHint")}</span>
                         </div>
                         <button
                             className="spAddBtn"
                             onClick={() => setUploadModalOpen(true)}
-                            aria-label="Upload document"
-                            title="Upload document"
+                            aria-label={t("upload")}
+                            title={t("upload")}
                         >
-                            + New
+                            {t("newDocument")}
                         </button>
                     </div>
 

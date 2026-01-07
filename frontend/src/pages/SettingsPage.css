@@ -1,11 +1,22 @@
+/**
+ * SettingsPage.css - 设置页面样式
+ * 
+ * Modified by: C (Cheng)
+ * Date: 2026-01-07
+ * 
+ * 修改记录:
+ * - C: 添加语言选择网格样式
+ * - C: 使用 CSS 变量支持主题切换
+ */
+
 :root {
     --accent: #d86a3a;
 }
 
 .stPage {
     height: 100vh;
-    background: #ffffff;
-    color: #111;
+    background: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 .stTopbar {
@@ -15,7 +26,7 @@
     align-items: center;
     gap: 14px;
     padding: 0 22px;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .stLeft, .stRight {
@@ -38,33 +49,35 @@
 
 .stSaved {
     font-size: 12px;
-    color: rgba(0,0,0,0.6);
+    color: var(--text-secondary);
     padding: 6px 10px;
     border-radius: 999px;
-    border: 1px solid rgba(0,0,0,0.10);
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
 }
 
 .stIconBtn {
     width: 44px;
     height: 44px;
     border-radius: 999px;
-    border: 1px solid rgba(0,0,0,0.12);
-    background: #fff;
+    border: 1px solid var(--btn-border);
+    background: var(--btn-bg);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     text-decoration: none;
+    transition: all 0.2s ease;
 }
 
 .stIconBtn:hover {
-    background: rgba(0,0,0,0.03);
+    background: var(--btn-hover);
 }
 
 .stIcon {
     width: 22px;
     height: 22px;
-    fill: #111;
+    fill: var(--icon-fill);
 }
 
 .stBody {
@@ -80,10 +93,10 @@
 .stCard {
     width: min(920px, 94vw);
     border-radius: 18px;
-    border: 1px solid rgba(0,0,0,0.10);
-    background: #fff;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
     padding: 16px 16px 14px;
-    box-shadow: 0 18px 40px rgba(0,0,0,0.06);
+    box-shadow: var(--shadow-md);
 }
 
 .stCardTitle {
@@ -102,21 +115,23 @@
 .stHint {
     margin-top: 10px;
     font-size: 12px;
-    color: rgba(0,0,0,0.55);
+    color: var(--text-secondary);
 }
 
 .stSwatch {
-    border: 1px solid rgba(0,0,0,0.12);
-    background: #fff;
+    border: 1px solid var(--btn-border);
+    background: var(--btn-bg);
     padding: 10px 12px;
     border-radius: 14px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 10px;
+    transition: all 0.2s ease;
+    color: var(--text-primary);
 }
 
-.stSwatch:hover { background: rgba(0,0,0,0.03); }
+.stSwatch:hover { background: var(--btn-hover); }
 
 .stSwatch.isActive {
     border-color: var(--accent);
@@ -135,32 +150,167 @@
 }
 
 .stPill {
-    border: 1px solid rgba(0,0,0,0.12);
-    background: #fff;
+    border: 1px solid var(--btn-border);
+    background: var(--btn-bg);
     padding: 10px 14px;
     border-radius: 999px;
     cursor: pointer;
     font-size: 13px;
     font-weight: 700;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
 }
 
-.stPill:hover { background: rgba(0,0,0,0.03); }
+.stPill:hover { background: var(--btn-hover); }
 
 .stPill.isActive {
     border-color: var(--accent);
     box-shadow: 0 0 0 2px rgba(216,106,58,0.18);
+    background: var(--accent);
+    color: #fff;
+}
+
+/* Language Selection Grid */
+.stLanguageGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.stLanguageBtn {
+    border: 1px solid var(--btn-border);
+    background: var(--btn-bg);
+    padding: 12px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.stLanguageBtn:hover {
+    background: var(--btn-hover);
+    transform: translateY(-2px);
+}
+
+.stLanguageBtn.isActive {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(216,106,58,0.18);
+    background: var(--accent);
+}
+
+.stLanguageBtn.isActive .stLangNative,
+.stLanguageBtn.isActive .stLangName {
+    color: #fff;
+}
+
+.stLangNative {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stLangName {
+    font-size: 11px;
+    color: var(--text-secondary);
 }
 
 .stDanger {
-    border: 1px solid rgba(176,0,32,0.35);
-    background: rgba(176,0,32,0.06);
-    color: #b00020;
+    border: 1px solid rgba(255,69,58,0.35);
+    background: rgba(255,69,58,0.08);
+    color: #ff453a;
     padding: 10px 14px;
     border-radius: 12px;
     cursor: pointer;
     font-weight: 800;
+    transition: all 0.2s ease;
 }
 
 .stDanger:hover {
-    background: rgba(176,0,32,0.10);
+    background: rgba(255,69,58,0.15);
+}
+
+/* Color Theme Grid */
+.stThemeGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.stThemeCard {
+    border: 2px solid var(--border-color);
+    background: var(--btn-bg);
+    padding: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.stThemeCard:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stThemeCard.isActive {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.25);
+}
+
+.stThemePreview {
+    width: 100%;
+    height: 40px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.stThemePreviewBg {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px;
+}
+
+.stThemePreviewCard {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.stThemePreviewAccent {
+    width: 8px;
+    height: 20px;
+    border-radius: 3px;
+}
+
+.stThemeName {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stThemeNameZh {
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .stLanguageGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stThemeGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
