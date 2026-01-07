@@ -90,3 +90,47 @@ module.exports = {
     connectToMongoDB,
     DocumentModel
 };
+
+// Document Model
+const DocumentModel = mongoose.model('Document', documentSchema);
+
+// ============================================================
+// Index Schema - 用于存储倒排索引和文档统计
+// ============================================================
+
+/**
+ * Index Schema
+ *
+ * 存储两种类型的数据：
+ * - type: "inverted" - 倒排索引
+ * - type: "docstats" - 文档统计信息
+ */
+const indexSchema = new mongoose.Schema({
+    type: {
+        type: String,
+        required: true,
+        enum: ['inverted', 'docstats'],
+        unique: true  // 每种类型只存储一份
+    },
+    data: {
+        type: mongoose.Schema.Types.Mixed,  // 可以存储任意JSON结构
+        required: true
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+
+// 创建索引以提高查询性能
+indexSchema.index({ type: 1 });
+
+// Index Model
+const IndexModel = mongoose.model('Index', indexSchema);
+
+module.exports = {
+    connectToMongoDB,
+    DocumentModel,
+    IndexModel  // 导出IndexModel
+};
