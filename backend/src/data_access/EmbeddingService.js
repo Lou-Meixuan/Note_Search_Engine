@@ -1,6 +1,9 @@
 /**
  * EmbeddingService - 使用 Transformers.js 生成文本向量
  * 
+ * Created by: C
+ * Date: 2026-01-06
+ * 
  * 【功能】
  * 将文本转换为向量（embedding），用于语义搜索
  * 

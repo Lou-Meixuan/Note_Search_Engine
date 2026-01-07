@@ -145,3 +145,86 @@
 * Remote：**方案 B：接入 Google 搜索 API**
 * Local：**用户授权选择文件/文件夹（File Picker）**
 * 架构：**Clean Architecture**
+
+---
+
+## 🔧 环境配置（Setup）
+
+### 1. 安装依赖
+
+```bash
+# 后端
+cd backend
+npm install
+
+# 前端
+cd frontend
+npm install
+```
+
+### 2. 安装 MongoDB
+
+**macOS (Homebrew):**
+```bash
+brew tap mongodb/brew
+brew install mongodb-community
+brew services start mongodb/brew/mongodb-community
+```
+
+**Windows:**
+- 下载安装包: https://www.mongodb.com/try/download/community
+- 安装后运行 `mongod` 启动服务
+
+### 3. 配置 Google Custom Search API（Remote 搜索）
+
+#### 步骤 1：创建 Google Cloud 项目
+1. 打开 https://console.cloud.google.com/
+2. 创建新项目，名称填：`Note-Search-Engine`
+
+#### 步骤 2：启用 Custom Search API
+1. 在 Google Cloud Console，点击 **"API 和服务"** → **"库"**
+2. 搜索 **"Custom Search API"** 并启用
+
+#### 步骤 3：创建 API Key
+1. 点击 **"API 和服务"** → **"凭据"**
+2. 点击 **"+ 创建凭据"** → **"API 密钥"**
+3. 复制生成的 API Key
+
+#### 步骤 4：创建 Custom Search Engine
+1. 打开 https://programmablesearchengine.google.com/
+2. 点击 **"添加"**
+3. 选择 **"搜索整个网络"**（Search the entire web）
+4. 创建后，在控制面板中找到 **"搜索引擎 ID"**
+
+#### 步骤 5：创建 .env 文件
+在 `backend/` 目录下创建 `.env` 文件：
+
+```env
+# Google Custom Search API
+GOOGLE_API_KEY=你的API密钥
+GOOGLE_SEARCH_ENGINE_ID=你的搜索引擎ID
+
+# MongoDB
+MONGODB_URI=mongodb://localhost:27017/note_search_engine
+```
+
+**⚠️ 注意**: `.env` 文件包含敏感信息，已被 `.gitignore` 忽略，不会提交到 Git。
+
+#### 配额说明
+- **免费配额**: 每天 100 次查询
+- 超过后需要付费 ($5/1000 次)
+
+### 4. 启动项目
+
+```bash
+# 启动后端
+cd backend
+npm start
+
+# 启动前端（新终端）
+cd frontend
+npm run dev
+```
+
+访问 http://localhost:5173 即可使用！
+
