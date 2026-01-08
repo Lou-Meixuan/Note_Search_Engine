@@ -42,7 +42,7 @@ export default function LoginPage() {
     // Redirect if already logged in
     useEffect(() => {
         if (isLoggedIn && !loading) {
-            navigate('/home');
+            navigate('/home', { replace: true });
         }
     }, [isLoggedIn, loading, navigate]);
 
@@ -58,14 +58,14 @@ export default function LoginPage() {
             } else if (provider === 'github') {
                 await signInWithGithub();
             }
-            navigate('/home');
+            // Navigation will be handled by useEffect when isLoggedIn becomes true
         } catch (err) {
             console.error('Login error:', err);
             setError(err.message || t('loginError') || 'Sign in failed. Please try again.');
-        } finally {
             setIsLoading(false);
             setLoadingMethod(null);
         }
+        // Don't reset loading state here - let the redirect happen first
     }
 
     // Handle email form submit
@@ -81,7 +81,7 @@ export default function LoginPage() {
             } else {
                 await signInWithEmail(email, password);
             }
-            navigate('/home');
+            // Navigation will be handled by useEffect when isLoggedIn becomes true
         } catch (err) {
             console.error('Email auth error:', err);
             // Translate common Firebase errors
@@ -96,7 +96,6 @@ export default function LoginPage() {
                 errorMsg = t('invalidCredentials') || 'Invalid email or password';
             }
             setError(errorMsg);
-        } finally {
             setIsLoading(false);
             setLoadingMethod(null);
         }
@@ -109,11 +108,10 @@ export default function LoginPage() {
             setLoadingMethod('anonymous');
             setError(null);
             await signInAnonymousUser();
-            navigate('/home');
+            // Navigation will be handled by useEffect when isLoggedIn becomes true
         } catch (err) {
             console.error('Anonymous login error:', err);
             setError(err.message || 'Anonymous sign in failed');
-        } finally {
             setIsLoading(false);
             setLoadingMethod(null);
         }
