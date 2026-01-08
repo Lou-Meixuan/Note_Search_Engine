@@ -1,11 +1,7 @@
 /**
- * AccountPage.css - 账户页面样式
+ * AccountPage.css - Account page styles
  * 
- * Modified by: C
- * Date: 2026-01-08
- * 
- * 修改记录:
- * - C: 使用 CSS 变量支持主题切换
+ * Uses CSS variables for theme support.
  */
 
 .acPage {
@@ -222,4 +218,55 @@
     text-align: center;
     color: var(--text-secondary, rgba(0,0,0,0.55));
     font-size: 14px;
+}
+
+/* Link Account Section */
+.acLinkSection {
+    margin-top: 20px;
+    padding: 16px;
+    border: 1px solid var(--border-color, rgba(0,0,0,0.10));
+    border-radius: 14px;
+    background: var(--bg-secondary, rgba(0,0,0,0.02));
+}
+
+.acLinkTitle {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text-primary, #111);
+}
+
+.acLinkBtns {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* GitHub Button */
+.acGithubBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #24292e !important;
+    color: #fff !important;
+    border: 1px solid #24292e !important;
+}
+
+.acGithubBtn:hover {
+    background: #1a1e22 !important;
+}
+
+.acGithubIcon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* Warning hint */
+.acHint.acWarning {
+    color: #d97706;
+    background: rgba(217, 119, 6, 0.1);
+    padding: 10px 14px;
+    border-radius: 10px;
 }
