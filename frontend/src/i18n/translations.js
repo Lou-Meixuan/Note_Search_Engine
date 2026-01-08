@@ -30,9 +30,19 @@ const translations = {
         upload: "Upload",
         close: "Close",
         saved: "Saved ✔",
+        or: "or",
+        
+        // Login Page
+        loginSubtitle: "Search, organize, and sync your notes seamlessly",
+        continueWithoutSignIn: "Continue without signing in",
+        guestWarning: "Without signing in, your files won't be saved after you leave",
+        loginError: "Sign in failed. Please try again.",
+        featureSearch: "Smart Search",
+        featureUpload: "Upload Notes",
+        featureSync: "Cloud Sync",
         
         // Search Page
-        searchPlaceholder: "Search your notes...",
+        searchPlaceholder: "Search your notes... (use #tag to filter by tag)",
         remote: "Remote",
         local: "Local",
         remoteHint: "Search engine results",
@@ -41,6 +51,7 @@ const translations = {
         scopeAll: "Search All",
         scopeRemote: "Remote Only",
         scopeLocal: "Local Only",
+        searchToSeeResults: "Search to see Google results",
         
         // Upload Modal
         uploadTitle: "Upload Document",
@@ -62,13 +73,17 @@ const translations = {
         colorThemeHint: "Choose a theme - each includes Light and Dark variants",
         themeColor: "Theme Color",
         language: "Language",
-        layoutPreference: "Layout Preference",
-        splitView: "Split View",
-        focusRemote: "Focus Remote",
-        focusLocal: "Focus Local",
-        dangerZone: "Danger Zone",
+        resetSettings: "Reset Settings",
         resetDefault: "Reset to Default",
-        resetHint: "Clear local settings and restore defaults",
+        resetHint: "Clear all uploaded files and restore default theme settings",
+        
+        // Theme Names
+        themeDefault: "Default",
+        themeDracula: "Dracula",
+        themeNord: "Nord",
+        themeCatppuccin: "Catppuccin",
+        themeSolarized: "Solarized",
+        themeMonokai: "Monokai",
         
         // Theme
         appearance: "Appearance",
@@ -85,6 +100,17 @@ const translations = {
         username: "Username",
         email: "Email",
         logout: "Log Out",
+        notSignedIn: "Not signed in",
+        signInHint: "Sign in to sync your documents across devices.",
+        signInWithGoogle: "Sign in with Google",
+        signedInHint: "Your documents are synced with your Google account.",
+        privacyHint: "We only use your email for authentication. Your data stays private.",
+        plan: "Plan",
+        memberSince: "Member since",
+        storage: "Storage",
+        sync: "Sync",
+        connected: "Connected",
+        loading: "Loading...",
         
         // Document Page
         documentDetails: "Document Details",
@@ -113,9 +139,19 @@ const translations = {
         upload: "上传",
         close: "关闭",
         saved: "已保存 ✔",
+        or: "或",
+        
+        // Login Page
+        loginSubtitle: "智能搜索、整理并同步你的笔记",
+        continueWithoutSignIn: "不登录继续使用",
+        guestWarning: "不登录的情况下，你的文件在离开后将不会被保存",
+        loginError: "登录失败，请重试。",
+        featureSearch: "智能搜索",
+        featureUpload: "上传笔记",
+        featureSync: "云端同步",
         
         // Search Page
-        searchPlaceholder: "搜索你的笔记...",
+        searchPlaceholder: "搜索笔记... (输入 #标签 可按标签筛选)",
         remote: "远程",
         local: "本地",
         remoteHint: "搜索引擎结果",
@@ -124,6 +160,7 @@ const translations = {
         scopeAll: "搜索全部",
         scopeRemote: "仅远程",
         scopeLocal: "仅本地",
+        searchToSeeResults: "搜索以查看 Google 结果",
         
         // Upload Modal
         uploadTitle: "上传文档",
@@ -145,13 +182,17 @@ const translations = {
         colorThemeHint: "选择一个主题 - 每个主题都有浅色和深色版本",
         themeColor: "主题颜色",
         language: "语言",
-        layoutPreference: "布局偏好",
-        splitView: "分屏视图",
-        focusRemote: "专注远程",
-        focusLocal: "专注本地",
-        dangerZone: "危险区域",
-        resetDefault: "重置为默认",
-        resetHint: "清除本地设置并恢复默认值",
+        resetSettings: "恢复设置",
+        resetDefault: "恢复默认设置",
+        resetHint: "清除所有上传的文件并恢复默认主题设置",
+        
+        // Theme Names
+        themeDefault: "默认",
+        themeDracula: "德古拉",
+        themeNord: "北欧",
+        themeCatppuccin: "奶茶",
+        themeSolarized: "日晒",
+        themeMonokai: "Monokai",
         
         // Theme
         appearance: "外观",
@@ -168,6 +209,17 @@ const translations = {
         username: "用户名",
         email: "邮箱",
         logout: "退出登录",
+        notSignedIn: "未登录",
+        signInHint: "登录以在多设备间同步你的文档。",
+        signInWithGoogle: "使用 Google 登录",
+        signedInHint: "你的文档已与 Google 账户同步。",
+        privacyHint: "我们仅使用你的邮箱进行身份验证，你的数据将保持私密。",
+        plan: "方案",
+        memberSince: "注册时间",
+        storage: "存储",
+        sync: "同步",
+        connected: "已连接",
+        loading: "加载中...",
         
         // Document Page
         documentDetails: "文档详情",
@@ -196,9 +248,19 @@ const translations = {
         upload: "アップロード",
         close: "閉じる",
         saved: "保存しました ✔",
+        or: "または",
+        
+        // Login Page
+        loginSubtitle: "ノートをシームレスに検索、整理、同期",
+        continueWithoutSignIn: "ログインせずに続ける",
+        guestWarning: "ログインしないと、離れた後にファイルは保存されません",
+        loginError: "ログインに失敗しました。もう一度お試しください。",
+        featureSearch: "スマート検索",
+        featureUpload: "ノートのアップロード",
+        featureSync: "クラウド同期",
         
         // Search Page
-        searchPlaceholder: "ノートを検索...",
+        searchPlaceholder: "ノートを検索... (#タグで絞り込み)",
         remote: "リモート",
         local: "ローカル",
         remoteHint: "検索エンジンの結果",
@@ -207,6 +269,7 @@ const translations = {
         scopeAll: "すべて検索",
         scopeRemote: "リモートのみ",
         scopeLocal: "ローカルのみ",
+        searchToSeeResults: "検索してGoogle結果を表示",
         
         // Upload Modal
         uploadTitle: "ドキュメントをアップロード",
@@ -228,13 +291,17 @@ const translations = {
         colorThemeHint: "テーマを選択 - 各テーマにライトとダークのバリエーションがあります",
         themeColor: "テーマカラー",
         language: "言語",
-        layoutPreference: "レイアウト設定",
-        splitView: "分割ビュー",
-        focusRemote: "リモート重視",
-        focusLocal: "ローカル重視",
-        dangerZone: "危険ゾーン",
-        resetDefault: "デフォルトにリセット",
-        resetHint: "ローカル設定をクリアしてデフォルトに戻す",
+        resetSettings: "設定をリセット",
+        resetDefault: "デフォルトに戻す",
+        resetHint: "アップロードしたファイルをすべて削除し、デフォルトのテーマ設定に戻す",
+        
+        // Theme Names
+        themeDefault: "デフォルト",
+        themeDracula: "ドラキュラ",
+        themeNord: "ノルド",
+        themeCatppuccin: "カプチーノ",
+        themeSolarized: "ソラライズド",
+        themeMonokai: "モノカイ",
         
         // Theme
         appearance: "外観",
@@ -251,6 +318,17 @@ const translations = {
         username: "ユーザー名",
         email: "メール",
         logout: "ログアウト",
+        notSignedIn: "ログインしていません",
+        signInHint: "デバイス間でドキュメントを同期するにはログインしてください。",
+        signInWithGoogle: "Googleでログイン",
+        signedInHint: "ドキュメントはGoogleアカウントと同期されています。",
+        privacyHint: "認証にのみメールを使用します。データはプライベートに保たれます。",
+        plan: "プラン",
+        memberSince: "登録日",
+        storage: "ストレージ",
+        sync: "同期",
+        connected: "接続済み",
+        loading: "読み込み中...",
         
         // Document Page
         documentDetails: "ドキュメント詳細",
@@ -279,9 +357,19 @@ const translations = {
         upload: "업로드",
         close: "닫기",
         saved: "저장됨 ✔",
+        or: "또는",
+        
+        // Login Page
+        loginSubtitle: "노트를 원활하게 검색, 정리 및 동기화",
+        continueWithoutSignIn: "로그인 없이 계속",
+        guestWarning: "로그인하지 않으면 나간 후 파일이 저장되지 않습니다",
+        loginError: "로그인에 실패했습니다. 다시 시도하세요.",
+        featureSearch: "스마트 검색",
+        featureUpload: "노트 업로드",
+        featureSync: "클라우드 동기화",
         
         // Search Page
-        searchPlaceholder: "노트 검색...",
+        searchPlaceholder: "노트 검색... (#태그로 필터링)",
         remote: "원격",
         local: "로컬",
         remoteHint: "검색 엔진 결과",
@@ -290,6 +378,7 @@ const translations = {
         scopeAll: "전체 검색",
         scopeRemote: "원격만",
         scopeLocal: "로컬만",
+        searchToSeeResults: "검색하여 Google 결과 보기",
         
         // Upload Modal
         uploadTitle: "문서 업로드",
@@ -311,13 +400,17 @@ const translations = {
         colorThemeHint: "테마 선택 - 각 테마에는 라이트 및 다크 버전이 있습니다",
         themeColor: "테마 색상",
         language: "언어",
-        layoutPreference: "레이아웃 설정",
-        splitView: "분할 보기",
-        focusRemote: "원격 집중",
-        focusLocal: "로컬 집중",
-        dangerZone: "위험 구역",
-        resetDefault: "기본값으로 재설정",
-        resetHint: "로컬 설정을 지우고 기본값으로 복원",
+        resetSettings: "설정 초기화",
+        resetDefault: "기본값으로 복원",
+        resetHint: "업로드된 모든 파일을 삭제하고 기본 테마 설정으로 복원",
+        
+        // Theme Names
+        themeDefault: "기본",
+        themeDracula: "드라큘라",
+        themeNord: "노르드",
+        themeCatppuccin: "카푸치노",
+        themeSolarized: "솔라라이즈드",
+        themeMonokai: "모노카이",
         
         // Theme
         appearance: "외관",
@@ -334,6 +427,17 @@ const translations = {
         username: "사용자 이름",
         email: "이메일",
         logout: "로그아웃",
+        notSignedIn: "로그인하지 않음",
+        signInHint: "기기 간 문서를 동기화하려면 로그인하세요.",
+        signInWithGoogle: "Google로 로그인",
+        signedInHint: "문서가 Google 계정과 동기화됩니다.",
+        privacyHint: "인증에만 이메일을 사용합니다. 데이터는 비공개로 유지됩니다.",
+        plan: "플랜",
+        memberSince: "가입일",
+        storage: "저장소",
+        sync: "동기화",
+        connected: "연결됨",
+        loading: "로딩 중...",
         
         // Document Page
         documentDetails: "문서 상세",
@@ -362,9 +466,19 @@ const translations = {
         upload: "Subir",
         close: "Cerrar",
         saved: "Guardado ✔",
+        or: "o",
+        
+        // Login Page
+        loginSubtitle: "Busca, organiza y sincroniza tus notas sin problemas",
+        continueWithoutSignIn: "Continuar sin iniciar sesión",
+        guestWarning: "Sin iniciar sesión, tus archivos no se guardarán cuando te vayas",
+        loginError: "Error al iniciar sesión. Inténtalo de nuevo.",
+        featureSearch: "Búsqueda Inteligente",
+        featureUpload: "Subir Notas",
+        featureSync: "Sincronización en la Nube",
         
         // Search Page
-        searchPlaceholder: "Buscar tus notas...",
+        searchPlaceholder: "Buscar notas... (usa #etiqueta para filtrar)",
         remote: "Remoto",
         local: "Local",
         remoteHint: "Resultados del motor de búsqueda",
@@ -373,6 +487,7 @@ const translations = {
         scopeAll: "Buscar Todo",
         scopeRemote: "Solo Remoto",
         scopeLocal: "Solo Local",
+        searchToSeeResults: "Busca para ver resultados de Google",
         
         // Upload Modal
         uploadTitle: "Subir Documento",
@@ -394,13 +509,17 @@ const translations = {
         colorThemeHint: "Elige un tema - cada uno incluye variantes claro y oscuro",
         themeColor: "Color del Tema",
         language: "Idioma",
-        layoutPreference: "Preferencia de Diseño",
-        splitView: "Vista Dividida",
-        focusRemote: "Enfoque Remoto",
-        focusLocal: "Enfoque Local",
-        dangerZone: "Zona de Peligro",
+        resetSettings: "Restablecer Configuración",
         resetDefault: "Restablecer por Defecto",
-        resetHint: "Limpiar configuración local y restaurar valores predeterminados",
+        resetHint: "Eliminar todos los archivos subidos y restaurar la configuración de tema predeterminada",
+        
+        // Theme Names
+        themeDefault: "Predeterminado",
+        themeDracula: "Drácula",
+        themeNord: "Nord",
+        themeCatppuccin: "Catppuccin",
+        themeSolarized: "Solarizado",
+        themeMonokai: "Monokai",
         
         // Theme
         appearance: "Apariencia",
@@ -417,6 +536,17 @@ const translations = {
         username: "Usuario",
         email: "Correo",
         logout: "Cerrar Sesión",
+        notSignedIn: "No has iniciado sesión",
+        signInHint: "Inicia sesión para sincronizar tus documentos entre dispositivos.",
+        signInWithGoogle: "Iniciar sesión con Google",
+        signedInHint: "Tus documentos están sincronizados con tu cuenta de Google.",
+        privacyHint: "Solo usamos tu correo para autenticación. Tus datos se mantienen privados.",
+        plan: "Plan",
+        memberSince: "Miembro desde",
+        storage: "Almacenamiento",
+        sync: "Sincronización",
+        connected: "Conectado",
+        loading: "Cargando...",
         
         // Document Page
         documentDetails: "Detalles del Documento",
@@ -445,9 +575,19 @@ const translations = {
         upload: "Télécharger",
         close: "Fermer",
         saved: "Enregistré ✔",
+        or: "ou",
+        
+        // Login Page
+        loginSubtitle: "Recherchez, organisez et synchronisez vos notes facilement",
+        continueWithoutSignIn: "Continuer sans vous connecter",
+        guestWarning: "Sans connexion, vos fichiers ne seront pas sauvegardés après votre départ",
+        loginError: "Échec de la connexion. Veuillez réessayer.",
+        featureSearch: "Recherche Intelligente",
+        featureUpload: "Télécharger des Notes",
+        featureSync: "Sync Cloud",
         
         // Search Page
-        searchPlaceholder: "Rechercher vos notes...",
+        searchPlaceholder: "Rechercher... (utilisez #tag pour filtrer)",
         remote: "Distant",
         local: "Local",
         remoteHint: "Résultats du moteur de recherche",
@@ -456,6 +596,7 @@ const translations = {
         scopeAll: "Rechercher Tout",
         scopeRemote: "Distant Seulement",
         scopeLocal: "Local Seulement",
+        searchToSeeResults: "Recherchez pour voir les résultats Google",
         
         // Upload Modal
         uploadTitle: "Télécharger un Document",
@@ -477,13 +618,17 @@ const translations = {
         colorThemeHint: "Choisir un thème - chacun inclut des variantes clair et foncé",
         themeColor: "Couleur du Thème",
         language: "Langue",
-        layoutPreference: "Préférence de Mise en Page",
-        splitView: "Vue Divisée",
-        focusRemote: "Focus Distant",
-        focusLocal: "Focus Local",
-        dangerZone: "Zone Dangereuse",
+        resetSettings: "Réinitialiser les Paramètres",
         resetDefault: "Réinitialiser par Défaut",
-        resetHint: "Effacer les paramètres locaux et restaurer les valeurs par défaut",
+        resetHint: "Supprimer tous les fichiers téléchargés et restaurer les paramètres de thème par défaut",
+        
+        // Theme Names
+        themeDefault: "Par défaut",
+        themeDracula: "Dracula",
+        themeNord: "Nord",
+        themeCatppuccin: "Catppuccin",
+        themeSolarized: "Solarisé",
+        themeMonokai: "Monokai",
         
         // Theme
         appearance: "Apparence",
@@ -500,6 +645,17 @@ const translations = {
         username: "Utilisateur",
         email: "Email",
         logout: "Déconnexion",
+        notSignedIn: "Non connecté",
+        signInHint: "Connectez-vous pour synchroniser vos documents sur tous vos appareils.",
+        signInWithGoogle: "Se connecter avec Google",
+        signedInHint: "Vos documents sont synchronisés avec votre compte Google.",
+        privacyHint: "Nous utilisons uniquement votre email pour l'authentification. Vos données restent privées.",
+        plan: "Forfait",
+        memberSince: "Membre depuis",
+        storage: "Stockage",
+        sync: "Synchronisation",
+        connected: "Connecté",
+        loading: "Chargement...",
         
         // Document Page
         documentDetails: "Détails du Document",
@@ -528,9 +684,19 @@ const translations = {
         upload: "Hochladen",
         close: "Schließen",
         saved: "Gespeichert ✔",
+        or: "oder",
+        
+        // Login Page
+        loginSubtitle: "Suchen, organisieren und synchronisieren Sie Ihre Notizen nahtlos",
+        continueWithoutSignIn: "Ohne Anmeldung fortfahren",
+        guestWarning: "Ohne Anmeldung werden Ihre Dateien nach dem Verlassen nicht gespeichert",
+        loginError: "Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+        featureSearch: "Intelligente Suche",
+        featureUpload: "Notizen Hochladen",
+        featureSync: "Cloud-Sync",
         
         // Search Page
-        searchPlaceholder: "Notizen durchsuchen...",
+        searchPlaceholder: "Notizen suchen... (#Tag zum Filtern)",
         remote: "Remote",
         local: "Lokal",
         remoteHint: "Suchmaschinenergebnisse",
@@ -539,6 +705,7 @@ const translations = {
         scopeAll: "Alles durchsuchen",
         scopeRemote: "Nur Remote",
         scopeLocal: "Nur Lokal",
+        searchToSeeResults: "Suchen Sie, um Google-Ergebnisse zu sehen",
         
         // Upload Modal
         uploadTitle: "Dokument hochladen",
@@ -560,13 +727,17 @@ const translations = {
         colorThemeHint: "Wählen Sie ein Thema - jedes enthält helle und dunkle Varianten",
         themeColor: "Themenfarbe",
         language: "Sprache",
-        layoutPreference: "Layout-Einstellung",
-        splitView: "Geteilte Ansicht",
-        focusRemote: "Remote-Fokus",
-        focusLocal: "Lokal-Fokus",
-        dangerZone: "Gefahrenzone",
+        resetSettings: "Einstellungen zurücksetzen",
         resetDefault: "Auf Standard zurücksetzen",
-        resetHint: "Lokale Einstellungen löschen und Standardwerte wiederherstellen",
+        resetHint: "Alle hochgeladenen Dateien löschen und Standard-Themeneinstellungen wiederherstellen",
+        
+        // Theme Names
+        themeDefault: "Standard",
+        themeDracula: "Dracula",
+        themeNord: "Nord",
+        themeCatppuccin: "Catppuccin",
+        themeSolarized: "Solarisiert",
+        themeMonokai: "Monokai",
         
         // Theme
         appearance: "Aussehen",
@@ -583,6 +754,17 @@ const translations = {
         username: "Benutzername",
         email: "E-Mail",
         logout: "Abmelden",
+        notSignedIn: "Nicht angemeldet",
+        signInHint: "Melden Sie sich an, um Ihre Dokumente geräteübergreifend zu synchronisieren.",
+        signInWithGoogle: "Mit Google anmelden",
+        signedInHint: "Ihre Dokumente werden mit Ihrem Google-Konto synchronisiert.",
+        privacyHint: "Wir verwenden Ihre E-Mail nur zur Authentifizierung. Ihre Daten bleiben privat.",
+        plan: "Plan",
+        memberSince: "Mitglied seit",
+        storage: "Speicher",
+        sync: "Synchronisierung",
+        connected: "Verbunden",
+        loading: "Laden...",
         
         // Document Page
         documentDetails: "Dokumentdetails",

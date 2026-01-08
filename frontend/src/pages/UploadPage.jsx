@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API } from "../config/api";
 import "./UploadPage.css";
 
 export default function UploadPage() {
@@ -42,7 +43,7 @@ export default function UploadPage() {
             if (title) formData.append("title", title);
             if (tags) formData.append("tags", tags);
 
-            const response = await fetch("http://localhost:3001/documents/upload", {
+            const response = await fetch(API.documentsUpload, {
                 method: "POST",
                 body: formData,
             });
@@ -140,7 +141,7 @@ export default function UploadPage() {
 
                 <button
                     className="backButton"
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/home")}
                     disabled={uploading}
                 >
                     Back to Home

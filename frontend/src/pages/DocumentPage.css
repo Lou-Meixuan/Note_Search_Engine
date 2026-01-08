@@ -1,16 +1,27 @@
+/**
+ * DocumentPage.css - 文档详情页样式
+ * 
+ * Modified by: C
+ * Date: 2026-01-08
+ * 
+ * 修改记录:
+ * - C: 使用 CSS 变量支持主题切换
+ */
+
 /* Page container */
 .documentPage {
     min-height: 100vh;
-    background: #ffffff;
+    background: var(--bg-primary, #ffffff);
     display: flex;
     flex-direction: column;
+    color: var(--text-primary, #111);
 }
 
 /* Top toolbar */
 .documentToolbar {
     height: 60px;
-    background: #ffffff;
-    border-bottom: 1px solid #e5e5e5;
+    background: var(--bg-primary, #ffffff);
+    border-bottom: 1px solid var(--border-color, #e5e5e5);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -25,12 +36,13 @@
     width: 24px;
     height: 24px;
     flex-shrink: 0;
+    fill: var(--icon-fill, currentColor);
 }
 
 .backButton {
     background-color: transparent !important;
     background: transparent !important;
-    color: #333333;
+    color: var(--text-primary, #333333);
     border: none;
     padding: 0.5rem;
     border-radius: 0;
@@ -52,7 +64,7 @@
 }
 
 .backButton:hover {
-    color: #000000 !important;
+    color: var(--accent, #000000) !important;
     background-color: transparent !important;
     background: transparent !important;
     border-color: transparent !important;
@@ -62,7 +74,7 @@
 
 .backButton:focus,
 .backButton:focus-visible {
-    color: #333333;
+    color: var(--text-primary, #333333);
     background-color: transparent !important;
     background: transparent !important;
     outline: none !important;
@@ -70,7 +82,7 @@
 }
 
 .backButton:active {
-    color: #000000;
+    color: var(--accent, #000000);
     background-color: transparent !important;
     background: transparent !important;
     outline: none !important;
@@ -87,7 +99,7 @@
 .editButton {
     background-color: transparent !important;
     background: transparent !important;
-    color: #333333;
+    color: var(--text-primary, #333333);
     border: none;
     padding: 0.5rem;
     border-radius: 0;
@@ -109,7 +121,7 @@
 }
 
 .editButton:hover {
-    color: #666666;
+    color: var(--accent, #666666);
     background-color: transparent !important;
     background: transparent !important;
     border-color: transparent !important;
@@ -119,7 +131,7 @@
 
 .editButton:focus,
 .editButton:focus-visible {
-    color: #333333;
+    color: var(--text-primary, #333333);
     background-color: transparent !important;
     background: transparent !important;
     outline: none !important;
@@ -127,7 +139,7 @@
 }
 
 .editButton:active {
-    color: #000000;
+    color: var(--accent, #000000);
     background-color: transparent !important;
     background: transparent !important;
     outline: none !important;
@@ -137,7 +149,7 @@
 .previewButton {
     background-color: transparent !important;
     background: transparent !important;
-    color: #333333;
+    color: var(--text-primary, #333333);
     border: none;
     padding: 0.5rem;
     border-radius: 0;
@@ -159,7 +171,7 @@
 }
 
 .previewButton:hover {
-    color: #666666;
+    color: var(--accent, #666666);
     background-color: transparent !important;
     background: transparent !important;
     border-color: transparent !important;
@@ -169,7 +181,7 @@
 
 .previewButton:focus,
 .previewButton:focus-visible {
-    color: #333333;
+    color: var(--text-primary, #333333);
     background-color: transparent !important;
     background: transparent !important;
     outline: none !important;
@@ -177,7 +189,7 @@
 }
 
 .previewButton:active {
-    color: #000000;
+    color: var(--accent, #000000);
     background-color: transparent !important;
     background: transparent !important;
     outline: none !important;
@@ -187,7 +199,7 @@
 .deleteButton {
     background-color: transparent !important;
     background: transparent !important;
-    color: #333333;
+    color: var(--text-primary, #333333);
     border: none;
     padding: 0.5rem;
     border-radius: 0;
@@ -209,7 +221,7 @@
 }
 
 .deleteButton:hover:not(:disabled) {
-    color: #666666;
+    color: var(--accent, #666666);
     background-color: transparent !important;
     background: transparent !important;
     border-color: transparent !important;
@@ -219,7 +231,7 @@
 
 .deleteButton:focus:not(:disabled),
 .deleteButton:focus-visible:not(:disabled) {
-    color: #333333;
+    color: var(--text-primary, #333333);
     background-color: transparent !important;
     background: transparent !important;
     outline: none !important;
@@ -227,7 +239,7 @@
 }
 
 .deleteButton:active:not(:disabled) {
-    color: #000000;
+    color: var(--accent, #000000);
     background-color: transparent !important;
     background: transparent !important;
     outline: none !important;
@@ -254,24 +266,24 @@
 }
 
 .deleteModal {
-    background: white;
+    background: var(--bg-card, white);
     border-radius: 12px;
     padding: 2rem;
     max-width: 420px;
     width: 90%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-lg, 0 20px 60px rgba(0, 0, 0, 0.3));
 }
 
 .deleteModalTitle {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #111;
+    color: var(--text-primary, #111);
     margin: 0 0 1rem 0;
 }
 
 .deleteModalText {
     font-size: 1rem;
-    color: #555;
+    color: var(--text-secondary, #555);
     line-height: 1.5;
     margin: 0 0 2rem 0;
 }
@@ -283,10 +295,10 @@
 }
 
 .modalCancelBtn {
-    background: white;
-    color: #333;
+    background: var(--bg-card, white);
+    color: var(--text-primary, #333);
     padding: 0 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color, #ccc);
     border-radius: 6px;
     font-size: 0.85rem;
     font-weight: 500;
@@ -301,8 +313,8 @@
 }
 
 .modalCancelBtn:hover {
-    background: #f5f5f5;
-    border-color: #999;
+    background: var(--btn-hover, #f5f5f5);
+    border-color: var(--border-color, #999);
 }
 
 .modalCancelBtn:focus {
@@ -310,10 +322,10 @@
 }
 
 .modalDeleteBtn {
-    background: #333;
-    color: white;
+    background: var(--accent, #333);
+    color: var(--text-inverse, white);
     padding: 0 1rem;
-    border: 2px solid #333;
+    border: 2px solid var(--accent, #333);
     border-radius: 6px;
     font-size: 0.85rem;
     font-weight: 600;
@@ -328,8 +340,7 @@
 }
 
 .modalDeleteBtn:hover {
-    background: #000;
-    border-color: #000;
+    opacity: 0.9;
 }
 
 .modalDeleteBtn:focus {
@@ -337,34 +348,33 @@
 }
 
 .modalDeleteBtn:active {
-    background: #000;
-    border-color: #000;
+    opacity: 0.85;
 }
 
 /* Error message */
 .errorMessage {
-    background: #fef2f2;
+    background: rgba(255, 100, 100, 0.15);
     color: #dc2626;
     padding: 1rem 2rem;
-    border-bottom: 1px solid #fca5a5;
+    border-bottom: 1px solid rgba(255, 100, 100, 0.3);
     font-size: 0.9rem;
 }
 
 .errorBox {
-    background: #fef2f2;
+    background: rgba(255, 100, 100, 0.15);
     color: #dc2626;
     padding: 2rem;
     text-align: center;
     margin: 2rem;
     border-radius: 8px;
-    border: 1px solid #fca5a5;
+    border: 1px solid rgba(255, 100, 100, 0.3);
 }
 
 .loadingSpinner {
     text-align: center;
     padding: 4rem 2rem;
     font-size: 1.1rem;
-    color: #666;
+    color: var(--text-secondary, #666);
 }
 
 /* Document content area */
@@ -380,7 +390,7 @@
 .documentTitle {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #111;
+    color: var(--text-primary, #111);
     margin: 0 0 1rem 0;
     line-height: 1.2;
     letter-spacing: -0.02em;
@@ -394,23 +404,23 @@
     flex-wrap: wrap;
     margin-bottom: 2.5rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--border-color, #e5e5e5);
 }
 
 .metaItem {
     font-size: 0.85rem;
-    color: #666;
+    color: var(--text-secondary, #666);
     font-weight: 500;
 }
 
 .metaSeparator {
-    color: #ccc;
+    color: var(--text-secondary, #ccc);
     font-size: 0.85rem;
 }
 
 .tag {
-    background: #f3f4f6;
-    color: #374151;
+    background: var(--tag-bg, #f3f4f6);
+    color: var(--tag-text, #374151);
     padding: 0.25rem 0.65rem;
     border-radius: 12px;
     font-size: 0.8rem;
@@ -426,7 +436,7 @@
 .textContent {
     font-size: 1rem;
     line-height: 1.75;
-    color: #1f2937;
+    color: var(--text-primary, #1f2937);
     white-space: pre-wrap;
     word-wrap: break-word;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -436,16 +446,16 @@
 .pdfViewer {
     width: 100%;
     height: 800px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--border-color, #e5e5e5);
     border-radius: 8px;
-    background: #fafafa;
+    background: var(--bg-secondary, #fafafa);
 }
 
 /* Markdown preview */
 .markdownPreview {
     font-size: 1rem;
     line-height: 1.75;
-    color: #1f2937;
+    color: var(--text-primary, #1f2937);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -454,7 +464,7 @@
     font-weight: 700;
     margin: 2rem 0 1rem 0;
     line-height: 1.2;
-    color: #111;
+    color: var(--text-primary, #111);
 }
 
 .markdownPreview h2 {
@@ -462,7 +472,7 @@
     font-weight: 700;
     margin: 1.75rem 0 0.75rem 0;
     line-height: 1.3;
-    color: #111;
+    color: var(--text-primary, #111);
 }
 
 .markdownPreview h3 {
@@ -470,7 +480,7 @@
     font-weight: 600;
     margin: 1.5rem 0 0.5rem 0;
     line-height: 1.4;
-    color: #111;
+    color: var(--text-primary, #111);
 }
 
 .markdownPreview p {
@@ -488,16 +498,16 @@
 }
 
 .markdownPreview code {
-    background: #f3f4f6;
+    background: var(--bg-secondary, #f3f4f6);
     padding: 0.2rem 0.4rem;
     border-radius: 4px;
     font-family: "Courier New", Courier, monospace;
     font-size: 0.9rem;
-    color: #d63384;
+    color: var(--accent, #d63384);
 }
 
 .markdownPreview pre {
-    background: #f3f4f6;
+    background: var(--bg-secondary, #f3f4f6);
     padding: 1rem;
     border-radius: 8px;
     overflow-x: auto;
@@ -507,24 +517,24 @@
 .markdownPreview pre code {
     background: transparent;
     padding: 0;
-    color: #1f2937;
+    color: var(--text-primary, #1f2937);
 }
 
 .markdownPreview blockquote {
-    border-left: 4px solid #e5e5e5;
+    border-left: 4px solid var(--border-color, #e5e5e5);
     padding-left: 1rem;
     margin: 1.5rem 0;
-    color: #666;
+    color: var(--text-secondary, #666);
     font-style: italic;
 }
 
 .markdownPreview a {
-    color: #2563eb;
+    color: var(--accent, #2563eb);
     text-decoration: underline;
 }
 
 .markdownPreview a:hover {
-    color: #1d4ed8;
+    opacity: 0.8;
 }
 
 .markdownPreview img {
@@ -542,19 +552,19 @@
 
 .markdownPreview table th,
 .markdownPreview table td {
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--border-color, #e5e5e5);
     padding: 0.75rem;
     text-align: left;
 }
 
 .markdownPreview table th {
-    background: #f3f4f6;
+    background: var(--bg-secondary, #f3f4f6);
     font-weight: 600;
 }
 
 .markdownPreview hr {
     border: none;
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid var(--border-color, #e5e5e5);
     margin: 2rem 0;
 }
 

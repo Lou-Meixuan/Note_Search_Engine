@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
+import { useAuth } from "../context/AuthContext";
+import { API } from "../config/api";
 import "./CreateDocumentModal.css";
 
 export default function CreateDocumentModal({ isOpen, onClose, onCreateSuccess }) {
@@ -10,6 +12,7 @@ export default function CreateDocumentModal({ isOpen, onClose, onCreateSuccess }
     const [creating, setCreating] = useState(false);
     const [error, setError] = useState("");
     const { t } = useLanguage();
+    const { user } = useAuth();  // 获取当前登录用户
 
     if (!isOpen) return null;
 
@@ -40,8 +43,10 @@ export default function CreateDocumentModal({ isOpen, onClose, onCreateSuccess }
             formData.append("file", file);
             formData.append("title", title.trim());
             if (tags) formData.append("tags", tags);
+            // 如果用户已登录，附加 userId
+            if (user?.uid) formData.append("userId", user.uid);
 
-            const response = await fetch("http://localhost:3001/documents/upload", {
+            const response = await fetch(API.documentsUpload, {
                 method: "POST",
                 body: formData,
             });
@@ -64,7 +69,7 @@ export default function CreateDocumentModal({ isOpen, onClose, onCreateSuccess }
         } catch (err) {
             console.error("Create error:", err);
             if (err.message === "Failed to fetch") {
-                setError("Cannot connect to server. Please make sure the backend is running on http://localhost:3001");
+                setError("Cannot connect to server. Please check your connection.");
             } else {
                 setError(err.message);
             }

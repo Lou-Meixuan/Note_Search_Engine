@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useColorTheme } from "../context/ColorThemeContext";
+import { API } from "../config/api";
 import "./SettingsPage.css";
 
 const LS_KEY = "nse_settings_v1";
@@ -74,7 +75,7 @@ export default function SettingsPage() {
         <div className="stPage">
             <header className="stTopbar">
                 <div className="stLeft">
-                    <Link className="stIconBtn" to="/" aria-label={t("home")}>
+                    <Link className="stIconBtn" to="/home" aria-label={t("home")}>
                         <svg viewBox="0 0 24 24" className="stIcon">
                             <path d="M12 3l9 8h-3v10h-5v-6H11v6H6V11H3l9-8z" />
                         </svg>
@@ -87,7 +88,7 @@ export default function SettingsPage() {
                 </div>
 
                 <div className="stRight">
-                    <Link className="stIconBtn" to="/" aria-label={t("search")}>
+                    <Link className="stIconBtn" to="/home" aria-label={t("search")}>
                         <svg viewBox="0 0 24 24" className="stIcon">
                             <path d="M10 4a6 6 0 104.472 10.03l4.249 4.248 1.414-1.414-4.248-4.249A6 6 0 0010 4zm0 2a4 4 0 110 8 4 4 0 010-8z" />
                         </svg>
@@ -132,12 +133,15 @@ export default function SettingsPage() {
                     <div className="stThemeGrid">
                         {themes.map((themeGroup) => {
                             const preview = isDark ? themeGroup.darkPreview : themeGroup.lightPreview;
+                            // 根据 theme id 获取翻译后的名称
+                            const themeNameKey = `theme${themeGroup.id.charAt(0).toUpperCase() + themeGroup.id.slice(1)}`;
+                            const translatedName = t(themeNameKey) || themeGroup.name;
                             return (
-                                <button
+                        <button
                                     key={themeGroup.id}
                                     className={`stThemeCard ${theme === themeGroup.id ? "isActive" : ""}`}
                                     onClick={() => handleThemeChange(themeGroup.id)}
-                                >
+                        >
                                     <div className="stThemePreview">
                                         <div 
                                             className="stThemePreviewBg" 
@@ -153,9 +157,8 @@ export default function SettingsPage() {
                                             />
                                         </div>
                                     </div>
-                                    <div className="stThemeName">{themeGroup.name}</div>
-                                    <div className="stThemeNameZh">{themeGroup.nameZh}</div>
-                                </button>
+                                    <div className="stThemeName">{translatedName}</div>
+                        </button>
                             );
                         })}
                     </div>
@@ -178,38 +181,34 @@ export default function SettingsPage() {
                     </div>
                 </div>
 
-                {/* Layout Preference */}
+                {/* Reset Settings */}
                 <div className="stCard">
-                    <div className="stCardTitle">📐 {t("layoutPreference")}</div>
+                    <div className="stCardTitle">🔄 {t("resetSettings")}</div>
                     <div className="stRow">
                         <button
-                            className={`stPill ${settings.layout === "split" ? "isActive" : ""}`}
-                            onClick={() => update({ layout: "split" })}
-                        >
-                            {t("splitView")}
-                        </button>
-                        <button
-                            className={`stPill ${settings.layout === "focusRemote" ? "isActive" : ""}`}
-                            onClick={() => update({ layout: "focusRemote" })}
-                        >
-                            {t("focusRemote")}
-                        </button>
-                        <button
-                            className={`stPill ${settings.layout === "focusLocal" ? "isActive" : ""}`}
-                            onClick={() => update({ layout: "focusLocal" })}
-                        >
-                            {t("focusLocal")}
-                        </button>
-                    </div>
-                </div>
-
-                {/* Danger Zone */}
-                <div className="stCard">
-                    <div className="stCardTitle">⚠️ {t("dangerZone")}</div>
-                    <div className="stRow">
-                        <button
-                            className="stDanger"
-                            onClick={() => {
+                            className="stPill stResetBtn"
+                            onClick={async () => {
+                                // 清空上传的文件
+                                try {
+                                    const res = await fetch(API.documents);
+                                    if (res.ok) {
+                                        const docs = await res.json();
+                                        for (const doc of docs) {
+                                            if (doc.id) {
+                                                await fetch(API.documentById(doc.id), {
+                                                    method: 'DELETE'
+                                                });
+                                            }
+                                        }
+                                    }
+                                } catch (e) {
+                                    console.error('Failed to clear documents:', e);
+                                }
+                                // 重置 theme 为 default
+                                setTheme("default");
+                                // 重置 mode 为 light
+                                setMode("light");
+                                // 重置 settings
                                 localStorage.removeItem(LS_KEY);
                                 setSettings(DEFAULT_SETTINGS);
                                 saveToast();

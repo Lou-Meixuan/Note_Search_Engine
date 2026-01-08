@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { marked } from "marked";
+import { API } from "../config/api";
 import EditModal from "../components/EditModal";
 import "./DocumentPage.css";
 
@@ -24,7 +25,7 @@ export default function DocumentPage() {
         setError("");
 
         try {
-            const response = await fetch(`http://localhost:3001/documents/${id}`);
+            const response = await fetch(API.documentById(id));
 
             if (!response.ok) {
                 throw new Error("Document not found");
@@ -49,7 +50,7 @@ export default function DocumentPage() {
         setShowDeleteModal(false);
 
         try {
-            const response = await fetch(`http://localhost:3001/documents/${id}`, {
+            const response = await fetch(API.documentById(id), {
                 method: "DELETE",
             });
 
@@ -59,7 +60,7 @@ export default function DocumentPage() {
                 throw new Error(data.error || "Delete failed");
             }
 
-            navigate("/");
+            navigate("/home");
         } catch (err) {
             setError(err.message);
             setDeleting(false);
@@ -205,7 +206,7 @@ export default function DocumentPage() {
                 <div className="documentBody">
                     {document.fileType === 'pdf' ? (
                         <iframe
-                            src={`http://localhost:3001/documents/${id}/file`}
+                            src={API.documentFile(id)}
                             className="pdfViewer"
                             title={document.title}
                         />

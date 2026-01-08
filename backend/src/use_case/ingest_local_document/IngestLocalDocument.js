@@ -35,6 +35,7 @@ class IngestLocalDocument {
             fileName: file.originalname,
             source: 'local',
             tags: metadata.tags || [],
+            userId: metadata.userId || null,  // Firebase UID - 关联用户
             createdAt: new Date(),
             updatedAt: new Date(),
             fileBuffer: file.buffer,
