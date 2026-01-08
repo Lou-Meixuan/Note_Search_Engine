@@ -1,13 +1,11 @@
-const mongoose = require('mongoose');
-
 /**
- * MongoDB Connection and Document Model
+ * mongodb.js - Database connection and schemas
  */
 
-// MongoDB connection string
+const mongoose = require('mongoose');
+
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/note_search_engine';
 
-// Connect to MongoDB
 let isConnected = false;
 
 async function connectToMongoDB() {
@@ -60,11 +58,10 @@ const documentSchema = new mongoose.Schema({
         type: [String],
         default: []
     },
-    // 用户 ID (Firebase UID) - 用于关联用户和文档
     userId: {
         type: String,
-        required: false,  // 可选，未登录用户的文档没有 userId
-        index: true       // 索引以加速按用户查询
+        required: false,
+        index: true
     },
     createdAt: {
         type: Date,
@@ -89,34 +86,18 @@ documentSchema.index({ title: 'text', content: 'text' });
 documentSchema.index({ source: 1 });
 documentSchema.index({ createdAt: -1 });
 
-// Document Model
 const DocumentModel = mongoose.model('Document', documentSchema);
 
-module.exports = {
-    connectToMongoDB,
-    DocumentModel
-};
-
-// ============================================================
-// Index Schema - 用于存储倒排索引和文档统计
-// ============================================================
-
-/**
- * Index Schema
- *
- * 存储两种类型的数据：
- * - type: "inverted" - 倒排索引
- * - type: "docstats" - 文档统计信息
- */
+// Index Schema - stores inverted index and document stats
 const indexSchema = new mongoose.Schema({
     type: {
         type: String,
         required: true,
         enum: ['inverted', 'docstats'],
-        unique: true  // 每种类型只存储一份
+        unique: true
     },
     data: {
-        type: mongoose.Schema.Types.Mixed,  // 可以存储任意JSON结构
+        type: mongoose.Schema.Types.Mixed,
         required: true
     },
     updatedAt: {
@@ -125,11 +106,8 @@ const indexSchema = new mongoose.Schema({
     }
 });
 
-
-// 创建索引以提高查询性能
 indexSchema.index({ type: 1 });
 
-// Index Model
 const IndexModel = mongoose.model('Index', indexSchema);
 
 module.exports = {

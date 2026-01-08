@@ -1,19 +1,7 @@
 /**
- * translations.js - 多语言翻译文件
+ * translations.js - Multi-language translations
  * 
- * Created by: C (Cheng)
- * Date: 2026-01-07
- * 
- * 支持语言:
- * - en: English
- * - zh: 中文 (简体)
- * - ja: 日本語
- * - ko: 한국어
- * - es: Español
- * - fr: Français
- * - de: Deutsch
- * 
- * 注意: 文件标题 (title) 和用户设置的 tag 不翻译
+ * Supported: English, Chinese, Japanese, Korean, Spanish, French, German
  */
 
 const translations = {

@@ -1,13 +1,9 @@
-// backend/src/data_access/tokenizer/Model.js
-// pipeline：
-//   1) core tokenize（mixedTokenizeCore）
-//   2) policy（停用词 Stopwords / 数字 Numbers / CJK bigram 噪声）
-//   3) post（后处理 Post-tokenization：限流/长度/噪声）
-// 对外导出：
-//   - tokenize：只跑 core + policy（适合你想单独调试 core/policy）
-//   - tokenizeFinal：跑完整 pipeline（Model -> Post -> Final answer）
-//
-// query 模式：CJK single + bigram 融合，提高召回（recall）
+/**
+ * Model.js - Tokenization model with policy filters
+ * 
+ * Exports: tokenize (core + policy)
+ * Handles: stopwords, CJK bigrams, numeric filtering
+ */
 
 "use strict";
 
@@ -30,9 +26,6 @@ function isNumeric(t) {
 function isCjkBigramNoise(t) {
     if (!t || t.length !== 2) return false;
     if (!looksLikeCJK(t)) return false;
-
-    // 中文注释：只在“两个字都属于高频虚词/功能字噪声集”时才判噪声
-    // 这样不会误杀：图书、书馆、计算、机系 等
     return CJK_NOISE_CHARS.has(t[0]) && CJK_NOISE_CHARS.has(t[1]);
 }
 
@@ -42,12 +35,10 @@ function makeTF(tokens) {
     return tf;
 }
 
-// 合并 tokens（去重）
 function mergeTokensUnique(a, b) {
     return [...new Set([...(a || []), ...(b || [])])];
 }
 
-// 合并 TF（可加权）
 function mergeTF(tfA, tfB, weightB = 1) {
     const out = Object.create(null);
     if (tfA) {
@@ -59,7 +50,6 @@ function mergeTF(tfA, tfB, weightB = 1) {
     return out;
 }
 
-// 把 policy（停用词/数字/噪声）应用到 token 列表
 function applyPolicy(tokens, { enableStopwords, keepNumbers, dropCjkNoiseBigrams }) {
     let out = tokens;
 
@@ -82,27 +72,23 @@ function applyPolicy(tokens, { enableStopwords, keepNumbers, dropCjkNoiseBigrams
     return out;
 }
 
-// core tokenize（只负责切分，不含 policy）
 function coreTokenize(text, coreOptions) {
     return tokenizeMixed(text, coreOptions);
 }
 
-/** =========================
- * Public API 1: tokenize（core + policy）
- * =========================
- *
- * mode:
- * - "document": 给文件建索引用（indexing）
- * - "query":    给用户查询用（search），会做 CJK single+bigram 融合
+/**
+ * Tokenize text with core tokenization and policy filters
+ * 
+ * @param {string} text - Input text
+ * @param {Object} options
+ * @param {"tokens"|"stats"} options.output - Output format
+ * @param {"document"|"query"} options.mode - Tokenization mode
+ * @returns {string[]|Object} Tokens or stats object
  */
 function tokenize(text, options = {}) {
     const {
         output = "tokens",
-
-        // 模式 mode（默认 document）
-        mode = "document", // "document" | "query"
-
-        // core（分词核心 core tokenization）
+        mode = "document",
         cjkMode = "bigram",
         keepCjkSingles = true,
         lowerCaseLatin = true,
@@ -110,13 +96,9 @@ function tokenize(text, options = {}) {
         minTokenLength = 1,
         keepJoinedLatin = true,
         keepSplitLatinParts = false,
-
-        // policy（策略 policy）
         enableStopwords = true,
         keepNumbers = true,
         dropCjkNoiseBigrams = true,
-
-        // query 融合权重：bigram 的权重（可调）
         queryBigramWeight = 1,
     } = options;
 
@@ -127,7 +109,6 @@ function tokenize(text, options = {}) {
         return [];
     }
 
-    // 统一 core 参数
     const coreBase = {
         keepCjkSingles,
         lowerCaseLatin,
@@ -140,15 +121,13 @@ function tokenize(text, options = {}) {
     let tokens;
 
     if (mode === "query") {
-        // 查询模式：CJK single + bigram 融合
+        // Query mode: CJK single + bigram fusion for better recall
         const tokensSingle = coreTokenize(text, { ...coreBase, cjkMode: "single" });
         const tokensBigram = coreTokenize(text, { ...coreBase, cjkMode: "bigram" });
 
-        // policy 分别处理再合并（更稳定）
         const pSingle = applyPolicy(tokensSingle, { enableStopwords, keepNumbers, dropCjkNoiseBigrams });
         const pBigram = applyPolicy(tokensBigram, { enableStopwords, keepNumbers, dropCjkNoiseBigrams });
 
-        // 合并 tokens：去重
         tokens = mergeTokensUnique(pSingle, pBigram);
 
         if (output === "stats") {
@@ -161,10 +140,8 @@ function tokenize(text, options = {}) {
         return tokens;
     }
 
-    // document（默认）：按你原本的 cjkMode 跑
+    // Document mode (default)
     tokens = coreTokenize(text, { ...coreBase, cjkMode });
-
-    // policy
     tokens = applyPolicy(tokens, { enableStopwords, keepNumbers, dropCjkNoiseBigrams });
 
     if (output === "stats") {
@@ -175,4 +152,4 @@ function tokenize(text, options = {}) {
     return tokens;
 }
 
-module.exports = { tokenize};
+module.exports = { tokenize };

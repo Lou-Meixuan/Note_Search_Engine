@@ -1,13 +1,7 @@
 /**
- * LoginPage.jsx - 登录页面
+ * LoginPage.jsx - Login/Welcome page
  * 
- * Created by: C
- * Date: 2026-01-08
- * 
- * 功能:
- * - Google 登录
- * - 跳过登录（访客模式）
- * - 多语言支持
+ * Provides Google Sign-In and guest mode options.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -24,19 +18,18 @@ export default function LoginPage() {
     const [error, setError] = useState(null);
     const [mounted, setMounted] = useState(false);
 
-    // 动画挂载效果
     useEffect(() => {
         setMounted(true);
     }, []);
 
-    // 如果已登录，跳转到主页
+    // Redirect if already logged in
     useEffect(() => {
         if (isLoggedIn && !loading) {
             navigate('/home');
         }
     }, [isLoggedIn, loading, navigate]);
 
-    // Google 登录处理
+    // Handle Google sign-in
     async function handleGoogleSignIn() {
         try {
             setIsLoading(true);
@@ -51,7 +44,7 @@ export default function LoginPage() {
         }
     }
 
-    // 跳过登录（访客模式）
+    // Skip login (guest mode)
     function handleSkip() {
         navigate('/home');
     }
@@ -68,16 +61,16 @@ export default function LoginPage() {
 
     return (
         <div className={`loginPage ${mounted ? 'mounted' : ''}`}>
-            {/* 背景装饰 */}
+            {/* Background decoration */}
             <div className="loginBgPattern">
                 <div className="loginOrb loginOrb1"></div>
                 <div className="loginOrb loginOrb2"></div>
                 <div className="loginOrb loginOrb3"></div>
             </div>
 
-            {/* 主卡片 */}
+            {/* Main card */}
             <div className="loginCard">
-                {/* Logo 区域 */}
+                {/* Logo section */}
                 <div className="loginLogo">
                     <div className="loginLogoIcon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -88,9 +81,9 @@ export default function LoginPage() {
                     <p className="loginSubtitle">{t('loginSubtitle')}</p>
                 </div>
 
-                {/* 登录选项 */}
+                {/* Login options */}
                 <div className="loginOptions">
-                    {/* Google 登录按钮 */}
+                    {/* Google sign-in button */}
                     <button 
                         className="loginGoogleBtn"
                         onClick={handleGoogleSignIn}
@@ -111,12 +104,12 @@ export default function LoginPage() {
                         )}
                     </button>
 
-                    {/* 分隔线 */}
+                    {/* Divider */}
                     <div className="loginDivider">
                         <span>{t('or')}</span>
                     </div>
 
-                    {/* 跳过按钮 */}
+                    {/* Skip button */}
                     <button 
                         className="loginSkipBtn"
                         onClick={handleSkip}
@@ -125,7 +118,7 @@ export default function LoginPage() {
                         {t('continueWithoutSignIn')}
                     </button>
 
-                    {/* 警告提示 */}
+                    {/* Warning notice */}
                     <div className="loginWarning">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <circle cx="12" cy="12" r="10"/>
@@ -136,14 +129,14 @@ export default function LoginPage() {
                     </div>
                 </div>
 
-                {/* 错误提示 */}
+                {/* Error notice */}
                 {error && (
                     <div className="loginError">
                         {error}
                     </div>
                 )}
 
-                {/* 功能特性 */}
+                {/* Features */}
                 <div className="loginFeatures">
                     <div className="loginFeature">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -166,7 +159,7 @@ export default function LoginPage() {
                 </div>
             </div>
 
-            {/* 底部版权 */}
+            {/* Footer */}
             <div className="loginFooter">
                 <p>© 2026 Note Search Engine. Made with ♥</p>
             </div>

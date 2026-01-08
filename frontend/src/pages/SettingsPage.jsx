@@ -1,12 +1,7 @@
 /**
- * SettingsPage.jsx - 设置页面
+ * SettingsPage.jsx - Application settings
  * 
- * Modified by: C (Cheng)
- * Date: 2026-01-07
- * 
- * 修改记录:
- * - C: 添加多语言支持，可选择 7 种语言
- * - C: 分离 Light/Dark 模式和颜色主题选择
+ * Language selection, theme customization, and reset options.
  */
 
 import { Link } from "react-router-dom";
@@ -133,7 +128,7 @@ export default function SettingsPage() {
                     <div className="stThemeGrid">
                         {themes.map((themeGroup) => {
                             const preview = isDark ? themeGroup.darkPreview : themeGroup.lightPreview;
-                            // 根据 theme id 获取翻译后的名称
+                            // Get translated theme name by id
                             const themeNameKey = `theme${themeGroup.id.charAt(0).toUpperCase() + themeGroup.id.slice(1)}`;
                             const translatedName = t(themeNameKey) || themeGroup.name;
                             return (
@@ -188,7 +183,7 @@ export default function SettingsPage() {
                         <button
                             className="stPill stResetBtn"
                             onClick={async () => {
-                                // 清空上传的文件
+                                // Clear uploaded files
                                 try {
                                     const res = await fetch(API.documents);
                                     if (res.ok) {
@@ -204,11 +199,11 @@ export default function SettingsPage() {
                                 } catch (e) {
                                     console.error('Failed to clear documents:', e);
                                 }
-                                // 重置 theme 为 default
+                                // Reset theme to default
                                 setTheme("default");
-                                // 重置 mode 为 light
+                                // Reset mode to light
                                 setMode("light");
-                                // 重置 settings
+                                // Reset settings
                                 localStorage.removeItem(LS_KEY);
                                 setSettings(DEFAULT_SETTINGS);
                                 saveToast();

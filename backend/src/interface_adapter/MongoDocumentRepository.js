@@ -1,3 +1,7 @@
+/**
+ * MongoDocumentRepository.js - MongoDB implementation of document repository
+ */
+
 const DocumentRepository = require('./DocumentRepository');
 const { DocumentModel } = require('../data_access/mongodb');
 const Document = require('../entity/Document');
@@ -137,9 +141,9 @@ class MongoDocumentRepository extends DocumentRepository {
     }
 
     /**
-     * 按用户 ID 查找文档
+     * Find documents by user ID
      * @param {string} userId - Firebase UID
-     * @returns {Promise<Document[]>} 该用户的所有文档
+     * @returns {Promise<Document[]>} All documents for the user
      */
     async findByUserId(userId) {
         const docs = await DocumentModel.find({ userId }).sort({ createdAt: -1 });

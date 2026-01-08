@@ -1,25 +1,23 @@
-// backend/src/data_access/tokenizer/StopWords.js
-// 中文注释：Tokenizer 的停用词（Stopwords）与 CJK bigram 噪声字符集（Noise char set）
+/**
+ * StopWords.js - Stopwords and CJK noise character sets
+ */
 
 "use strict";
 
-/** =========================
- * Stop words（停用词 Stopwords）
- * ========================= */
+// English stopwords
 const STOPWORDS_EN = new Set([
     "the", "a", "an", "and", "or", "to", "of", "in", "on", "for", "with",
     "is", "are", "was", "were", "be", "been", "it", "this", "that",
 ]);
 
+// Chinese stopwords
 const STOPWORDS_ZH = new Set([
     "的", "是", "了", "在", "有", "和", "与", "及", "也", "都", "就",
     "这", "那", "一个", "我们", "你们", "他们",
     "我", "你", "他", "她", "它", "们",
 ]);
 
-/** =========================
- * CJK bigram noise（中文 bigram 噪声 CJK bigram noise）
- * ========================= */
+// CJK bigram noise characters
 const CJK_NOISE_CHARS = new Set([
     "的", "是", "了",
     "我", "你", "他", "她", "它", "们",

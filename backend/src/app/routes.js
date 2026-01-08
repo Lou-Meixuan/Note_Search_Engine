@@ -1,11 +1,7 @@
 /**
- * routes.js - API 路由定义
+ * routes.js - API route definitions
  * 
- * Modified by: C
- * Date: 2026-01-07
- * 
- * 修改记录:
- * - C: 添加 Google Custom Search API 集成，支持 remote 搜索
+ * Endpoints: /search, /documents, /tags
  */
 
 const { SearchDocumentsController } = require("../interface_adapter/search_documents/SearchDocumentsController");
@@ -28,15 +24,15 @@ function registerRoutes(app) {
     app.get("/search", async (req, res) => {
         const q = (req.query.q || "").trim();
         const scope = (req.query.scope || "all").toLowerCase();
-        const tagFilter = req.query.tag || null;  // 直接的 tag 筛选参数
+        const tagFilter = req.query.tag || null;
 
-        // 检测 #tag 语法: 提取 #xxx 作为 tag 搜索
+        // Detect #tag syntax
         const tagMatch = q.match(/^#(\S+)$/);
         const isTagSearch = !!tagMatch;
         const searchTag = tagMatch ? tagMatch[1] : tagFilter;
         const actualQuery = isTagSearch ? "" : q;
 
-        // 空查询且无 tag 筛选直接返回
+        // Empty query without tag filter
         if (!actualQuery && !searchTag) {
             return res.json({
                 query: q,
@@ -50,13 +46,12 @@ function registerRoutes(app) {
             let localResults = [];
             let remoteResults = [];
 
-            // Tag 搜索 - 直接按 tag 筛选本地文档
+            // Tag search - filter local documents by tag
             if (searchTag) {
                 const MongoDocumentRepository = require("../interface_adapter/MongoDocumentRepository");
                 const repository = new MongoDocumentRepository();
                 const allDocs = await repository.findAll();
                 
-                // 筛选包含该 tag 的文档
                 const taggedDocs = allDocs.filter(doc => 
                     doc.tags && doc.tags.some(t => 
                         t.toLowerCase() === searchTag.toLowerCase()
@@ -74,15 +69,15 @@ function registerRoutes(app) {
                 
                 console.log(`[Search] Tag search "#${searchTag}" found ${localResults.length} documents`);
             } 
-            // 普通搜索
+            // Normal search
             else {
-                // 本地搜索 (scope: "local" 或 "all")
+                // Local search (scope: "local" or "all")
                 if (scope === "local" || scope === "all") {
                     const controller = new SearchDocumentsController();
                     const localSearchResult = await controller.handle({ q: actualQuery, scope: "local" });
                     localResults = localSearchResult.results || [];
                     
-                    // 为本地结果添加 tags 信息
+                    // Add tags info to local results
                     const MongoDocumentRepository = require("../interface_adapter/MongoDocumentRepository");
                     const repository = new MongoDocumentRepository();
                     for (let result of localResults) {
@@ -93,7 +88,7 @@ function registerRoutes(app) {
                     }
                 }
 
-                // 远程搜索 - Google API (scope: "remote" 或 "all")
+                // Remote search - Google API (scope: "remote" or "all")
                 if (scope === "remote" || scope === "all") {
                     if (isGoogleConfigured()) {
                         try {
@@ -107,7 +102,6 @@ function registerRoutes(app) {
                 }
             }
 
-            // 合并结果
             const allResults = [...remoteResults, ...localResults];
 
             res.json({
@@ -170,15 +164,12 @@ function registerRoutes(app) {
             const MongoDocumentRepository = require("../interface_adapter/MongoDocumentRepository");
             const repository = new MongoDocumentRepository();
             
-            // 支持按 userId 筛选文档
             const userId = req.query.userId;
             let documents;
             
             if (userId) {
-                // 获取该用户的文档
                 documents = await repository.findByUserId(userId);
             } else {
-                // 获取所有文档（未登录用户或无 userId 的文档）
                 documents = await repository.findAll();
             }
             
@@ -189,14 +180,14 @@ function registerRoutes(app) {
         }
     });
 
-    // 获取所有 tags
+    // Get all tags
     app.get("/tags", async (req, res) => {
         try {
             const MongoDocumentRepository = require("../interface_adapter/MongoDocumentRepository");
             const repository = new MongoDocumentRepository();
             const documents = await repository.findAll();
             
-            // 收集所有 tags 并统计数量
+            // Collect and count tags
             const tagCount = {};
             for (const doc of documents) {
                 if (doc.tags && Array.isArray(doc.tags)) {
@@ -206,7 +197,7 @@ function registerRoutes(app) {
                 }
             }
             
-            // 转换为数组并按数量排序
+            // Sort by count
             const tags = Object.entries(tagCount)
                 .map(([name, count]) => ({ name, count }))
                 .sort((a, b) => b.count - a.count);

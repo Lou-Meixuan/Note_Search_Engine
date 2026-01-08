@@ -1,3 +1,7 @@
+/**
+ * DocumentRepository.js - Abstract document repository base class
+ */
+
 class DocumentRepository {
     async save(document) {
         throw new Error('Method save() must be implemented');

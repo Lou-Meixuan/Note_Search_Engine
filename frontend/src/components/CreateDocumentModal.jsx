@@ -1,3 +1,9 @@
+/**
+ * CreateDocumentModal.jsx - New document creation modal
+ * 
+ * Create text/markdown documents with title, content, and tags.
+ */
+
 import { useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
@@ -12,7 +18,7 @@ export default function CreateDocumentModal({ isOpen, onClose, onCreateSuccess }
     const [creating, setCreating] = useState(false);
     const [error, setError] = useState("");
     const { t } = useLanguage();
-    const { user } = useAuth();  // 获取当前登录用户
+    const { user } = useAuth();
 
     if (!isOpen) return null;
 
@@ -43,7 +49,7 @@ export default function CreateDocumentModal({ isOpen, onClose, onCreateSuccess }
             formData.append("file", file);
             formData.append("title", title.trim());
             if (tags) formData.append("tags", tags);
-            // 如果用户已登录，附加 userId
+            // Attach userId if logged in
             if (user?.uid) formData.append("userId", user.uid);
 
             const response = await fetch(API.documentsUpload, {

@@ -1,3 +1,9 @@
+/**
+ * DocumentPage.jsx - Document detail view
+ * 
+ * Displays document content with edit and delete options.
+ */
+
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { marked } from "marked";

@@ -1,3 +1,7 @@
+/**
+ * EditModal.jsx - Document edit modal
+ */
+
 import { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { API } from "../config/api";
