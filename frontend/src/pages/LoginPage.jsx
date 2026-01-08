@@ -61,11 +61,16 @@ export default function LoginPage() {
             // Navigation will be handled by useEffect when isLoggedIn becomes true
         } catch (err) {
             console.error('Login error:', err);
-            setError(err.message || t('loginError') || 'Sign in failed. Please try again.');
+            // Handle account-exists-with-different-credential error
+            let errorMsg = err.message;
+            if (err.code === 'auth/account-exists-with-different-credential') {
+                errorMsg = t('accountExistsWithDifferentCredential') || 
+                    'This email is already registered with another sign-in method. Please use the original method.';
+            }
+            setError(errorMsg);
             setIsLoading(false);
             setLoadingMethod(null);
         }
-        // Don't reset loading state here - let the redirect happen first
     }
 
     // Handle email form submit
