@@ -17,6 +17,8 @@
 
 import { useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
+import { useAuth } from "../context/AuthContext";
+import { API } from "../config/api";
 import "./UploadModal.css";
 
 export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
@@ -27,6 +29,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
     const [error, setError] = useState("");
     const [dragActive, setDragActive] = useState(false);
     const { t } = useLanguage();
+    const { user } = useAuth();  // 获取当前登录用户
 
     if (!isOpen) return null;
 
@@ -76,10 +79,12 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
             formData.append("file", file);
             if (title) formData.append("title", title);
             if (tags) formData.append("tags", tags);
+            // 如果用户已登录，附加 userId
+            if (user?.uid) formData.append("userId", user.uid);
 
-            console.log("Uploading to: http://localhost:3001/documents/upload");
+            console.log("Uploading to:", API.documentsUpload);
 
-            const response = await fetch("http://localhost:3001/documents/upload", {
+            const response = await fetch(API.documentsUpload, {
                 method: "POST",
                 body: formData,
             });
@@ -103,7 +108,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
         } catch (err) {
             console.error("Upload error:", err);
             if (err.message === "Failed to fetch") {
-                setError("Cannot connect to server. Please make sure the backend is running on http://localhost:3001");
+                setError("Cannot connect to server. Please check your connection.");
             } else {
                 setError(err.message);
             }

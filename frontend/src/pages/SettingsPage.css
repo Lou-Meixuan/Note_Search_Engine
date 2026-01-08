@@ -9,9 +9,7 @@
  * - C: 使用 CSS 变量支持主题切换
  */
 
-:root {
-    --accent: #d86a3a;
-}
+/* --accent 现在从 index.css 的 theme 变量继承 */
 
 .stPage {
     height: 100vh;
@@ -135,7 +133,7 @@
 
 .stSwatch.isActive {
     border-color: var(--accent);
-    box-shadow: 0 0 0 2px rgba(216,106,58,0.18);
+    box-shadow: 0 0 0 2px var(--accent-shadow, rgba(216,106,58,0.18));
 }
 
 .stDot {
@@ -165,7 +163,7 @@
 
 .stPill.isActive {
     border-color: var(--accent);
-    box-shadow: 0 0 0 2px rgba(216,106,58,0.18);
+    box-shadow: 0 0 0 2px var(--accent-shadow, rgba(216,106,58,0.18));
     background: var(--accent);
     color: #fff;
 }
@@ -197,7 +195,7 @@
 
 .stLanguageBtn.isActive {
     border-color: var(--accent);
-    box-shadow: 0 0 0 2px rgba(216,106,58,0.18);
+    box-shadow: 0 0 0 2px var(--accent-shadow, rgba(216,106,58,0.18));
     background: var(--accent);
 }
 
@@ -217,19 +215,16 @@
     color: var(--text-secondary);
 }
 
-.stDanger {
-    border: 1px solid rgba(255,69,58,0.35);
+/* Reset Button - 和其他按钮大小一致 */
+.stResetBtn {
+    border-color: rgba(255,69,58,0.35);
     background: rgba(255,69,58,0.08);
     color: #ff453a;
-    padding: 10px 14px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 800;
-    transition: all 0.2s ease;
 }
 
-.stDanger:hover {
+.stResetBtn:hover {
     background: rgba(255,69,58,0.15);
+    border-color: rgba(255,69,58,0.5);
 }
 
 /* Color Theme Grid */
@@ -297,11 +292,6 @@
     font-size: 12px;
     font-weight: 700;
     color: var(--text-primary);
-}
-
-.stThemeNameZh {
-    font-size: 10px;
-    color: var(--text-secondary);
 }
 
 /* Responsive */

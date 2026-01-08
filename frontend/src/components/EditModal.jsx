@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
+import { API } from "../config/api";
 import "./EditModal.css";
 
 export default function EditModal({ isOpen, onClose, document, onEditSuccess }) {
@@ -42,7 +43,7 @@ export default function EditModal({ isOpen, onClose, document, onEditSuccess }) 
                 .map(tag => tag.trim())
                 .filter(tag => tag.length > 0);
 
-            const response = await fetch(`http://localhost:3001/documents/${document.id}`, {
+            const response = await fetch(API.documentById(document.id), {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -71,7 +72,7 @@ export default function EditModal({ isOpen, onClose, document, onEditSuccess }) 
         } catch (err) {
             console.error("Update error:", err);
             if (err.message === "Failed to fetch") {
-                setError("Cannot connect to server. Please make sure the backend is running on http://localhost:3001");
+                setError("Cannot connect to server. Please check your connection.");
             } else {
                 setError(err.message);
             }

@@ -60,6 +60,12 @@ const documentSchema = new mongoose.Schema({
         type: [String],
         default: []
     },
+    // 用户 ID (Firebase UID) - 用于关联用户和文档
+    userId: {
+        type: String,
+        required: false,  // 可选，未登录用户的文档没有 userId
+        index: true       // 索引以加速按用户查询
+    },
     createdAt: {
         type: Date,
         default: Date.now

@@ -13,7 +13,8 @@ class IngestLocalDocumentController {
 
             const metadata = {
                 title: req.body.title || undefined,
-                tags: req.body.tags ? req.body.tags.split(',').map(t => t.trim()) : []
+                tags: req.body.tags ? req.body.tags.split(',').map(t => t.trim()) : [],
+                userId: req.body.userId || null  // Firebase UID
             };
 
             const repository = new MongoDocumentRepository();

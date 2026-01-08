@@ -14,6 +14,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useColorTheme } from "../context/ColorThemeContext";
 import { useLanguage } from "../context/LanguageContext";
+import { useAuth } from "../context/AuthContext";
+import { API } from "../config/api";
 import UploadModal from "../components/UploadModal";
 import CreateDocumentModal from "../components/CreateDocumentModal";
 import "./SearchPage.css";
@@ -32,6 +34,7 @@ export default function SearchPage() {
     const navigate = useNavigate();
     const { isDark, toggleMode } = useColorTheme();
     const { t } = useLanguage();
+    const { user } = useAuth();  // 获取当前登录用户
 
     // split view ratio: left panel width percentage
     const [leftPct, setLeftPct] = useState(52);
@@ -54,41 +57,20 @@ export default function SearchPage() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [newMenuOpen]);
 
-    // ---- mock data (UI first) ----
-    const mockRemote = useMemo(
-        () => [
-            {
-                title: "Sublime Text - Text Editing, Done Right",
-                url: "https://www.sublimetext.com",
-                snippet:
-                    "Sublime Text is a sophisticated text editor for code, markup and prose. You'll love the slick user interface...",
-            },
-            {
-                title: "Text | Apple Developer Documentation",
-                url: "https://developer.apple.com/documentation/",
-                snippet:
-                    "A text view displays a string in your app’s user interface using a body font that’s appropriate for the current platform...",
-            },
-            {
-                title: "TEXT Definition & Meaning - Merriam-Webster",
-                url: "https://www.merriam-webster.com/dictionary/text",
-                snippet:
-                    "Definition of text: the original words and form of a written or printed work; an edited or printed copy...",
-            },
-        ],
-        []
-    );
-
     useEffect(() => {
-        // 加载本地文档
+        // 加载本地文档（用户登录状态变化时重新获取）
         fetchLocalDocuments();
-        // default: show mock for remote
-        setData((prev) => ({ ...prev, remote: mockRemote }));
-    }, [mockRemote]);
+        // remote 默认为空
+        setData((prev) => ({ ...prev, remote: [] }));
+    }, [user]);  // 当用户登录/登出时重新获取文档
 
     async function fetchLocalDocuments() {
         try {
-            const res = await fetch('http://localhost:3001/documents');
+            // 如果用户已登录，只获取该用户的文档
+            const url = user?.uid 
+                ? `${API.documents}?userId=${encodeURIComponent(user.uid)}`
+                : API.documents;
+            const res = await fetch(url);
             if (res.ok) {
                 const documents = await res.json();
                 // 转换成 local tile 格式
@@ -99,7 +81,8 @@ export default function SearchPage() {
                         name: doc.title,
                         type: 'file',
                         fileType: doc.fileType,
-                        createdAt: doc.createdAt
+                        createdAt: doc.createdAt,
+                        tags: doc.tags || [],  // 添加 tags
                     }));
 
                 setData((prev) => ({
@@ -114,20 +97,20 @@ export default function SearchPage() {
     }
 
     // ---- fetch search ----
-    async function doSearch(nextScope = scope) {
+    async function doSearch(nextScope = scope, customQuery = null) {
         setError("");
-        const trimmed = q.trim();
+        const trimmed = (customQuery !== null ? customQuery : q).trim();
 
         // 空 query: 重置为默认状态
         if (!trimmed) {
             fetchLocalDocuments();
-            setData((prev) => ({ ...prev, remote: mockRemote }));
+            setData((prev) => ({ ...prev, remote: [] }));
             return;
         }
 
         try {
             const res = await fetch(
-                `http://localhost:3001/search?q=${encodeURIComponent(trimmed)}&scope=${encodeURIComponent(
+                `${API.search}?q=${encodeURIComponent(trimmed)}&scope=${encodeURIComponent(
                     nextScope
                 )}`
             );
@@ -143,16 +126,17 @@ export default function SearchPage() {
             // 后端返回格式: { results: [...], totalResults, query, scope }
             const searchResults = Array.isArray(json.results) ? json.results : [];
 
-            // 转换搜索结果为 Local tile 格式，并按分数排序
+            // 转换搜索结果为 Local tile 格式，并按分数排序（不显示百分比）
             const localResults = searchResults
                 .filter(r => r.source === 'local')
                 .map(r => ({
                     id: r.docId,
-                    name: `${r.title} (${(r.score * 100).toFixed(0)}%)`,
+                    name: r.title,  // 不再显示百分比
                     type: 'file',
                     fileType: r.fileType,
                     score: r.score,
                     snippet: r.snippet,
+                    tags: r.tags || [],  // 添加 tags
                 }));
 
             // Remote 搜索结果
@@ -165,18 +149,26 @@ export default function SearchPage() {
                 }));
 
             setData({
-                remote: remoteResults.length ? remoteResults : mockRemote,
+                remote: remoteResults,
                 local: localResults.length ? localResults : [],
             });
         } catch (e) {
             console.error("[Search] Error:", e);
             setError(String(e?.message || e));
-            setData((prev) => ({ remote: mockRemote, local: prev.local }));
+            setData((prev) => ({ remote: [], local: prev.local }));
         }
     }
 
     function onKeyDown(e) {
         if (e.key === "Enter") doSearch();
+    }
+
+    // 点击 tag 进行搜索
+    function handleTagClick(tagName) {
+        const tagQuery = `#${tagName}`;
+        setQ(tagQuery);
+        // 直接传递查询参数，避免 state 更新延迟
+        doSearch("local", tagQuery);  // tag 搜索只搜本地
     }
 
     // ---- split drag handlers ----
@@ -248,7 +240,7 @@ export default function SearchPage() {
             {/* Top Bar */}
             <header className="spTopbar">
                 <div className="spLeft">
-                    <Link className="spIconBtn" to="/" aria-label="Home">
+                    <Link className="spIconBtn" to="/home" aria-label="Home">
                         {/* home icon */}
                         <svg viewBox="0 0 24 24" className="spIcon">
                             <path d="M12 3l9 8h-3v10h-5v-6H11v6H6V11H3l9-8z" />
@@ -376,9 +368,24 @@ export default function SearchPage() {
                     </div>
 
                     <div className="spResults">
-                        {(data.remote || []).map((r, idx) => (
+                        {(data.remote || []).length > 0 ? (
+                            (data.remote || []).map((r, idx) => (
                             <RemoteResultCard key={idx} item={r} />
-                        ))}
+                            ))
+                        ) : (
+                            <div className="spEmptyRemote">
+                                {/* Google logo - 使用 SVG 表示 "Powered by Google" */}
+                                <svg viewBox="0 0 272 92" className="spGoogleLogo">
+                                    <path d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18C71.25 34.32 81.24 25 93.5 25s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44S80.99 39.2 80.99 47.18c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z" fill="#EA4335"/>
+                                    <path d="M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.85 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z" fill="#FBBC05"/>
+                                    <path d="M209.75 26.34v39.82c0 16.38-9.66 23.07-21.08 23.07-10.75 0-17.22-7.19-19.66-13.07l8.48-3.53c1.51 3.61 5.21 7.87 11.17 7.87 7.31 0 11.84-4.51 11.84-13v-3.19h-.34c-2.18 2.69-6.38 5.04-11.68 5.04-11.09 0-21.25-9.66-21.25-22.09 0-12.52 10.16-22.26 21.25-22.26 5.29 0 9.49 2.35 11.68 4.96h.34v-3.61h9.25zm-8.56 20.92c0-7.81-5.21-13.52-11.84-13.52-6.72 0-12.35 5.71-12.35 13.52 0 7.73 5.63 13.36 12.35 13.36 6.63 0 11.84-5.63 11.84-13.36z" fill="#4285F4"/>
+                                    <path d="M225 3v65h-9.5V3h9.5z" fill="#34A853"/>
+                                    <path d="M262.02 54.48l7.56 5.04c-2.44 3.61-8.32 9.83-18.48 9.83-12.6 0-22.01-9.74-22.01-22.18 0-13.19 9.49-22.18 20.92-22.18 11.51 0 17.14 9.16 18.98 14.11l1.01 2.52-29.65 12.28c2.27 4.45 5.8 6.72 10.75 6.72 4.96 0 8.4-2.44 10.92-6.14zm-23.27-7.98l19.82-8.23c-1.09-2.77-4.37-4.7-8.23-4.7-4.95 0-11.84 4.37-11.59 12.93z" fill="#EA4335"/>
+                                    <path d="M35.29 41.41V32H67c.31 1.64.47 3.58.47 5.68 0 7.06-1.93 15.79-8.15 22.01-6.05 6.3-13.78 9.66-24.02 9.66C16.32 69.35.36 53.89.36 34.91.36 15.93 16.32.47 35.3.47c10.5 0 17.98 4.12 23.6 9.49l-6.64 6.64c-4.03-3.78-9.49-6.72-16.97-6.72-13.86 0-24.7 11.17-24.7 25.03 0 13.86 10.84 25.03 24.7 25.03 8.99 0 14.11-3.61 17.39-6.89 2.66-2.66 4.41-6.46 5.1-11.65l-22.49.01z" fill="#4285F4"/>
+                                </svg>
+                                <p className="spEmptyHint">{t("searchToSeeResults") || "Search to see Google results"}</p>
+                            </div>
+                        )}
                     </div>
                 </section>
 
@@ -400,14 +407,14 @@ export default function SearchPage() {
                             <span className="spPanelHint">{t("localHint")}</span>
                         </div>
                         <div className="spNewBtnContainer">
-                            <button
-                                className="spAddBtn"
+                        <button
+                            className="spAddBtn"
                                 onClick={() => setNewMenuOpen(!newMenuOpen)}
                                 aria-label="New Document"
                                 title="New Document"
-                            >
-                                + New
-                            </button>
+                        >
+                            + New
+                        </button>
                             {newMenuOpen && (
                                 <div className="spNewMenu">
                                     <button
@@ -442,7 +449,7 @@ export default function SearchPage() {
 
                     <div className="spGrid">
                         {(data.local || []).map((f, idx) => (
-                            <LocalTile key={idx} item={f} />
+                            <LocalTile key={idx} item={f} onTagClick={handleTagClick} />
                         ))}
                     </div>
                 </section>
@@ -475,13 +482,20 @@ function RemoteResultCard({ item }) {
     );
 }
 
-function LocalTile({ item }) {
+function LocalTile({ item, onTagClick }) {
     const isFolder = item.type === "folder";
     const navigate = useNavigate();
 
     const handleClick = () => {
         if (!isFolder && item.id) {
             navigate(`/document/${item.id}`);
+        }
+    };
+
+    const handleTagClick = (e, tagName) => {
+        e.stopPropagation();  // 阻止点击事件冒泡到卡片
+        if (onTagClick) {
+            onTagClick(tagName);
         }
     };
 
@@ -503,6 +517,24 @@ function LocalTile({ item }) {
                 )}
             </div>
             <div className="spTileName">{item.name}</div>
+            {/* Tags */}
+            {item.tags && item.tags.length > 0 && (
+                <div className="spTileTags">
+                    {item.tags.slice(0, 3).map((tag, idx) => (
+                        <span 
+                            key={idx} 
+                            className="spTag"
+                            onClick={(e) => handleTagClick(e, tag)}
+                            title={`Search #${tag}`}
+                        >
+                            #{tag}
+                        </span>
+                    ))}
+                    {item.tags.length > 3 && (
+                        <span className="spTagMore">+{item.tags.length - 3}</span>
+                    )}
+                </div>
+            )}
         </div>
     );
 }

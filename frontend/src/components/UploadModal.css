@@ -6,6 +6,7 @@
  * 
  * 修改记录:
  * - C: 添加 .hiddenFileInput 样式，用于隐藏文件输入框但保持可访问性
+ * - C: 使用 CSS 变量支持主题切换
  */
 
 /* Modal Overlay */
@@ -35,14 +36,15 @@
 
 /* Modal Content */
 .modalContent {
-    background: white;
+    background: var(--bg-card, white);
     border-radius: 12px;
     width: 90%;
     max-width: 520px;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-lg, 0 20px 60px rgba(0, 0, 0, 0.3));
     animation: slideUp 0.3s ease-out;
+    color: var(--text-primary, #333);
 }
 
 @keyframes slideUp {
@@ -63,20 +65,20 @@
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 1.75rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color, #eee);
 }
 
 .modalHeader h2 {
     margin: 0;
     font-size: 1.5rem;
-    color: #333;
+    color: var(--text-primary, #333);
 }
 
 .modalCloseBtn {
     background: none;
     border: none;
     font-size: 2rem;
-    color: #999;
+    color: var(--text-secondary, #999);
     cursor: pointer;
     width: 32px;
     height: 32px;
@@ -89,8 +91,8 @@
 }
 
 .modalCloseBtn:hover:not(:disabled) {
-    background: #f5f5f5;
-    color: #333;
+    background: var(--btn-hover, #f5f5f5);
+    color: var(--text-primary, #333);
 }
 
 .modalCloseBtn:disabled {
@@ -108,48 +110,48 @@
 
 /* Drop Zone */
 .dropZone {
-    border: 2px dashed #d0d0d0;
+    border: 2px dashed var(--border-color, #d0d0d0);
     border-radius: 10px;
     padding: 2.5rem 1.5rem;
     text-align: center;
-    background: #fafafa;
+    background: var(--bg-secondary, #fafafa);
     transition: all 0.3s;
 }
 
 .dropZone.dragActive {
-    border-color: #333;
-    background: #f5f5f5;
+    border-color: var(--accent, #333);
+    background: var(--btn-hover, #f5f5f5);
 }
 
 .dropZone.hasFile {
-    border-color: #333;
-    background: #f5f5f5;
+    border-color: var(--accent, #333);
+    background: var(--btn-hover, #f5f5f5);
     padding: 1.5rem;
 }
 
 .uploadIcon {
     width: 48px;
     height: 48px;
-    fill: #333;
+    fill: var(--icon-fill, #333);
     margin: 0 auto 1rem;
 }
 
 .dropText {
     font-size: 1.05rem;
-    color: #555;
+    color: var(--text-primary, #555);
     margin: 0 0 0.5rem 0;
 }
 
 .dropHint {
-    color: #999;
+    color: var(--text-secondary, #999);
     margin: 0.5rem 0;
     font-size: 0.9rem;
 }
 
 .fileSelectBtn {
     display: inline-block;
-    background: #333;
-    color: white;
+    background: var(--accent, #333);
+    color: var(--text-inverse, white);
     padding: 0.7rem 1.5rem;
     border-radius: 6px;
     cursor: pointer;
@@ -161,7 +163,7 @@
 }
 
 .fileSelectBtn:hover {
-    background: #000;
+    opacity: 0.9;
 }
 
 /* 隐藏文件输入框 - 使用 label 包裹方式 */
@@ -182,7 +184,7 @@
 
 .supportedTypes {
     display: block;
-    color: #999;
+    color: var(--text-secondary, #999);
     font-size: 0.85rem;
     margin-top: 0.75rem;
 }
@@ -197,7 +199,7 @@
 .fileIcon {
     width: 40px;
     height: 40px;
-    fill: #333;
+    fill: var(--icon-fill, #333);
     flex-shrink: 0;
 }
 
@@ -208,7 +210,7 @@
 
 .fileName {
     margin: 0 0 0.25rem 0;
-    color: #333;
+    color: var(--text-primary, #333);
     font-weight: 600;
     font-size: 0.95rem;
     word-break: break-word;
@@ -216,7 +218,7 @@
 
 .fileSize {
     margin: 0;
-    color: #888;
+    color: var(--text-secondary, #888);
     font-size: 0.85rem;
 }
 
@@ -225,7 +227,7 @@
     height: 32px;
     border-radius: 50%;
     border: none;
-    background: #fee;
+    background: rgba(255, 100, 100, 0.15);
     color: #c33;
     font-size: 1.5rem;
     cursor: pointer;
@@ -238,7 +240,7 @@
 }
 
 .removeFileBtn:hover:not(:disabled) {
-    background: #fcc;
+    background: rgba(255, 100, 100, 0.25);
 }
 
 .removeFileBtn:disabled {
@@ -255,36 +257,38 @@
 
 .formField label {
     font-weight: 600;
-    color: #444;
+    color: var(--text-primary, #444);
     font-size: 0.9rem;
 }
 
 .formField input {
     padding: 0.7rem 0.9rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color, #ddd);
     border-radius: 6px;
     font-size: 0.95rem;
     transition: border-color 0.2s;
+    background: var(--bg-primary, white);
+    color: var(--text-primary, #333);
 }
 
 .formField input:focus {
     outline: none;
-    border-color: #333;
+    border-color: var(--accent, #333);
 }
 
 .formField input:disabled {
-    background: #f5f5f5;
+    background: var(--bg-secondary, #f5f5f5);
     cursor: not-allowed;
 }
 
 .formField small {
-    color: #888;
+    color: var(--text-secondary, #888);
     font-size: 0.85rem;
 }
 
 /* Error Message */
 .modalError {
-    background: #fee;
+    background: rgba(255, 100, 100, 0.15);
     color: #c33;
     padding: 0.75rem;
     border-radius: 6px;
@@ -308,29 +312,31 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    box-sizing: border-box;
+    min-height: 48px;
 }
 
 .modalCancelBtn {
-    background: white;
-    color: #666;
-    border: 2px solid #ddd;
+    background: var(--bg-card, white);
+    color: var(--text-secondary, #666);
+    border: 2px solid var(--border-color, #ddd);
 }
 
 .modalCancelBtn:hover:not(:disabled) {
-    background: #f5f5f5;
-    border-color: #ccc;
+    background: var(--btn-hover, #f5f5f5);
+    border-color: var(--border-color, #ccc);
 }
 
 .modalSubmitBtn {
-    background: #333;
-    color: white;
-    border: none;
+    background: var(--accent, #333);
+    color: var(--text-inverse, white);
+    border: 2px solid var(--accent, #333);
 }
 
 .modalSubmitBtn:hover:not(:disabled) {
-    background: #000;
+    opacity: 0.9;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-md, 0 4px 12px rgba(0, 0, 0, 0.3));
 }
 
 .modalCancelBtn:disabled,

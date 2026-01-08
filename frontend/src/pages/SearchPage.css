@@ -372,6 +372,29 @@
     gap: 14px;
 }
 
+/* Empty Remote State - Google Logo */
+.spEmptyRemote {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    opacity: 0.6;
+}
+
+.spGoogleLogo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 16px;
+}
+
+.spEmptyHint {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
 .spResultCard {
     display: block;
     text-decoration: none;
@@ -496,6 +519,41 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+/* Tags in Local Tile */
+.spTileTags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 4px;
+    max-width: 100%;
+}
+
+.spTag {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.spTag:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.spTagMore {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: var(--btn-bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
 }
 
 /* util */

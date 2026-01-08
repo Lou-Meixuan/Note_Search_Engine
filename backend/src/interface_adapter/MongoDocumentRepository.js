@@ -14,6 +14,7 @@ class MongoDocumentRepository extends DocumentRepository {
             fileName: document.fileName,
             source: document.source,
             tags: document.tags,
+            userId: document.userId || null,  // Firebase UID
             createdAt: document.createdAt,
             updatedAt: document.updatedAt,
             fileBuffer: document.fileBuffer,
@@ -23,7 +24,7 @@ class MongoDocumentRepository extends DocumentRepository {
         const documentModel = new DocumentModel(docData);
         await documentModel.save();
 
-        console.log(`Saved to MongoDB: ${document.id}`);
+        console.log(`Saved to MongoDB: ${document.id} (userId: ${document.userId || 'anonymous'})`);
 
         return document;
     }
@@ -133,6 +134,30 @@ class MongoDocumentRepository extends DocumentRepository {
         const count = await DocumentModel.countDocuments();
         console.log(`Total documents: ${count}`);
         return count;
+    }
+
+    /**
+     * 按用户 ID 查找文档
+     * @param {string} userId - Firebase UID
+     * @returns {Promise<Document[]>} 该用户的所有文档
+     */
+    async findByUserId(userId) {
+        const docs = await DocumentModel.find({ userId }).sort({ createdAt: -1 });
+        
+        console.log(`Found ${docs.length} documents for user: ${userId}`);
+        
+        return docs.map(doc => new Document({
+            id: doc.id,
+            title: doc.title,
+            content: doc.content,
+            fileType: doc.fileType,
+            fileName: doc.fileName,
+            source: doc.source,
+            tags: doc.tags,
+            userId: doc.userId,
+            createdAt: doc.createdAt,
+            updatedAt: doc.updatedAt
+        }));
     }
 }
 
