@@ -15,12 +15,14 @@ class SearchDocuments {
      * @param {Object} dependencies
      * @param {Object} dependencies.documentRepository
      * @param {number} [dependencies.alpha=0.5] - BM25 weight (0-1), Embedding weight = 1-alpha
-     * @param {boolean} [dependencies.useEmbedding=true] - Enable embedding search
+     * @param {boolean} [dependencies.useEmbedding] - Enable embedding search (default: from env or false)
      */
-    constructor({ documentRepository, alpha = 0.5, useEmbedding = true } = {}) {
+    constructor({ documentRepository, alpha = 0.5, useEmbedding } = {}) {
         this.documentRepository = documentRepository;
         this.alpha = alpha;
-        this.useEmbedding = useEmbedding;
+        // Disable embedding by default in production (Render free tier can't handle it)
+        // Set USE_EMBEDDING=true in environment to enable
+        this.useEmbedding = useEmbedding ?? (process.env.USE_EMBEDDING === 'true');
 
         // BM25 parameters
         this.k1 = 1.2;

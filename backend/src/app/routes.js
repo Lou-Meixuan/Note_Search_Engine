@@ -21,6 +21,20 @@ const upload = multer({
 function registerRoutes(app) {
     app.get("/health", (req, res) => res.send("ok"));
 
+    // Status endpoint for debugging configuration
+    app.get("/status", (req, res) => {
+        res.json({
+            server: "running",
+            googleSearch: isGoogleConfigured() ? "configured" : "not configured",
+            embedding: process.env.USE_EMBEDDING === 'true' ? "enabled" : "disabled",
+            env: {
+                hasGoogleApiKey: !!process.env.GOOGLE_API_KEY,
+                hasGoogleSearchEngineId: !!process.env.GOOGLE_SEARCH_ENGINE_ID,
+                hasMongoUri: !!process.env.MONGODB_URI,
+            }
+        });
+    });
+
     app.get("/search", async (req, res) => {
         const q = (req.query.q || "").trim();
         const scope = (req.query.scope || "all").toLowerCase();
