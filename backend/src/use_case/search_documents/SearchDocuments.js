@@ -20,8 +20,8 @@ class SearchDocuments {
     constructor({ documentRepository, alpha = 0.5, useEmbedding } = {}) {
         this.documentRepository = documentRepository;
         this.alpha = alpha;
-        // Disable embedding by default in production (Render free tier can't handle it)
-        // Set USE_EMBEDDING=true in environment to enable
+        // Enable embedding if USE_EMBEDDING env is set, otherwise check parameter
+        // On Render free tier, set USE_EMBEDDING=true and ensure warmup runs at startup
         this.useEmbedding = useEmbedding ?? (process.env.USE_EMBEDDING === 'true');
 
         // BM25 parameters
