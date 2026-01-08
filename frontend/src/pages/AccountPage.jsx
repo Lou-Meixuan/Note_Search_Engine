@@ -1,12 +1,7 @@
 /**
- * AccountPage.jsx - 账户页面
+ * AccountPage.jsx - User account page
  * 
- * Modified by: C (Cheng)
- * Date: 2026-01-08
- * 
- * 修改记录:
- * - C: 添加多语言支持
- * - C: 集成 Firebase Authentication（Google 登录）
+ * Displays user profile and provides sign-in/sign-out functionality.
  */
 
 import { Link } from "react-router-dom";
@@ -18,7 +13,7 @@ export default function AccountPage() {
     const { t } = useLanguage();
     const { user, loading, error, signInWithGoogle, logout, isLoggedIn } = useAuth();
 
-    // 处理 Google 登录
+    // Handle Google sign-in
     async function handleGoogleSignIn() {
         try {
             await signInWithGoogle();
@@ -27,7 +22,7 @@ export default function AccountPage() {
         }
     }
 
-    // 处理登出
+    // Handle sign-out
     async function handleSignOut() {
         try {
             await logout();
@@ -36,7 +31,7 @@ export default function AccountPage() {
         }
     }
 
-    // 加载中状态
+    // Loading state
     if (loading) {
         return (
             <div className="acPage">
@@ -93,14 +88,14 @@ export default function AccountPage() {
 
             <main className="acBody">
                 <div className="acCard">
-                    {/* 显示错误信息 */}
+                    {/* Error message */}
                     {error && (
                         <div className="acError">{error}</div>
                     )}
 
                     {isLoggedIn && user ? (
                         <>
-                            {/* 用户头像 */}
+                            {/* User avatar */}
                             <div className="acAvatar">
                                 {user.photoURL ? (
                                     <img 
@@ -143,7 +138,7 @@ export default function AccountPage() {
                         </>
                     ) : (
                         <>
-                            {/* 未登录状态 */}
+                            {/* Not logged in */}
                             <div className="acAvatar">
                                 <svg viewBox="0 0 24 24" className="acAvatarIcon">
                                     <path d="M12 12a4 4 0 10-4-4 4 4 0 004 4zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z" />

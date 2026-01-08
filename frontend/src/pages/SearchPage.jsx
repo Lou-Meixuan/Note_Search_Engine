@@ -1,13 +1,8 @@
 /**
- * SearchPage.jsx - 搜索页面主组件
+ * SearchPage.jsx - Main search interface
  * 
- * Modified by: C (Cheng)
- * Date: 2026-01-07
- * 
- * 修改记录:
- * - C: 修改 doSearch 函数，正确处理后端返回的搜索结果格式
- * - C: 添加 Dark Mode 切换按钮
- * - C: 添加多语言支持
+ * Split view with remote (Google) and local document search.
+ * Includes theme toggle, upload modal, and document creation.
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -20,12 +15,6 @@ import UploadModal from "../components/UploadModal";
 import CreateDocumentModal from "../components/CreateDocumentModal";
 import "./SearchPage.css";
 
-/**
- * SearchPage UI
- * - Top bar: Home + Search bar + Scope dropdown + icons (search/settings/account)
- * - Body: split view (remote results / local grid), draggable divider
- * - Data: fetch from backend (optional), but UI works even with mock data
- */
 export default function SearchPage() {
     const [q, setQ] = useState("");
     const [scope, setScope] = useState("all"); // "remote" | "local" | "all"
@@ -34,7 +23,7 @@ export default function SearchPage() {
     const navigate = useNavigate();
     const { isDark, toggleMode } = useColorTheme();
     const { t } = useLanguage();
-    const { user } = useAuth();  // 获取当前登录用户
+    const { user } = useAuth();
 
     // split view ratio: left panel width percentage
     const [leftPct, setLeftPct] = useState(52);
@@ -58,22 +47,22 @@ export default function SearchPage() {
     }, [newMenuOpen]);
 
     useEffect(() => {
-        // 加载本地文档（用户登录状态变化时重新获取）
+        // Load local documents
         fetchLocalDocuments();
-        // remote 默认为空
+        // Remote results empty by default
         setData((prev) => ({ ...prev, remote: [] }));
-    }, [user]);  // 当用户登录/登出时重新获取文档
+    }, [user]);
 
     async function fetchLocalDocuments() {
         try {
-            // 如果用户已登录，只获取该用户的文档
+            // If logged in, fetch only user's documents
             const url = user?.uid 
                 ? `${API.documents}?userId=${encodeURIComponent(user.uid)}`
                 : API.documents;
             const res = await fetch(url);
             if (res.ok) {
                 const documents = await res.json();
-                // 转换成 local tile 格式
+                // Convert to local tile format
                 const localDocs = documents
                     .filter(doc => doc.source === 'local')
                     .map(doc => ({
@@ -82,7 +71,7 @@ export default function SearchPage() {
                         type: 'file',
                         fileType: doc.fileType,
                         createdAt: doc.createdAt,
-                        tags: doc.tags || [],  // 添加 tags
+                        tags: doc.tags || [],
                     }));
 
                 setData((prev) => ({
@@ -101,7 +90,7 @@ export default function SearchPage() {
         setError("");
         const trimmed = (customQuery !== null ? customQuery : q).trim();
 
-        // 空 query: 重置为默认状态
+        // Empty query: reset to default state
         if (!trimmed) {
             fetchLocalDocuments();
             setData((prev) => ({ ...prev, remote: [] }));
@@ -123,23 +112,23 @@ export default function SearchPage() {
             const json = await res.json();
             console.log("[Search] Results:", json);
 
-            // 后端返回格式: { results: [...], totalResults, query, scope }
+            // Backend response format: { results: [...], totalResults, query, scope }
             const searchResults = Array.isArray(json.results) ? json.results : [];
 
-            // 转换搜索结果为 Local tile 格式，并按分数排序（不显示百分比）
+            // Convert search results to Local tile format
             const localResults = searchResults
                 .filter(r => r.source === 'local')
                 .map(r => ({
                     id: r.docId,
-                    name: r.title,  // 不再显示百分比
+                    name: r.title,
                     type: 'file',
                     fileType: r.fileType,
                     score: r.score,
                     snippet: r.snippet,
-                    tags: r.tags || [],  // 添加 tags
+                    tags: r.tags || [],
                 }));
 
-            // Remote 搜索结果
+            // Remote search results
             const remoteResults = searchResults
                 .filter(r => r.source === 'remote')
                 .map(r => ({
@@ -163,12 +152,12 @@ export default function SearchPage() {
         if (e.key === "Enter") doSearch();
     }
 
-    // 点击 tag 进行搜索
+    // Tag click handler
     function handleTagClick(tagName) {
         const tagQuery = `#${tagName}`;
         setQ(tagQuery);
-        // 直接传递查询参数，避免 state 更新延迟
-        doSearch("local", tagQuery);  // tag 搜索只搜本地
+        // Pass query directly to avoid state delay
+        doSearch("local", tagQuery);
     }
 
     // ---- split drag handlers ----
@@ -189,7 +178,7 @@ export default function SearchPage() {
         const pctDelta = (dx / rect.width) * 100;
         let next = dragRef.current.startPct + pctDelta;
 
-        // clamp：别拖到太极端
+        // Clamp to reasonable range
         next = Math.max(28, Math.min(72, next));
         setLeftPct(next);
     }
@@ -374,7 +363,7 @@ export default function SearchPage() {
                             ))
                         ) : (
                             <div className="spEmptyRemote">
-                                {/* Google logo - 使用 SVG 表示 "Powered by Google" */}
+                                {/* Google logo */}
                                 <svg viewBox="0 0 272 92" className="spGoogleLogo">
                                     <path d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18C71.25 34.32 81.24 25 93.5 25s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44S80.99 39.2 80.99 47.18c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z" fill="#EA4335"/>
                                     <path d="M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.85 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z" fill="#FBBC05"/>
@@ -493,7 +482,7 @@ function LocalTile({ item, onTagClick }) {
     };
 
     const handleTagClick = (e, tagName) => {
-        e.stopPropagation();  // 阻止点击事件冒泡到卡片
+        e.stopPropagation();
         if (onTagClick) {
             onTagClick(tagName);
         }

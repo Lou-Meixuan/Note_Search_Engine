@@ -1,3 +1,7 @@
+/**
+ * IngestLocalDocument.js - Document ingestion use case
+ */
+
 const Document = require('../../entity/Document');
 const { v4: uuidv4 } = require('uuid');
 const FileParser = require('../../data_access/FileParser');
@@ -35,7 +39,7 @@ class IngestLocalDocument {
             fileName: file.originalname,
             source: 'local',
             tags: metadata.tags || [],
-            userId: metadata.userId || null,  // Firebase UID - 关联用户
+            userId: metadata.userId || null,
             createdAt: new Date(),
             updatedAt: new Date(),
             fileBuffer: file.buffer,

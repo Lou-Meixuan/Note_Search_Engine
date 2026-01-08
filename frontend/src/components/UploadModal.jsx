@@ -1,18 +1,7 @@
 /**
- * UploadModal.jsx - 文件上传模态框组件
+ * UploadModal.jsx - File upload modal
  * 
- * Created by: C (Cheng)
- * Date: 2026-01-07
- * 
- * 功能:
- * - 支持拖拽上传文件
- * - 支持点击 "Browse Files" 按钮选择文件
- * - 支持 txt, md, pdf, docx 格式
- * - 支持多语言
- * 
- * 修改记录:
- * - C: 修复 Browse Files 按钮无法触发文件选择器的问题
- * - C: 添加多语言支持
+ * Drag-and-drop file upload supporting TXT, MD, PDF, DOCX formats.
  */
 
 import { useState } from "react";
@@ -29,7 +18,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
     const [error, setError] = useState("");
     const [dragActive, setDragActive] = useState(false);
     const { t } = useLanguage();
-    const { user } = useAuth();  // 获取当前登录用户
+    const { user } = useAuth();
 
     if (!isOpen) return null;
 
@@ -79,7 +68,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
             formData.append("file", file);
             if (title) formData.append("title", title);
             if (tags) formData.append("tags", tags);
-            // 如果用户已登录，附加 userId
+            // Attach userId if logged in
             if (user?.uid) formData.append("userId", user.uid);
 
             console.log("Uploading to:", API.documentsUpload);
@@ -97,7 +86,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
             const data = await response.json();
             console.log("Upload successful:", data);
 
-            // 成功后回调
+            // Success callback
             if (onUploadSuccess) {
                 onUploadSuccess(data);
             }

@@ -1,13 +1,10 @@
 /**
- * App.jsx - 应用根组件
+ * App.jsx - Root application component
  * 
- * Modified by: C (Cheng)
- * Date: 2026-01-08
- * 
- * 修改记录:
- * - C: 添加 LanguageProvider 支持多语言切换
- * - C: 添加 ColorThemeProvider 支持颜色主题预设（包含 Light/Dark 变体）
- * - C: 添加 AuthProvider 支持 Firebase 用户认证
+ * Sets up routing and global context providers:
+ * - AuthProvider: Firebase authentication
+ * - LanguageProvider: Multi-language support
+ * - ColorThemeProvider: Theme customization
  */
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";

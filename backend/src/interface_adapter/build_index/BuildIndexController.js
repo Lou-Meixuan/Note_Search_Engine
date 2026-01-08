@@ -1,30 +1,22 @@
+/**
+ * BuildIndexController.js - HTTP handler for index building
+ */
+
 const BuildIndex = require('../../use_case/build_index/BuildIndex');
 const MongoDocumentRepository = require('../MongoDocumentRepository');
 const MongoIndexRepository = require('../MongoIndexRepository');
-
-/**
- * BuildIndexController
- *
- * 职责：处理HTTP请求，调用Use Case构建索引
- *
- * 流程：
- * 1. 接收HTTP请求（POST /index/build）
- * 2. 创建具体的Repository实现
- * 3. 创建Use Case实例
- * 4. 调用Use Case执行索引构建
- * 5. 返回结果
  */
 class BuildIndexController {
     async handle(req, res) {
         try {
-            // 创建具体的Repository实现
+            // Create repository instances
             const documentRepository = new MongoDocumentRepository();
             const indexRepository = new MongoIndexRepository();
 
-            // 创建Use Case实例（依赖注入）
+            // Create use case instance
             const buildIndexUseCase = new BuildIndex(documentRepository, indexRepository);
 
-            // 执行索引构建
+            // Execute index build
             const result = await buildIndexUseCase.execute();
 
             return res.status(200).json(result);

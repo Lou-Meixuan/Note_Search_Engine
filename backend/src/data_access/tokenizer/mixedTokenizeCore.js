@@ -1,13 +1,13 @@
-// tokenizer/mixedTokenizeCore.js
-// 核心分词逻辑
-// - 中英混合扫描
-// - CJK: span / char / bigram
-// - Latin: camelCase 拆分
+/**
+ * mixedTokenizeCore.js - Core tokenization logic
+ * 
+ * Handles mixed Chinese/English text with CJK bigrams and camelCase splitting.
+ */
 
 "use strict";
 
 /** =========================
- * Utils（core 内部使用）
+ * Utils (internal)
  * ========================= */
 function splitCamelCase(token) {
     // VideoEditEngine2026 => ["Video","Edit","Engine","2026"]
@@ -37,7 +37,7 @@ function tokenizeMixed(text, options = {}) {
         splitCamel = true,
         minTokenLength = 1,
 
-        // ✅ 下沉的策略
+        // Strategy
         emitJoinedLatin = true,
         emitSplitLatin = false,
     } = options;
@@ -70,7 +70,7 @@ function tokenizeMixed(text, options = {}) {
         // split Latin
         pushLatin(latinBuf);
 
-        // joined Latin（整体）
+        // Joined Latin
         if (emitJoinedLatin) {
             let joined = lowerCaseLatin ? latinBuf.toLowerCase() : latinBuf;
             if (joined.length >= minTokenLength) tokens.push(joined);
@@ -95,7 +95,7 @@ function tokenizeMixed(text, options = {}) {
             return;
         }
 
-        // 在 bigram 模式下，也可选择保留单字
+        // In bigram mode, optionally keep single chars
         if (keepCjkSingles) {
             for (const ch of span) {
                 if (ch.length >= minTokenLength) tokens.push(ch);
@@ -103,7 +103,7 @@ function tokenizeMixed(text, options = {}) {
         }
 
         if (span.length === 1) {
-            // span 长度为 1，上面已经 push 过单字了
+            // Span length is 1, already pushed
             return;
         }
 

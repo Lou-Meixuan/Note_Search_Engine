@@ -1,14 +1,7 @@
 /**
- * server.js - Express 服务器入口
- * 
- * Modified by: C
- * Date: 2026-01-07
- * 
- * 修改记录:
- * - C: 添加 dotenv 配置，支持环境变量 (Google API Key 等)
+ * server.js - Express server entry point
  */
 
-// 加载环境变量 (必须在其他 require 之前)
 require('dotenv').config();
 
 const express = require("express");

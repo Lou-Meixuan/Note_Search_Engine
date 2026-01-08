@@ -1,3 +1,7 @@
+/**
+ * UploadPage.jsx - Standalone upload page
+ */
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API } from "../config/api";
@@ -18,7 +22,7 @@ export default function UploadPage() {
         setError("");
         setSuccess("");
 
-        // 自动从文件名生成标题
+        // Auto-generate title from filename
         if (selectedFile && !title) {
             const fileName = selectedFile.name.replace(/\.[^/.]+$/, "");
             setTitle(fileName);
@@ -59,10 +63,10 @@ export default function UploadPage() {
             setTitle("");
             setTags("");
 
-            // 重置文件输入
+            // Reset file input
             e.target.reset();
 
-            // 3秒后跳转到文档详情页
+            // Redirect to document after 3 seconds
             setTimeout(() => {
                 navigate(`/document/${data.documentId}`);
             }, 2000);
