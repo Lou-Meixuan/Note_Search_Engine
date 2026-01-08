@@ -39,6 +39,37 @@ export default function App() {
         return () => clearInterval(interval);
     }, []);
 
+    // Cleanup anonymous user's temporary documents when closing the page
+    useEffect(() => {
+        const cleanupSessionDocuments = () => {
+            const sessionDocIds = JSON.parse(sessionStorage.getItem('sessionDocIds') || '[]');
+            
+            if (sessionDocIds.length === 0) return;
+
+            console.log('[Cleanup] Deleting temporary documents:', sessionDocIds);
+
+            // Use sendBeacon for reliable cleanup during page unload
+            // sendBeacon sends a POST request that completes even after page closes
+            sessionDocIds.forEach(docId => {
+                // sendBeacon only supports POST, so we use a cleanup endpoint
+                navigator.sendBeacon(
+                    `${API_BASE_URL}/documents/${docId}/cleanup`,
+                    JSON.stringify({ action: 'delete' })
+                );
+            });
+
+            // Clear the session storage
+            sessionStorage.removeItem('sessionDocIds');
+        };
+
+        // Listen for page close/refresh
+        window.addEventListener('beforeunload', cleanupSessionDocuments);
+
+        return () => {
+            window.removeEventListener('beforeunload', cleanupSessionDocuments);
+        };
+    }, []);
+
     return (
         <AuthProvider>
             <LanguageProvider>

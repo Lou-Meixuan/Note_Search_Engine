@@ -50,6 +50,7 @@ class MongoDocumentRepository extends DocumentRepository {
             fileName: doc.fileName,
             source: doc.source,
             tags: doc.tags,
+            userId: doc.userId,  // Include userId for ownership check
             createdAt: doc.createdAt,
             updatedAt: doc.updatedAt,
             fileBuffer: doc.fileBuffer,

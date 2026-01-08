@@ -151,6 +151,32 @@ function registerRoutes(app) {
         await controller.handle(req, res);
     });
 
+    // Cleanup endpoint for anonymous user documents (called via sendBeacon on page close)
+    // Only deletes documents that have no userId (anonymous documents)
+    app.post("/documents/:id/cleanup", async (req, res) => {
+        try {
+            const MongoDocumentRepository = require("../interface_adapter/MongoDocumentRepository");
+            const repository = new MongoDocumentRepository();
+            const document = await repository.findById(req.params.id);
+
+            if (!document) {
+                return res.status(404).json({ error: "Document not found" });
+            }
+
+            // Only delete if it's an anonymous document (no userId)
+            if (document.userId) {
+                return res.status(403).json({ error: "Cannot cleanup user-owned documents" });
+            }
+
+            await repository.delete(req.params.id);
+            console.log(`[Cleanup] Deleted anonymous document: ${req.params.id}`);
+            res.json({ success: true, deleted: req.params.id });
+        } catch (error) {
+            console.error("[Cleanup] Error:", error);
+            res.status(500).json({ error: error.message });
+        }
+    });
+
     app.put("/documents/:id", async (req, res) => {
         const controller = new UpdateDocumentController();
         await controller.handle(req, res);
