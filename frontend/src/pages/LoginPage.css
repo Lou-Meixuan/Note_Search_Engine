@@ -161,54 +161,212 @@
 .loginOptions {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
 }
 
-/* Google 登录按钮 */
-.loginGoogleBtn {
+/* Social buttons row */
+.loginSocialBtns {
+    display: flex;
+    gap: 12px;
+}
+
+.loginSocialBtn {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    width: 100%;
-    padding: 14px 24px;
-    background: #fff;
+    gap: 10px;
+    padding: 14px 20px;
     border: none;
     border-radius: 12px;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
-    color: #333;
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.loginGoogleBtn:hover:not(:disabled) {
+.loginSocialBtn:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-.loginGoogleBtn:active:not(:disabled) {
+.loginSocialBtn:active:not(:disabled) {
     transform: translateY(0);
 }
 
-.loginGoogleBtn:disabled {
+.loginSocialBtn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
 
-.googleIcon {
+.socialIcon {
     width: 20px;
     height: 20px;
+}
+
+/* Google button */
+.loginGoogleBtn {
+    background: #fff;
+    color: #333;
+}
+
+/* GitHub button */
+.loginGithubBtn {
+    background: #24292e;
+    color: #fff;
+}
+
+.loginGithubBtn .socialIcon {
+    fill: currentColor;
 }
 
 .loginBtnSpinner {
     width: 20px;
     height: 20px;
-    border: 2px solid #ddd;
-    border-top-color: #667eea;
+    border: 2px solid rgba(128, 128, 128, 0.3);
+    border-top-color: currentColor;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
+}
+
+/* Email toggle button */
+.loginEmailToggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 24px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.loginEmailToggle:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.loginEmailToggle svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Email form */
+.loginEmailForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.loginInput {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    font-size: 14px;
+    color: #fff;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.loginInput::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.loginInput:focus {
+    border-color: #667eea;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.loginEmailSubmit {
+    width: 100%;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.loginEmailSubmit:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+}
+
+.loginEmailSubmit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.loginEmailSwitch {
+    background: none;
+    border: none;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 8px;
+    transition: color 0.2s;
+}
+
+.loginEmailSwitch:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.loginEmailCancel {
+    background: none;
+    border: none;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    padding: 4px;
+}
+
+.loginEmailCancel:hover {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Anonymous button */
+.loginAnonBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 24px;
+    background: rgba(102, 126, 234, 0.15);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.loginAnonBtn:hover:not(:disabled) {
+    background: rgba(102, 126, 234, 0.25);
+    border-color: rgba(102, 126, 234, 0.5);
+}
+
+.loginAnonBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.loginAnonBtn svg {
+    width: 18px;
+    height: 18px;
 }
 
 /* 分隔线 */
