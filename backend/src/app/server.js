@@ -15,7 +15,7 @@ app.use(express.json());
 
 registerRoutes(app);
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // Start server and connect to MongoDB
 async function startServer() {

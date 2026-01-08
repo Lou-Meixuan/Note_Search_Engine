@@ -23,19 +23,19 @@ export default function App() {
         <AuthProvider>
             <LanguageProvider>
                 <ColorThemeProvider>
-                    <BrowserRouter>
-                        <Routes>
+        <BrowserRouter>
+                <Routes>
                             <Route path="/" element={<LoginPage />} />
                             <Route path="/login" element={<LoginPage />} />
                             <Route path="/home" element={<SearchPage />} />
-                            <Route path="/settings" element={<SettingsPage />} />
-                            <Route path="/account" element={<AccountPage />} />
-                            <Route path="/upload" element={<UploadPage />} />
-                            <Route path="/doc/:id" element={<DocumentPage />} />
-                            <Route path="/document/:id" element={<DocumentPage />} />
-                            <Route path="*" element={<Navigate to="/" replace />} />
-                        </Routes>
-                    </BrowserRouter>
+                    <Route path="/settings" element={<SettingsPage />} />
+                    <Route path="/account" element={<AccountPage />} />
+                    <Route path="/upload" element={<UploadPage />} />
+                    <Route path="/doc/:id" element={<DocumentPage />} />
+                    <Route path="/document/:id" element={<DocumentPage />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+        </BrowserRouter>
                 </ColorThemeProvider>
             </LanguageProvider>
         </AuthProvider>
