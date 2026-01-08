@@ -54,11 +54,52 @@ export default function SearchPage() {
     }, [user]);
 
     async function fetchLocalDocuments() {
+        // If not logged in, fetch documents from session storage (temp documents for this session)
+        if (!user?.uid) {
+            console.log('[Documents] Not logged in, loading session documents');
+            const sessionDocIds = JSON.parse(sessionStorage.getItem('sessionDocIds') || '[]');
+            
+            if (sessionDocIds.length === 0) {
+                setData((prev) => ({ ...prev, local: [] }));
+                return;
+            }
+
+            // Fetch each document by ID
+            try {
+                const docs = await Promise.all(
+                    sessionDocIds.map(async (docId) => {
+                        try {
+                            const res = await fetch(API.documentById(docId));
+                            if (res.ok) return await res.json();
+                            return null;
+                        } catch {
+                            return null;
+                        }
+                    })
+                );
+
+                const localDocs = docs
+                    .filter(doc => doc && doc.source === 'local')
+                    .map(doc => ({
+                        id: doc.id,
+                        name: doc.title,
+                        type: 'file',
+                        fileType: doc.fileType,
+                        createdAt: doc.createdAt,
+                        tags: doc.tags || [],
+                    }));
+
+                setData((prev) => ({ ...prev, local: localDocs }));
+            } catch (e) {
+                console.error('Failed to fetch session documents:', e);
+                setData((prev) => ({ ...prev, local: [] }));
+            }
+            return;
+        }
+
         try {
-            // If logged in, fetch only user's documents
-            const url = user?.uid 
-                ? `${API.documents}?userId=${encodeURIComponent(user.uid)}`
-                : API.documents;
+            // Logged in user: fetch only their documents
+            const url = `${API.documents}?userId=${encodeURIComponent(user.uid)}`;
             const res = await fetch(url);
             if (res.ok) {
                 const documents = await res.json();
@@ -204,12 +245,28 @@ export default function SearchPage() {
 
     const handleUploadSuccess = (uploadResult) => {
         console.log("Upload successful:", uploadResult);
+        
+        // For anonymous users, save document ID to session storage
+        if (!user?.uid && uploadResult.documentId) {
+            const sessionDocIds = JSON.parse(sessionStorage.getItem('sessionDocIds') || '[]');
+            sessionDocIds.push(uploadResult.documentId);
+            sessionStorage.setItem('sessionDocIds', JSON.stringify(sessionDocIds));
+        }
+        
         fetchLocalDocuments();
         navigate(`/document/${uploadResult.documentId}`);
     };
 
     const handleCreateSuccess = (createResult) => {
         console.log("Create successful:", createResult);
+        
+        // For anonymous users, save document ID to session storage
+        if (!user?.uid && createResult.documentId) {
+            const sessionDocIds = JSON.parse(sessionStorage.getItem('sessionDocIds') || '[]');
+            sessionDocIds.push(createResult.documentId);
+            sessionStorage.setItem('sessionDocIds', JSON.stringify(sessionDocIds));
+        }
+        
         fetchLocalDocuments();
         navigate(`/document/${createResult.documentId}`);
     };
