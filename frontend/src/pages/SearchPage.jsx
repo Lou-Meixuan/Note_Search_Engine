@@ -58,8 +58,9 @@ export default function SearchPage() {
             try {
                 const res = await fetch(API.tags);
                 if (res.ok) {
-                    const tags = await res.json();
-                    setAvailableTags(tags);
+                    const data = await res.json();
+                    // API returns { tags: [...], total: n }
+                    setAvailableTags(data.tags || []);
                 }
             } catch (e) {
                 console.error('Failed to fetch tags:', e);
