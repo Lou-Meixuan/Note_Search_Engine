@@ -9,6 +9,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
 import { API } from "../config/api";
 import "./CreateDocumentModal.css";
+import "./ModalButtons.css";
 
 export default function CreateDocumentModal({ isOpen, onClose, onCreateSuccess }) {
     const [title, setTitle] = useState("");
@@ -168,10 +169,10 @@ export default function CreateDocumentModal({ isOpen, onClose, onCreateSuccess }
 
                     {error && <div className="modalError">{error}</div>}
 
-                    <div className="modalActions">
+                    <div className="modalButtonGroup">
                         <button
                             type="button"
-                            className="modalCancelBtn"
+                            className="modalBtn modalBtn--cancel"
                             onClick={handleClose}
                             disabled={creating}
                         >
@@ -179,7 +180,7 @@ export default function CreateDocumentModal({ isOpen, onClose, onCreateSuccess }
                         </button>
                         <button
                             type="submit"
-                            className="modalSubmitBtn"
+                            className="modalBtn modalBtn--primary"
                             disabled={creating}
                         >
                             {creating ? "Creating..." : "Create Document"}

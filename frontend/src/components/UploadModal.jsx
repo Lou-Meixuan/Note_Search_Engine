@@ -9,6 +9,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
 import { API } from "../config/api";
 import "./UploadModal.css";
+import "./ModalButtons.css";
 
 export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
     const [file, setFile] = useState(null);
@@ -209,10 +210,10 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
 
                     {error && <div className="modalError">{error}</div>}
 
-                    <div className="modalActions">
+                    <div className="modalButtonGroup">
                         <button
                             type="button"
-                            className="modalCancelBtn"
+                            className="modalBtn modalBtn--cancel"
                             onClick={handleClose}
                             disabled={uploading}
                         >
@@ -220,7 +221,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
                         </button>
                         <button
                             type="submit"
-                            className="modalSubmitBtn"
+                            className="modalBtn modalBtn--primary"
                             disabled={!file || uploading}
                         >
                             {uploading ? t("uploading") : t("upload")}

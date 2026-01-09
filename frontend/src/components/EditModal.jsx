@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { API } from "../config/api";
 import "./EditModal.css";
+import "./ModalButtons.css";
 
 export default function EditModal({ isOpen, onClose, document, onEditSuccess }) {
     const [title, setTitle] = useState("");
@@ -148,10 +149,10 @@ export default function EditModal({ isOpen, onClose, document, onEditSuccess }) 
 
                     {error && <div className="modalError">{error}</div>}
 
-                    <div className="modalActions">
+                    <div className="modalButtonGroup">
                         <button
                             type="button"
-                            className="modalCancelBtn"
+                            className="modalBtn modalBtn--cancel"
                             onClick={handleClose}
                             disabled={saving}
                         >
@@ -159,7 +160,7 @@ export default function EditModal({ isOpen, onClose, document, onEditSuccess }) 
                         </button>
                         <button
                             type="submit"
-                            className="modalSubmitBtn"
+                            className="modalBtn modalBtn--primary"
                             disabled={saving}
                         >
                             {saving ? "Saving..." : "Save Changes"}

@@ -1,0 +1,91 @@
+/**
+ * ModalButtons.css - Unified modal button styles
+ * 
+ * Import this in any component that uses modal buttons.
+ */
+
+/* Button container */
+.modalButtonGroup {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Base button styles */
+.modalBtn {
+    flex: 1;
+    padding: 0.875rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 50px;
+    min-width: 130px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* Cancel/Secondary button */
+.modalBtn--cancel {
+    background: var(--bg-card, white);
+    color: var(--text-primary, #333);
+    border: 2px solid var(--border-color, #ccc);
+}
+
+.modalBtn--cancel:hover:not(:disabled) {
+    background: var(--btn-hover, #f5f5f5);
+    border-color: var(--text-secondary, #888);
+}
+
+/* Primary/Submit button */
+.modalBtn--primary {
+    background: var(--accent, #333);
+    color: var(--text-inverse, white);
+    border: 2px solid var(--accent, #333);
+}
+
+.modalBtn--primary:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Danger button (for delete) */
+.modalBtn--danger {
+    background: #dc2626;
+    color: white;
+    border: 2px solid #dc2626;
+}
+
+.modalBtn--danger:hover:not(:disabled) {
+    background: #b91c1c;
+    border-color: #b91c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* Disabled state */
+.modalBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Loading spinner inside button */
+.modalBtn .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+

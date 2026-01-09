@@ -10,6 +10,7 @@ import { marked } from "marked";
 import { API } from "../config/api";
 import EditModal from "../components/EditModal";
 import "./DocumentPage.css";
+import "../components/ModalButtons.css";
 
 export default function DocumentPage() {
     const { id } = useParams();
@@ -170,11 +171,11 @@ export default function DocumentPage() {
                         <p className="deleteModalText">
                             Are you sure you want to delete "{document.title}"?
                         </p>
-                        <div className="deleteModalActions">
-                            <button className="modalCancelBtn" onClick={handleDeleteCancel}>
+                        <div className="modalButtonGroup">
+                            <button className="modalBtn modalBtn--cancel" onClick={handleDeleteCancel}>
                                 Cancel
                             </button>
-                            <button className="modalDeleteBtn" onClick={handleDeleteConfirm}>
+                            <button className="modalBtn modalBtn--danger" onClick={handleDeleteConfirm}>
                                 Delete
                             </button>
                         </div>
