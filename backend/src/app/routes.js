@@ -94,7 +94,11 @@ function registerRoutes(app) {
                 // Local search (scope: "local" or "all")
                 if (scope === "local" || scope === "all") {
                     const controller = new SearchDocumentsController();
-                    const localSearchResult = await controller.handle({ q: actualQuery, scope: "local" });
+                    const localSearchResult = await controller.handle({ 
+                        q: actualQuery, 
+                        scope: "local",
+                        userId: userId  // Filter by current user
+                    });
                     localResults = localSearchResult.results || [];
                     
                     // Add tags info to local results

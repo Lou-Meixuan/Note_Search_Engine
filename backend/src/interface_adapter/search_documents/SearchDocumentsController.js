@@ -12,12 +12,14 @@ class SearchDocumentsController {
      * @param {Object} queryParams - HTTP query parameters
      * @param {string} queryParams.q - Search query
      * @param {string} queryParams.scope - Search scope: "local" | "remote" | "all"
+     * @param {string} queryParams.userId - User ID to filter documents
      * @returns {Object} Search results
      */
     async handle(queryParams) {
         // 1. Extract and validate query parameters
         const q = (queryParams.q || "").toString().trim();
         const scope = (queryParams.scope || "all").toString().toLowerCase();
+        const userId = queryParams.userId || null;
 
         // Validate scope
         const validScopes = ["local", "remote", "all"];
@@ -36,7 +38,8 @@ class SearchDocumentsController {
         try {
             const result = await useCase.execute({
                 q,
-                scope: normalizedScope
+                scope: normalizedScope,
+                userId: userId  // Pass userId to filter results
             });
 
             return result;

@@ -34,9 +34,10 @@ class SearchDocuments {
      * @param {Object} input
      * @param {string} input.q - Query string
      * @param {string} input.scope - Search scope: "local" | "remote" | "all"
+     * @param {string} input.userId - User ID to filter documents (optional)
      * @returns {Object} Search results
      */
-    async execute({ q, scope = "all" }) {
+    async execute({ q, scope = "all", userId = null }) {
         const startTime = Date.now();
 
         if (!q || q.trim().length === 0) {
@@ -45,7 +46,10 @@ class SearchDocuments {
 
         let documents;
         try {
-            if (scope === "all") {
+            // If userId is provided, only search that user's documents
+            if (userId) {
+                documents = await this.documentRepository.findByUserId(userId);
+            } else if (scope === "all") {
                 documents = await this.documentRepository.findAll();
             } else {
                 documents = await this.documentRepository.findBySource(scope);
