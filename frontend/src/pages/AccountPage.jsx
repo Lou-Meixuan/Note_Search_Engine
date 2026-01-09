@@ -47,36 +47,32 @@ export default function AccountPage() {
     }
 
     // Handle linking anonymous account to Google
+    // If account exists, will automatically sign in to that account
     async function handleLinkGoogle() {
         try {
             setLinking(true);
             setLinkError(null);
             await linkToGoogle();
+            // Success - user is now linked or signed in to existing account
         } catch (err) {
             console.error('Link failed:', err);
-            if (err.code === 'auth/credential-already-in-use') {
-                setLinkError(t('accountAlreadyExists') || 'This account is already linked to another user');
-            } else {
-                setLinkError(err.message);
-            }
+            setLinkError(err.message);
         } finally {
             setLinking(false);
         }
     }
 
     // Handle linking anonymous account to GitHub
+    // If account exists, will automatically sign in to that account
     async function handleLinkGithub() {
         try {
             setLinking(true);
             setLinkError(null);
             await linkToGithub();
+            // Success - user is now linked or signed in to existing account
         } catch (err) {
             console.error('Link failed:', err);
-            if (err.code === 'auth/credential-already-in-use') {
-                setLinkError(t('accountAlreadyExists') || 'This account is already linked to another user');
-            } else {
-                setLinkError(err.message);
-            }
+            setLinkError(err.message);
         } finally {
             setLinking(false);
         }

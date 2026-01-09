@@ -8,6 +8,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { 
     signInWithPopup, 
+    signInWithCredential,
     signOut, 
     onAuthStateChanged,
     signInAnonymously,
@@ -15,7 +16,9 @@ import {
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
     linkWithPopup,
-    updateProfile
+    updateProfile,
+    GithubAuthProvider,
+    GoogleAuthProvider
 } from 'firebase/auth';
 import { auth, googleProvider, githubProvider } from '../firebase/config';
 
@@ -124,6 +127,7 @@ export function AuthProvider({ children }) {
     }
 
     // Link anonymous account to Google/GitHub
+    // If account already exists, sign in to that account instead
     async function linkToGoogle() {
         try {
             setError(null);
@@ -132,6 +136,15 @@ export function AuthProvider({ children }) {
             return result.user;
         } catch (err) {
             console.error('Link to Google Error:', err);
+            // If credential already in use, sign in to the existing account
+            if (err.code === 'auth/credential-already-in-use') {
+                console.log('Account exists, signing in to existing account...');
+                const credential = GoogleAuthProvider.credentialFromError(err);
+                if (credential) {
+                    const result = await signInWithCredential(auth, credential);
+                    return result.user;
+                }
+            }
             setError(err.message);
             throw err;
         }
@@ -145,6 +158,15 @@ export function AuthProvider({ children }) {
             return result.user;
         } catch (err) {
             console.error('Link to GitHub Error:', err);
+            // If credential already in use, sign in to the existing account
+            if (err.code === 'auth/credential-already-in-use') {
+                console.log('Account exists, signing in to existing account...');
+                const credential = GithubAuthProvider.credentialFromError(err);
+                if (credential) {
+                    const result = await signInWithCredential(auth, credential);
+                    return result.user;
+                }
+            }
             setError(err.message);
             throw err;
         }
