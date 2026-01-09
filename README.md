@@ -74,6 +74,16 @@ Guest users can link their account later to save documents permanently.
 
 ---
 
+### Settings
+
+Customize appearance, color themes, and language preferences.
+
+<p align="center">
+  <img src="docs/demo/settings.png" alt="Settings Page" width="600">
+</p>
+
+---
+
 ## 🛠 Tech Stack
 
 ### Frontend
