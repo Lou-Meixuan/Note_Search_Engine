@@ -25,7 +25,7 @@ A modern note search application with hybrid search capabilities, combining loca
 Flexible sign-in options including Google, GitHub, Email/Password, or continue as a guest.
 
 <p align="center">
-  <img src="docs/demo/login.png" alt="Login Page" width="500">
+  <img src="docs/demo/login2.png" alt="Login Page" width="500">
 </p>
 
 ---
