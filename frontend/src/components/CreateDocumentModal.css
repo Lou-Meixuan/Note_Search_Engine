@@ -1,11 +1,7 @@
 /**
- * CreateDocumentModal.css - 创建文档模态框样式
+ * CreateDocumentModal.css - Create document modal styles
  * 
- * Modified by: C
- * Date: 2026-01-08
- * 
- * 修改记录:
- * - C: 使用 CSS 变量支持主题切换
+ * Uses CSS variables for theme support.
  */
 
 /* Create Document Modal */

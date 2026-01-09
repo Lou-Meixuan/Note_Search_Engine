@@ -306,25 +306,29 @@
 .modalCancelBtn,
 .modalSubmitBtn {
     flex: 1;
-    padding: 0.8rem 1.25rem;
-    border-radius: 6px;
-    font-size: 0.95rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
     box-sizing: border-box;
     min-height: 48px;
+    min-width: 120px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .modalCancelBtn {
     background: var(--bg-card, white);
-    color: var(--text-secondary, #666);
-    border: 2px solid var(--border-color, #ddd);
+    color: var(--text-primary, #333);
+    border: 2px solid var(--border-color, #ccc);
 }
 
 .modalCancelBtn:hover:not(:disabled) {
     background: var(--btn-hover, #f5f5f5);
-    border-color: var(--border-color, #ccc);
+    border-color: var(--border-color, #999);
 }
 
 .modalSubmitBtn {
@@ -336,7 +340,7 @@
 .modalSubmitBtn:hover:not(:disabled) {
     opacity: 0.9;
     transform: translateY(-1px);
-    box-shadow: var(--shadow-md, 0 4px 12px rgba(0, 0, 0, 0.3));
+    box-shadow: var(--shadow-md, 0 4px 12px rgba(0, 0, 0, 0.2));
 }
 
 .modalCancelBtn:disabled,

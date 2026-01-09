@@ -1,11 +1,7 @@
 /**
- * DocumentPage.css - 文档详情页样式
+ * DocumentPage.css - Document detail page styles
  * 
- * Modified by: C
- * Date: 2026-01-08
- * 
- * 修改记录:
- * - C: 使用 CSS 变量支持主题切换
+ * Uses CSS variables for theme support.
  */
 
 /* Page container */
@@ -290,26 +286,27 @@
 
 .deleteModalActions {
     display: flex;
-    gap: 0.75rem;
-    justify-content: flex-end;
+    gap: 1rem;
+    justify-content: stretch;
 }
 
 .modalCancelBtn {
     background: var(--bg-card, white);
     color: var(--text-primary, #333);
-    padding: 0 1rem;
-    border: 1px solid var(--border-color, #ccc);
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 500;
+    padding: 0.8rem 1.5rem;
+    border: 2px solid var(--border-color, #ccc);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    height: 36px;
-    min-width: 90px;
+    min-height: 48px;
+    min-width: 120px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     outline: none;
+    flex: 1;
 }
 
 .modalCancelBtn:hover {
@@ -324,23 +321,26 @@
 .modalDeleteBtn {
     background: var(--accent, #333);
     color: var(--text-inverse, white);
-    padding: 0 1rem;
+    padding: 0.8rem 1.5rem;
     border: 2px solid var(--accent, #333);
-    border-radius: 6px;
-    font-size: 0.85rem;
+    border-radius: 8px;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    height: 36px;
-    min-width: 90px;
+    min-height: 48px;
+    min-width: 120px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex: 1;
     outline: none;
 }
 
 .modalDeleteBtn:hover {
     opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md, 0 4px 12px rgba(0, 0, 0, 0.2));
 }
 
 .modalDeleteBtn:focus {
