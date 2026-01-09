@@ -52,11 +52,16 @@ export default function SearchPage() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [newMenuOpen, scopeOpen]);
 
-    // Fetch available tags
+    // Fetch available tags (only for current user)
     useEffect(() => {
         async function fetchTags() {
+            // Only fetch tags if user is logged in
+            if (!user?.uid) {
+                setAvailableTags([]);
+                return;
+            }
             try {
-                const res = await fetch(API.tags);
+                const res = await fetch(`${API.tags}?userId=${encodeURIComponent(user.uid)}`);
                 if (res.ok) {
                     const data = await res.json();
                     // API returns { tags: [...], total: n }
@@ -67,7 +72,7 @@ export default function SearchPage() {
             }
         }
         fetchTags();
-    }, []);
+    }, [user]);
 
     useEffect(() => {
         // Load local documents

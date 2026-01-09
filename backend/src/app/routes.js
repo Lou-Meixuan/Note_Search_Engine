@@ -242,12 +242,22 @@ function registerRoutes(app) {
         }
     });
 
-    // Get all tags
+    // Get tags for a specific user
     app.get("/tags", async (req, res) => {
         try {
             const MongoDocumentRepository = require("../interface_adapter/MongoDocumentRepository");
             const repository = new MongoDocumentRepository();
-            const documents = await repository.findAll();
+            
+            const userId = req.query.userId;
+            let documents;
+            
+            // If userId provided, only get tags from that user's documents
+            if (userId) {
+                documents = await repository.findByUserId(userId);
+            } else {
+                // For anonymous users, return empty tags
+                documents = [];
+            }
             
             // Collect and count tags
             const tagCount = {};
