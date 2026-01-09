@@ -31,6 +31,8 @@ export default function SearchPage() {
     const containerRef = useRef(null);
 
     const [scopeOpen, setScopeOpen] = useState(false);
+    const [tagMenuOpen, setTagMenuOpen] = useState(false);
+    const [availableTags, setAvailableTags] = useState([]);
     const [uploadModalOpen, setUploadModalOpen] = useState(false);
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const [newMenuOpen, setNewMenuOpen] = useState(false);
@@ -41,10 +43,30 @@ export default function SearchPage() {
             if (newMenuOpen && !e.target.closest('.spNewBtnContainer')) {
                 setNewMenuOpen(false);
             }
+            if (scopeOpen && !e.target.closest('.spScope')) {
+                setScopeOpen(false);
+                setTagMenuOpen(false);
+            }
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [newMenuOpen]);
+    }, [newMenuOpen, scopeOpen]);
+
+    // Fetch available tags
+    useEffect(() => {
+        async function fetchTags() {
+            try {
+                const res = await fetch(API.tags);
+                if (res.ok) {
+                    const tags = await res.json();
+                    setAvailableTags(tags);
+                }
+            } catch (e) {
+                console.error('Failed to fetch tags:', e);
+            }
+        }
+        fetchTags();
+    }, []);
 
     useEffect(() => {
         // Load local documents
@@ -341,6 +363,7 @@ export default function SearchPage() {
                                         onClick={() => {
                                             setScope("remote");
                                             setScopeOpen(false);
+                                            setTagMenuOpen(false);
                                             doSearch("remote");
                                         }}
                                     />
@@ -350,6 +373,7 @@ export default function SearchPage() {
                                         onClick={() => {
                                             setScope("local");
                                             setScopeOpen(false);
+                                            setTagMenuOpen(false);
                                             doSearch("local");
                                         }}
                                     />
@@ -359,9 +383,45 @@ export default function SearchPage() {
                                         onClick={() => {
                                             setScope("all");
                                             setScopeOpen(false);
+                                            setTagMenuOpen(false);
                                             doSearch("all");
                                         }}
                                     />
+                                    {/* Search by Tag - with submenu */}
+                                    <div className="spTagMenuContainer">
+                                        <button
+                                            className={`spScopeMenuItem ${tagMenuOpen ? 'isActive' : ''}`}
+                                            onClick={() => setTagMenuOpen(!tagMenuOpen)}
+                                        >
+                                            <span>{t("scopeTag") || "Search by Tag"}</span>
+                                            <svg viewBox="0 0 24 24" className="spTagArrow">
+                                                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                            </svg>
+                                        </button>
+                                        {tagMenuOpen && availableTags.length > 0 && (
+                                            <div className="spTagSubmenu">
+                                                {availableTags.map((tag) => (
+                                                    <button
+                                                        key={tag.name}
+                                                        className="spTagItem"
+                                                        onClick={() => {
+                                                            handleTagClick(tag.name);
+                                                            setScopeOpen(false);
+                                                            setTagMenuOpen(false);
+                                                        }}
+                                                    >
+                                                        <span className="spTagName">#{tag.name}</span>
+                                                        <span className="spTagCount">{tag.count}</span>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+                                        {tagMenuOpen && availableTags.length === 0 && (
+                                            <div className="spTagSubmenu spTagEmpty">
+                                                {t("noTags") || "No tags available"}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             )}
                         </div>

@@ -39,6 +39,8 @@ const translations = {
         newDocument: "+ New",
         scopeAll: "Search All",
         scopeRemote: "Remote Only",
+        scopeTag: "Search by Tag",
+        noTags: "No tags available",
         scopeLocal: "Local Only",
         searchToSeeResults: "Search to see Google results",
         
@@ -167,6 +169,8 @@ const translations = {
         newDocument: "+ 新建",
         scopeAll: "搜索全部",
         scopeRemote: "仅远程",
+        scopeTag: "按标签搜索",
+        noTags: "暂无标签",
         scopeLocal: "仅本地",
         searchToSeeResults: "搜索以查看 Google 结果",
         
@@ -295,6 +299,8 @@ const translations = {
         newDocument: "+ 新規",
         scopeAll: "すべて検索",
         scopeRemote: "リモートのみ",
+        scopeTag: "タグで検索",
+        noTags: "タグがありません",
         scopeLocal: "ローカルのみ",
         searchToSeeResults: "検索してGoogle結果を表示",
         
@@ -410,6 +416,8 @@ const translations = {
         newDocument: "+ 새로 만들기",
         scopeAll: "전체 검색",
         scopeRemote: "원격만",
+        scopeTag: "태그로 검색",
+        noTags: "태그 없음",
         scopeLocal: "로컬만",
         searchToSeeResults: "검색하여 Google 결과 보기",
         
@@ -525,6 +533,8 @@ const translations = {
         newDocument: "+ Nuevo",
         scopeAll: "Buscar Todo",
         scopeRemote: "Solo Remoto",
+        scopeTag: "Buscar por Etiqueta",
+        noTags: "Sin etiquetas",
         scopeLocal: "Solo Local",
         searchToSeeResults: "Busca para ver resultados de Google",
         
@@ -640,6 +650,8 @@ const translations = {
         newDocument: "+ Nouveau",
         scopeAll: "Rechercher Tout",
         scopeRemote: "Distant Seulement",
+        scopeTag: "Rechercher par Tag",
+        noTags: "Aucun tag",
         scopeLocal: "Local Seulement",
         searchToSeeResults: "Recherchez pour voir les résultats Google",
         
@@ -755,6 +767,8 @@ const translations = {
         newDocument: "+ Neu",
         scopeAll: "Alles durchsuchen",
         scopeRemote: "Nur Remote",
+        scopeTag: "Nach Tag suchen",
+        noTags: "Keine Tags",
         scopeLocal: "Nur Lokal",
         searchToSeeResults: "Suchen Sie, um Google-Ergebnisse zu sehen",
         
