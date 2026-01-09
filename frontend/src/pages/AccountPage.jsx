@@ -3,12 +3,14 @@
  * 
  * Displays user profile and provides sign-in/sign-out functionality.
  * Allows anonymous users to link their account to Google/GitHub.
+ * Documents are migrated when linking accounts.
  */
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
+import { API_BASE_URL } from "../config/api";
 import "./AccountPage.css";
 
 export default function AccountPage() {
@@ -46,14 +48,35 @@ export default function AccountPage() {
         }
     }
 
+    // Migrate documents from old user to new user
+    async function migrateDocuments(fromUserId, toUserId) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/documents/migrate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ fromUserId, toUserId })
+            });
+            const result = await response.json();
+            console.log(`[Migration] Migrated ${result.migratedCount} documents`);
+            return result.migratedCount;
+        } catch (err) {
+            console.error('[Migration] Failed:', err);
+            return 0;
+        }
+    }
+
     // Handle linking anonymous account to Google
-    // If account exists, will automatically sign in to that account
+    // Documents are migrated to the linked account
     async function handleLinkGoogle() {
+        const oldUserId = user?.uid; // Save old anonymous user ID
         try {
             setLinking(true);
             setLinkError(null);
-            await linkToGoogle();
-            // Success - user is now linked or signed in to existing account
+            const newUser = await linkToGoogle();
+            // Migrate documents from anonymous account to linked account
+            if (oldUserId && newUser?.uid && oldUserId !== newUser.uid) {
+                await migrateDocuments(oldUserId, newUser.uid);
+            }
         } catch (err) {
             console.error('Link failed:', err);
             setLinkError(err.message);
@@ -63,13 +86,17 @@ export default function AccountPage() {
     }
 
     // Handle linking anonymous account to GitHub
-    // If account exists, will automatically sign in to that account
+    // Documents are migrated to the linked account
     async function handleLinkGithub() {
+        const oldUserId = user?.uid; // Save old anonymous user ID
         try {
             setLinking(true);
             setLinkError(null);
-            await linkToGithub();
-            // Success - user is now linked or signed in to existing account
+            const newUser = await linkToGithub();
+            // Migrate documents from anonymous account to linked account
+            if (oldUserId && newUser?.uid && oldUserId !== newUser.uid) {
+                await migrateDocuments(oldUserId, newUser.uid);
+            }
         } catch (err) {
             console.error('Link failed:', err);
             setLinkError(err.message);

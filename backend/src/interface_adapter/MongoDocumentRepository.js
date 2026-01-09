@@ -164,6 +164,24 @@ class MongoDocumentRepository extends DocumentRepository {
             updatedAt: doc.updatedAt
         }));
     }
+
+    /**
+     * Migrate documents from one user to another
+     * Used when a guest links their account to Google/GitHub
+     * @param {string} fromUserId - Old user ID (anonymous)
+     * @param {string} toUserId - New user ID (linked account)
+     * @returns {Promise<number>} Number of documents migrated
+     */
+    async migrateDocuments(fromUserId, toUserId) {
+        const result = await DocumentModel.updateMany(
+            { userId: fromUserId },
+            { $set: { userId: toUserId, updatedAt: new Date() } }
+        );
+        
+        console.log(`Migrated ${result.modifiedCount} documents from ${fromUserId} to ${toUserId}`);
+        
+        return result.modifiedCount;
+    }
 }
 
 module.exports = MongoDocumentRepository;

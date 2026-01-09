@@ -151,6 +151,28 @@ function registerRoutes(app) {
         await controller.handle(req, res);
     });
 
+    // Migrate documents from one user to another (used when guest links to account)
+    app.post("/documents/migrate", async (req, res) => {
+        try {
+            const { fromUserId, toUserId } = req.body;
+            
+            if (!fromUserId || !toUserId) {
+                return res.status(400).json({ error: "fromUserId and toUserId are required" });
+            }
+
+            const MongoDocumentRepository = require("../interface_adapter/MongoDocumentRepository");
+            const repository = new MongoDocumentRepository();
+            
+            const count = await repository.migrateDocuments(fromUserId, toUserId);
+            console.log(`[Migration] Migrated ${count} documents from ${fromUserId} to ${toUserId}`);
+            
+            res.json({ success: true, migratedCount: count });
+        } catch (error) {
+            console.error("[Migration] Error:", error);
+            res.status(500).json({ error: error.message });
+        }
+    });
+
     // Cleanup endpoint for anonymous user documents (called via sendBeacon on page close)
     // Only deletes documents that have no userId (anonymous documents)
     app.post("/documents/:id/cleanup", async (req, res) => {
