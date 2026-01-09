@@ -2,16 +2,79 @@
 
 A modern note search application with hybrid search capabilities, combining local document management with web search integration.
 
-## Features
+<p align="center">
+  <img src="docs/demo/login.png" alt="Login Page" width="600">
+</p>
+
+## ✨ Features
 
 - **Hybrid Search**: Combines BM25 and embedding-based search for accurate results
 - **Multi-format Support**: Upload TXT, MD, PDF, and DOCX files
 - **Google Search Integration**: Search the web alongside your local notes
-- **User Authentication**: Google Sign-In via Firebase
+- **Tag-based Organization**: Organize documents with tags and filter by tag
+- **User Authentication**: Google, GitHub, Email/Password, and Guest mode via Firebase
 - **Multi-language UI**: Supports English, Chinese, Japanese, Korean, Spanish, French, and German
 - **Customizable Themes**: Multiple color themes with light/dark mode
 
-## Tech Stack
+---
+
+## 🎬 Demo
+
+### Authentication
+
+Flexible sign-in options including Google, GitHub, Email/Password, or continue as a guest.
+
+<p align="center">
+  <img src="docs/demo/login.png" alt="Login Page" width="500">
+</p>
+
+---
+
+### Hybrid Search
+
+Split-view interface showing Google search results on the left and local documents on the right.
+
+<p align="center">
+  <img src="docs/demo/search-results.png" alt="Search Results" width="800">
+</p>
+
+---
+
+### Home Page
+
+Clean interface with Google search integration and local document library.
+
+| Dark Mode | Light Mode |
+|:---------:|:----------:|
+| <img src="docs/demo/home-dark.png" alt="Home Dark" width="400"> | <img src="docs/demo/home-light.png" alt="Home Light" width="400"> |
+
+---
+
+### Document Management
+
+Create new documents or upload existing files with custom tags.
+
+| Create Document | Upload Document |
+|:---------------:|:---------------:|
+| <img src="docs/demo/create-modal.png" alt="Create Document" width="350"> | <img src="docs/demo/upload-modal.png" alt="Upload Document" width="350"> |
+
+<p align="center">
+  <img src="docs/demo/new-menu.png" alt="New Menu" width="200">
+</p>
+
+---
+
+### Account Management
+
+Guest users can link their account later to save documents permanently.
+
+| Guest User | Signed In |
+|:----------:|:---------:|
+| <img src="docs/demo/account-guest.png" alt="Guest Account" width="350"> | <img src="docs/demo/account-signed-in.png" alt="Signed In" width="350"> |
+
+---
+
+## 🛠 Tech Stack
 
 ### Frontend
 - React 18 + Vite
@@ -25,7 +88,9 @@ A modern note search application with hybrid search capabilities, combining loca
 - Custom tokenizer for mixed-language text
 - BM25 search algorithm
 
-## Quick Start
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
 - Node.js 18+
@@ -75,7 +140,9 @@ npm run dev
 
 Open http://localhost:5173 in your browser.
 
-## Project Structure
+---
+
+## 📁 Project Structure
 
 ```
 Note_Search_Engine/
@@ -98,7 +165,9 @@ Note_Search_Engine/
 └── README.md
 ```
 
-## Deployment
+---
+
+## 🌐 Deployment
 
 ### Backend (Render)
 1. Create a Web Service on [render.com](https://render.com)
@@ -110,6 +179,8 @@ Note_Search_Engine/
 2. Set root directory to `frontend`
 3. Add `VITE_API_URL` pointing to your backend URL
 
-## License
+---
+
+## 📄 License
 
 MIT License - see [LICENSE](LICENSE) for details.
