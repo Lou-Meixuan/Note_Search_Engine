@@ -39,6 +39,7 @@ function registerRoutes(app) {
         const q = (req.query.q || "").trim();
         const scope = (req.query.scope || "all").toLowerCase();
         const tagFilter = req.query.tag || null;
+        const userId = req.query.userId || null;
 
         // Detect #tag syntax
         const tagMatch = q.match(/^#(\S+)$/);
@@ -60,13 +61,18 @@ function registerRoutes(app) {
             let localResults = [];
             let remoteResults = [];
 
-            // Tag search - filter local documents by tag
+            // Tag search - filter local documents by tag (only current user's documents)
             if (searchTag) {
                 const MongoDocumentRepository = require("../interface_adapter/MongoDocumentRepository");
                 const repository = new MongoDocumentRepository();
-                const allDocs = await repository.findAll();
                 
-                const taggedDocs = allDocs.filter(doc => 
+                // Only search current user's documents
+                let userDocs = [];
+                if (userId) {
+                    userDocs = await repository.findByUserId(userId);
+                }
+                
+                const taggedDocs = userDocs.filter(doc => 
                     doc.tags && doc.tags.some(t => 
                         t.toLowerCase() === searchTag.toLowerCase()
                     )
@@ -81,7 +87,7 @@ function registerRoutes(app) {
                     tags: doc.tags || [],
                 }));
                 
-                console.log(`[Search] Tag search "#${searchTag}" found ${localResults.length} documents`);
+                console.log(`[Search] Tag search "#${searchTag}" for user ${userId} found ${localResults.length} documents`);
             } 
             // Normal search
             else {

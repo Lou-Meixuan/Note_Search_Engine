@@ -175,11 +175,12 @@ export default function SearchPage() {
         }
 
         try {
-            const res = await fetch(
-                `${API.search}?q=${encodeURIComponent(trimmed)}&scope=${encodeURIComponent(
-                    effectiveScope
-                )}`
-            );
+            let searchUrl = `${API.search}?q=${encodeURIComponent(trimmed)}&scope=${encodeURIComponent(effectiveScope)}`;
+            // Add userId for user-specific search (especially for tag search)
+            if (user?.uid) {
+                searchUrl += `&userId=${encodeURIComponent(user.uid)}`;
+            }
+            const res = await fetch(searchUrl);
 
             if (!res.ok) {
                 const text = await res.text().catch(() => "");
