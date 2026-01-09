@@ -166,10 +166,18 @@ export default function SearchPage() {
             return;
         }
 
+        // Tag search (starts with #) - force local only mode
+        const isTagSearch = trimmed.startsWith('#');
+        const effectiveScope = isTagSearch ? "local" : nextScope;
+        
+        if (isTagSearch && scope !== "local") {
+            setScope("local");
+        }
+
         try {
             const res = await fetch(
                 `${API.search}?q=${encodeURIComponent(trimmed)}&scope=${encodeURIComponent(
-                    nextScope
+                    effectiveScope
                 )}`
             );
 
@@ -221,10 +229,11 @@ export default function SearchPage() {
         if (e.key === "Enter") doSearch();
     }
 
-    // Tag click handler
+    // Tag click handler - switch to local only mode
     function handleTagClick(tagName) {
         const tagQuery = `#${tagName}`;
         setQ(tagQuery);
+        setScope("local"); // Tag search is always local only
         // Pass query directly to avoid state delay
         doSearch("local", tagQuery);
     }
