@@ -41,10 +41,10 @@ export default function LanguageSelector({ floating = false }) {
                     title="Language"
                 >
                     {/* Simple globe icon */}
-                    <svg viewBox="0 0 24 24" width="22" height="22" className="spIcon">
-                        <circle cx="12" cy="12" r="10" fill="none" strokeWidth="2"/>
-                        <ellipse cx="12" cy="12" rx="4" ry="10" fill="none" strokeWidth="2"/>
-                        <line x1="2" y1="12" x2="22" y2="12" strokeWidth="2"/>
+                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="var(--icon-fill, #1d1d1f)" fill="none" strokeWidth="2">
+                        <circle cx="12" cy="12" r="9"/>
+                        <ellipse cx="12" cy="12" rx="3.5" ry="9"/>
+                        <path d="M3 12h18"/>
                     </svg>
                 </button>
 
@@ -77,10 +77,10 @@ export default function LanguageSelector({ floating = false }) {
                 aria-label="Select language"
                 title="Language"
             >
-                <svg viewBox="0 0 24 24" width="26" height="26" className="langFloatingIcon">
-                    <circle cx="12" cy="12" r="10" fill="none" strokeWidth="2"/>
-                    <ellipse cx="12" cy="12" rx="4" ry="10" fill="none" strokeWidth="2"/>
-                    <line x1="2" y1="12" x2="22" y2="12" strokeWidth="2"/>
+                <svg viewBox="0 0 24 24" width="26" height="26" stroke="var(--icon-fill, #1d1d1f)" fill="none" strokeWidth="2">
+                    <circle cx="12" cy="12" r="9"/>
+                    <ellipse cx="12" cy="12" rx="3.5" ry="9"/>
+                    <path d="M3 12h18"/>
                 </svg>
             </button>
 
