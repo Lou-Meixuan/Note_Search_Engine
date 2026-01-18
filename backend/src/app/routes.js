@@ -259,13 +259,16 @@ function registerRoutes(app) {
             const repository = new MongoDocumentRepository();
             
             const userId = req.query.userId;
+            console.log('[Tags API] Requested userId:', userId);
             let documents;
             
             // If userId provided, only get tags from that user's documents
             if (userId) {
                 documents = await repository.findByUserId(userId);
+                console.log('[Tags API] Found', documents.length, 'documents for user:', userId);
             } else {
                 // For anonymous users, return empty tags
+                console.log('[Tags API] No userId provided, returning empty');
                 documents = [];
             }
             

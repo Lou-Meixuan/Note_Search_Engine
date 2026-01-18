@@ -13,6 +13,7 @@ import { useAuth } from "../context/AuthContext";
 import { API } from "../config/api";
 import UploadModal from "../components/UploadModal";
 import CreateDocumentModal from "../components/CreateDocumentModal";
+import LanguageSelector from "../components/LanguageSelector";
 import "./SearchPage.css";
 
 export default function SearchPage() {
@@ -57,13 +58,17 @@ export default function SearchPage() {
         async function fetchTags() {
             // Only fetch tags if user is logged in
             if (!user?.uid) {
+                console.log('[Tags] No user, clearing tags');
                 setAvailableTags([]);
                 return;
             }
             try {
-                const res = await fetch(`${API.tags}?userId=${encodeURIComponent(user.uid)}`);
+                const url = `${API.tags}?userId=${encodeURIComponent(user.uid)}`;
+                console.log('[Tags] Fetching tags for user:', user.uid, 'URL:', url);
+                const res = await fetch(url);
                 if (res.ok) {
                     const data = await res.json();
+                    console.log('[Tags] Received tags:', data);
                     // API returns { tags: [...], total: n }
                     setAvailableTags(data.tags || []);
                 }
@@ -576,6 +581,9 @@ export default function SearchPage() {
                     </div>
                 </section>
             </main>
+
+            {/* Language selector */}
+            <LanguageSelector />
         </div>
     );
 }

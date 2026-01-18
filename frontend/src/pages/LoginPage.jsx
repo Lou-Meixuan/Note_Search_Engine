@@ -8,6 +8,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import LanguageSelector from '../components/LanguageSelector';
 import './LoginPage.css';
 
 export default function LoginPage() {
@@ -343,6 +344,9 @@ export default function LoginPage() {
             <div className="loginFooter">
                 <p>© 2026 Note Search Engine. Made with ♥</p>
             </div>
+
+            {/* Language selector */}
+            <LanguageSelector />
         </div>
     );
 }
