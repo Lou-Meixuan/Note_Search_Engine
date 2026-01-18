@@ -40,8 +40,8 @@ export default function LanguageSelector({ floating = false }) {
                     aria-label="Select language"
                     title="Language"
                 >
-                    {/* Globe emoji icon */}
-                    <span className="langIconEmoji">🌐</span>
+                    {/* Language text icon - uses theme color */}
+                    <span className="langIconText">文A</span>
                 </button>
 
                 {isOpen && (
@@ -73,7 +73,7 @@ export default function LanguageSelector({ floating = false }) {
                 aria-label="Select language"
                 title="Language"
             >
-                <span className="langIconEmoji langIconEmoji--floating">🌐</span>
+                <span className="langIconText langIconText--floating">文A</span>
             </button>
 
             {isOpen && (
