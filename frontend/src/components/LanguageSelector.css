@@ -2,37 +2,15 @@
  * LanguageSelector.css - Language selector styles
  */
 
-/* Inline version (for toolbar) */
+/* Inline version (for toolbar) - uses spIconBtn from SearchPage.css */
 .langSelector--inline {
     position: relative;
+    display: inline-flex;
 }
 
-.langSelector--inline .langSelector__trigger {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: transparent;
-    border: 1px solid var(--border, #e0e0e0);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-primary, #333);
-    transition: all 0.2s ease;
-}
-
-.langSelector--inline .langSelector__trigger:hover {
-    background: var(--hover-bg, rgba(0, 0, 0, 0.05));
-}
-
-.langSelector--inline .langIcon {
-    width: 20px;
-    height: 20px;
-}
-
-.langSelector--inline .langSelector__dropdown {
+.langSelector__dropdown--inline {
     position: absolute;
-    top: 44px;
+    top: 52px;
     right: 0;
     min-width: 160px;
     background: var(--surface, #ffffff);
@@ -55,7 +33,7 @@
     }
 }
 
-/* Floating version (for corner) */
+/* Floating version (for login page) */
 .langSelector--floating {
     position: fixed;
     bottom: 24px;
@@ -63,7 +41,7 @@
     z-index: 1000;
 }
 
-.langSelector--floating .langSelector__trigger {
+.langSelector__trigger--floating {
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -78,17 +56,12 @@
     transition: all 0.2s ease;
 }
 
-.langSelector--floating .langSelector__trigger:hover {
+.langSelector__trigger--floating:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
-.langSelector--floating .langIcon {
-    width: 24px;
-    height: 24px;
-}
-
-.langSelector--floating .langSelector__dropdown {
+.langSelector__dropdown--floating {
     position: absolute;
     bottom: 56px;
     right: 0;
@@ -152,19 +125,19 @@
 }
 
 /* Dark theme support */
-[data-theme="dark"] .langSelector__trigger,
-[data-mode="dark"] .langSelector__trigger {
-    color: var(--text-primary, #e0e0e0);
-    border-color: var(--border, #404040);
-}
-
-[data-theme="dark"] .langSelector--floating .langSelector__trigger,
-[data-mode="dark"] .langSelector--floating .langSelector__trigger {
+[data-theme="dark"] .langSelector__trigger--floating,
+[data-mode="dark"] .langSelector__trigger--floating {
     background: var(--surface, #2d2d2d);
+    border-color: var(--border, #404040);
+    color: var(--text-primary, #e0e0e0);
 }
 
 [data-theme="dark"] .langSelector__dropdown,
-[data-mode="dark"] .langSelector__dropdown {
+[data-theme="dark"] .langSelector__dropdown--inline,
+[data-theme="dark"] .langSelector__dropdown--floating,
+[data-mode="dark"] .langSelector__dropdown,
+[data-mode="dark"] .langSelector__dropdown--inline,
+[data-mode="dark"] .langSelector__dropdown--floating {
     background: var(--surface, #2d2d2d);
     border-color: var(--border, #404040);
 }
@@ -186,7 +159,7 @@
         right: 16px;
     }
 
-    .langSelector--floating .langSelector__trigger {
+    .langSelector__trigger--floating {
         width: 44px;
         height: 44px;
     }
