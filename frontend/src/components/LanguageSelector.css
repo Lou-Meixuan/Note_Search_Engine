@@ -8,17 +8,11 @@
     display: inline-flex;
 }
 
-/* Text icon styles - uses theme color */
-.langIconText {
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1;
-    color: var(--icon-fill, #1d1d1f);
-    letter-spacing: -1px;
-}
-
-.langIconText--floating {
-    font-size: 16px;
+/* Floating globe icon */
+.langFloatingIcon {
+    width: 26px;
+    height: 26px;
+    stroke: var(--icon-fill, #1d1d1f);
 }
 
 

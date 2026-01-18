@@ -40,8 +40,12 @@ export default function LanguageSelector({ floating = false }) {
                     aria-label="Select language"
                     title="Language"
                 >
-                    {/* Language text icon - uses theme color */}
-                    <span className="langIconText">文A</span>
+                    {/* Simple globe icon */}
+                    <svg viewBox="0 0 24 24" className="spIcon">
+                        <circle cx="12" cy="12" r="10" fill="none" strokeWidth="2"/>
+                        <ellipse cx="12" cy="12" rx="4" ry="10" fill="none" strokeWidth="2"/>
+                        <line x1="2" y1="12" x2="22" y2="12" strokeWidth="2"/>
+                    </svg>
                 </button>
 
                 {isOpen && (
@@ -73,7 +77,11 @@ export default function LanguageSelector({ floating = false }) {
                 aria-label="Select language"
                 title="Language"
             >
-                <span className="langIconText langIconText--floating">文A</span>
+                <svg viewBox="0 0 24 24" className="langFloatingIcon">
+                    <circle cx="12" cy="12" r="10" fill="none" strokeWidth="2"/>
+                    <ellipse cx="12" cy="12" rx="4" ry="10" fill="none" strokeWidth="2"/>
+                    <line x1="2" y1="12" x2="22" y2="12" strokeWidth="2"/>
+                </svg>
             </button>
 
             {isOpen && (
