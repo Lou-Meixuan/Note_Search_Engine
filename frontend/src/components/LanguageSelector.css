@@ -1,15 +1,69 @@
 /**
- * LanguageSelector.css - Floating language selector styles
+ * LanguageSelector.css - Language selector styles
  */
 
-.langSelector {
+/* Inline version (for toolbar) */
+.langSelector--inline {
+    position: relative;
+}
+
+.langSelector--inline .langSelector__trigger {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border, #e0e0e0);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary, #333);
+    transition: all 0.2s ease;
+}
+
+.langSelector--inline .langSelector__trigger:hover {
+    background: var(--hover-bg, rgba(0, 0, 0, 0.05));
+}
+
+.langSelector--inline .langIcon {
+    width: 20px;
+    height: 20px;
+}
+
+.langSelector--inline .langSelector__dropdown {
+    position: absolute;
+    top: 44px;
+    right: 0;
+    min-width: 160px;
+    background: var(--surface, #ffffff);
+    border: 1px solid var(--border, #e0e0e0);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    animation: langDropdownSlideDown 0.2s ease;
+    z-index: 1000;
+}
+
+@keyframes langDropdownSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Floating version (for corner) */
+.langSelector--floating {
     position: fixed;
     bottom: 24px;
     right: 24px;
     z-index: 1000;
 }
 
-.langSelector__trigger {
+.langSelector--floating .langSelector__trigger {
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -24,26 +78,28 @@
     transition: all 0.2s ease;
 }
 
-.langSelector__trigger:hover {
+.langSelector--floating .langSelector__trigger:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
-.langSelector__trigger:active {
-    transform: scale(0.98);
+.langSelector--floating .langIcon {
+    width: 24px;
+    height: 24px;
 }
 
-.langSelector__dropdown {
+.langSelector--floating .langSelector__dropdown {
     position: absolute;
     bottom: 56px;
     right: 0;
-    min-width: 180px;
+    min-width: 160px;
     background: var(--surface, #ffffff);
     border: 1px solid var(--border, #e0e0e0);
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     animation: langDropdownSlideUp 0.2s ease;
+    z-index: 1000;
 }
 
 @keyframes langDropdownSlideUp {
@@ -57,9 +113,10 @@
     }
 }
 
+/* Shared dropdown option styles */
 .langSelector__option {
     width: 100%;
-    padding: 12px 16px;
+    padding: 10px 14px;
     background: transparent;
     border: none;
     text-align: left;
@@ -97,9 +154,13 @@
 /* Dark theme support */
 [data-theme="dark"] .langSelector__trigger,
 [data-mode="dark"] .langSelector__trigger {
-    background: var(--surface, #2d2d2d);
-    border-color: var(--border, #404040);
     color: var(--text-primary, #e0e0e0);
+    border-color: var(--border, #404040);
+}
+
+[data-theme="dark"] .langSelector--floating .langSelector__trigger,
+[data-mode="dark"] .langSelector--floating .langSelector__trigger {
+    background: var(--surface, #2d2d2d);
 }
 
 [data-theme="dark"] .langSelector__dropdown,
@@ -120,17 +181,13 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-    .langSelector {
+    .langSelector--floating {
         bottom: 16px;
         right: 16px;
     }
 
-    .langSelector__trigger {
+    .langSelector--floating .langSelector__trigger {
         width: 44px;
         height: 44px;
-    }
-
-    .langSelector__dropdown {
-        bottom: 52px;
     }
 }

@@ -1,23 +1,22 @@
 /**
- * LanguageSelector.jsx - Floating language selector component
+ * LanguageSelector.jsx - Language selector component
  * 
- * A small corner badge that opens a dropdown to select language.
+ * A small icon button that opens a dropdown to select language.
+ * Can be used inline (toolbar) or floating (corner).
  */
 
 import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import "./LanguageSelector.css";
 
-// Language icon (globe/translate icon)
-const LanguageIcon = () => (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" stroke="#6366f1" />
-        <path d="M2 12h20" stroke="#6366f1" />
-        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="#6366f1" />
+// Globe icon for language
+const GlobeIcon = () => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="langIcon">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
     </svg>
 );
 
-export default function LanguageSelector() {
+export default function LanguageSelector({ floating = false }) {
     const { language, setLanguage, languages } = useLanguage();
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef(null);
@@ -38,16 +37,18 @@ export default function LanguageSelector() {
         setIsOpen(false);
     };
 
-    const currentLang = languages.find(l => l.code === language);
-
     return (
-        <div className="langSelector" ref={containerRef}>
+        <div 
+            className={`langSelector ${floating ? "langSelector--floating" : "langSelector--inline"}`} 
+            ref={containerRef}
+        >
             <button 
                 className="langSelector__trigger"
                 onClick={() => setIsOpen(!isOpen)}
                 aria-label="Select language"
+                title="Language"
             >
-                <LanguageIcon />
+                <GlobeIcon />
             </button>
 
             {isOpen && (

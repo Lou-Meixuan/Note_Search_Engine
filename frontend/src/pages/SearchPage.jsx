@@ -450,6 +450,9 @@ export default function SearchPage() {
                 </div>
 
                 <div className="spRight">
+                    {/* Language Selector */}
+                    <LanguageSelector />
+
                     {/* Theme Toggle Button */}
                     <button
                         className="spIconBtn spThemeBtn"
@@ -581,9 +584,6 @@ export default function SearchPage() {
                     </div>
                 </section>
             </main>
-
-            {/* Language selector */}
-            <LanguageSelector />
         </div>
     );
 }

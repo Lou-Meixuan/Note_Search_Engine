@@ -345,8 +345,8 @@ export default function LoginPage() {
                 <p>© 2026 Note Search Engine. Made with ♥</p>
             </div>
 
-            {/* Language selector */}
-            <LanguageSelector />
+            {/* Language selector (floating for login page) */}
+            <LanguageSelector floating />
         </div>
     );
 }
