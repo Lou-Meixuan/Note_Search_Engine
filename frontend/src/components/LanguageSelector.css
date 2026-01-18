@@ -8,6 +8,18 @@
     display: inline-flex;
 }
 
+/* Text-based language icon */
+.langIconText {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--icon-fill, #1d1d1f);
+    line-height: 1;
+}
+
+.langIconText--floating {
+    font-size: 26px;
+}
+
 .langSelector__dropdown--inline {
     position: absolute;
     top: 52px;
