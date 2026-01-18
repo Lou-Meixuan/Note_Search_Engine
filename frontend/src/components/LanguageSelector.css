@@ -8,10 +8,6 @@
     display: inline-flex;
 }
 
-/* Ensure the icon inside language button has correct fill */
-.langIconBtn .spIcon {
-    fill: var(--icon-fill, #1d1d1f);
-}
 
 
 .langSelector__dropdown--inline {
@@ -67,11 +63,6 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
-.langFloatingIcon {
-    width: 26px;
-    height: 26px;
-    fill: var(--icon-fill, #1d1d1f);
-}
 
 .langSelector__dropdown--floating {
     position: absolute;
